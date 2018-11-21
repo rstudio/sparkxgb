@@ -1,0 +1,6 @@
+{
+  "ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier": "xgboost_classifier",
+  "ml.dmlc.xgboost4j.scala.spark.XGBoostClassificationModel": "xgboost_classification_model",
+  "ml.dmlc.xgboost4j.scala.spark.XGBoostRegressor": "xgboost_regressor",
+  "ml.dmlc.xgboost4j.scala.spark.XGBoostRegressionModel": "xgboost_regression_model"
+} 
