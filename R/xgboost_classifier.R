@@ -17,7 +17,7 @@ xgboost_classifier <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_dept
                                checkpoint_path = "", checkpoint_interval = -1,
                                objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
                                num_early_stopping_rounds = 0, objective_type = "classification",
-                               eval_metric = "error", maximize_evaluation_metrics = FALSE, num_class = NULL,
+                               eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                base_margin_col = NULL,
                                thresholds = NULL, weight_col = NULL, features_col = "features", label_col = "label",
                                prediction_col = "prediction", probability_col = "probability",
@@ -41,14 +41,14 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
                                                 checkpoint_path = "", checkpoint_interval = -1,
                                                 objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
                                                 num_early_stopping_rounds = 0, objective_type = "classification",
-                                                eval_metric = "error", maximize_evaluation_metrics = FALSE, num_class = NULL,
+                                                eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                                 base_margin_col = NULL,
                                                 thresholds = NULL, weight_col = NULL, features_col = "features", label_col = "label",
                                                 prediction_col = "prediction", probability_col = "probability",
                                                 raw_prediction_col = "rawPrediction",
                                                 uid = random_string("xgboost_classifier_"), ...) {
   
-  .args <- list(
+  args <- list(
     eta = eta,
     gamma = gamma,
     max_depth = max_depth,
@@ -97,62 +97,63 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     label_col = label_col,
     prediction_col = prediction_col, 
     probability_col = probability_col,
-    raw_prediction_col = raw_prediction_col
-  ) %>%
-    c(rlang::dots_list(...)) %>%
-    validator_xgboost_classifier()
+    raw_prediction_col = raw_prediction_col,
+    ...
+  )
+  
+  args <- validator_xgboost_classifier(args)
   
   stage_class <- "ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier"
   
-  jobj <- sparklyr:::ml_new_classifier(
-    x, stage_class, uid, .args[["features_col"]], .args[["label_col"]],
-    .args[["prediction_col"]], .args[["probability_col"]], .args[["raw_prediction_col"]]
+  jobj <- sparklyr::spark_pipeline_stage(
+    x, stage_class, uid, args[["features_col"]], args[["label_col"]],
+    args[["prediction_col"]], args[["probability_col"]], args[["raw_prediction_col"]]
   ) %>%
-    invoke("setAlpha", .args[["alpha"]]) %>%
-    sparklyr:::maybe_set_param("setBaseMarginCol", .args[["base_margin_col"]]) %>%
-    invoke("setBaseScore", .args[["base_score"]]) %>%
-    invoke("setCheckpointInterval", .args[["checkpoint_interval"]]) %>%
-    invoke("setCheckpointPath", .args[["checkpoint_path"]]) %>%
-    invoke("setColsampleBylevel", .args[["colsample_bylevel"]]) %>%
-    invoke("setColsampleBytree", .args[["colsample_bytree"]]) %>%
-    sparklyr:::maybe_set_param("setCustomEval", .args[["custom_eval"]]) %>%
-    sparklyr:::maybe_set_param("setCustomObj", .args[["custom_obj"]]) %>%
-    invoke("setEta", .args[["eta"]]) %>%
-    invoke("setEvalMetric", .args[["eval_metric"]]) %>%
-    invoke("setGamma", .args[["gamma"]]) %>%
-    invoke("setGrowPolicy", .args[["grow_policy"]]) %>%
-    invoke("setLambda", .args[["lambda"]]) %>%
-    invoke("setLambdaBias", .args[["lambda_bias"]]) %>%
-    invoke("setMaxBins", .args[["max_bins"]]) %>%
-    invoke("setMaxDeltaStep", .args[["max_delta_step"]]) %>%
-    invoke("setMaxDepth", .args[["max_depth"]]) %>%
-    invoke("setMaximizeEvaluationMetrics", .args[["maximize_evaluation_metrics"]]) %>%
-    invoke("setMinChildWeight", .args[["min_child_weight"]]) %>%
-    invoke("setNormalizeType", .args[["normalize_type"]]) %>%
-    invoke("setNthread", .args[["nthread"]]) %>%
-    sparklyr:::maybe_set_param("setNumClass", .args[["num_class"]]) %>%
-    invoke("setNumEarlyStoppingRounds", .args[["num_early_stopping_rounds"]]) %>%
-    invoke("setNumRound", .args[["num_round"]]) %>%
-    invoke("setNumWorkers", .args[["num_workers"]]) %>%
-    invoke("setObjective", .args[["objective"]]) %>%
-    invoke("setObjectiveType", .args[["objective_type"]]) %>%
-    invoke("setRateDrop", .args[["rate_drop"]]) %>%
-    invoke("setSampleType", .args[["sample_type"]]) %>%
-    invoke("setScalePosWeight", .args[["scale_pos_weight"]]) %>%
-    invoke("setSeed", .args[["seed"]]) %>%
-    invoke("setSilent", .args[["silent"]]) %>%
-    invoke("setSketchEps", .args[["sketch_eps"]]) %>%
-    invoke("setSkipDrop", .args[["skip_drop"]]) %>%
-    invoke("setSubsample", .args[["subsample"]]) %>%
-    sparklyr:::maybe_set_param("setThresholds", .args[["thresholds"]]) %>%
-    invoke("setTimeoutRequestWorkers", .args[["timeout_request_workers"]]) %>%
-    invoke("setTrainTestRatio", .args[["train_test_ratio"]]) %>%
-    invoke("setTreeMethod", .args[["tree_method"]]) %>%
-    invoke("setUseExternalMemory", .args[["use_external_memory"]]) %>%
-    sparklyr:::maybe_set_param("setWeightCol", .args[["weight_col"]])
+    invoke("setAlpha", args[["alpha"]]) %>%
+    sparklyr::jobj_set_param("setBaseMarginCol", args[["base_margin_col"]]) %>%
+    invoke("setBaseScore", args[["base_score"]]) %>%
+    invoke("setCheckpointInterval", args[["checkpoint_interval"]]) %>%
+    invoke("setCheckpointPath", args[["checkpoint_path"]]) %>%
+    invoke("setColsampleBylevel", args[["colsample_bylevel"]]) %>%
+    invoke("setColsampleBytree", args[["colsample_bytree"]]) %>%
+    sparklyr::jobj_set_param("setCustomEval", args[["custom_eval"]]) %>%
+    sparklyr::jobj_set_param("setCustomObj", args[["custom_obj"]]) %>%
+    invoke("setEta", args[["eta"]]) %>%
+    sparklyr::jobj_set_param("setEvalMetric", args[["eval_metric"]]) %>%
+    invoke("setGamma", args[["gamma"]]) %>%
+    invoke("setGrowPolicy", args[["grow_policy"]]) %>%
+    invoke("setLambda", args[["lambda"]]) %>%
+    invoke("setLambdaBias", args[["lambda_bias"]]) %>%
+    invoke("setMaxBins", args[["max_bins"]]) %>%
+    invoke("setMaxDeltaStep", args[["max_delta_step"]]) %>%
+    invoke("setMaxDepth", args[["max_depth"]]) %>%
+    invoke("setMaximizeEvaluationMetrics", args[["maximize_evaluation_metrics"]]) %>%
+    invoke("setMinChildWeight", args[["min_child_weight"]]) %>%
+    invoke("setNormalizeType", args[["normalize_type"]]) %>%
+    invoke("setNthread", args[["nthread"]]) %>%
+    sparklyr::jobj_set_param("setNumClass", args[["num_class"]]) %>%
+    invoke("setNumEarlyStoppingRounds", args[["num_early_stopping_rounds"]]) %>%
+    invoke("setNumRound", args[["num_round"]]) %>%
+    invoke("setNumWorkers", args[["num_workers"]]) %>%
+    invoke("setObjective", args[["objective"]]) %>%
+    invoke("setObjectiveType", args[["objective_type"]]) %>%
+    invoke("setRateDrop", args[["rate_drop"]]) %>%
+    invoke("setSampleType", args[["sample_type"]]) %>%
+    invoke("setScalePosWeight", args[["scale_pos_weight"]]) %>%
+    invoke("setSeed", args[["seed"]]) %>%
+    invoke("setSilent", args[["silent"]]) %>%
+    invoke("setSketchEps", args[["sketch_eps"]]) %>%
+    invoke("setSkipDrop", args[["skip_drop"]]) %>%
+    invoke("setSubsample", args[["subsample"]]) %>%
+    sparklyr::jobj_set_param("setThresholds", args[["thresholds"]]) %>%
+    invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
+    invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
+    invoke("setTreeMethod", args[["tree_method"]]) %>%
+    invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
+    sparklyr::jobj_set_param("setWeightCol", args[["weight_col"]])
   
-  if (!is.null(.args[["missing"]])) {
-    jobj <- sparklyr::invoke_static(sc, "sparkxgb.Utils", "setMissingParam", jobj, .args[["missing"]])
+  if (!is.null(args[["missing"]])) {
+    jobj <- sparklyr::invoke_static(sc, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]])
   }
   
   new_xgboost_classifier(jobj)
@@ -173,7 +174,7 @@ xgboost_classifier.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma =
                                            checkpoint_path = "", checkpoint_interval = -1,
                                            objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
                                            num_early_stopping_rounds = 0, objective_type = "classification",
-                                           eval_metric = "error", maximize_evaluation_metrics = FALSE, num_class = NULL,
+                                           eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                            base_margin_col = NULL,
                                            thresholds = NULL, weight_col = NULL, features_col = "features", label_col = "label",
                                            prediction_col = "prediction", probability_col = "probability",
@@ -234,7 +235,7 @@ xgboost_classifier.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma =
     uid = uid,
     ...
   )
-  ml_add_stage(x, stage)
+  sparklyr::ml_add_stage(x, stage)
 }
 
 #' @export
@@ -252,7 +253,7 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
                                          checkpoint_path = "", checkpoint_interval = -1,
                                          objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
                                          num_early_stopping_rounds = 0, objective_type = "classification",
-                                         eval_metric = "error", maximize_evaluation_metrics = FALSE, num_class = NULL,
+                                         eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                          base_margin_col = NULL,
                                          thresholds = NULL, weight_col = NULL, features_col = "features", label_col = "label",
                                          prediction_col = "prediction", probability_col = "probability",
@@ -260,9 +261,8 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
                                          uid = random_string("xgboost_classifier_"),
                                          response = NULL, features = NULL,
                                          predicted_label_col = "predicted_label", ...) {
-  ml_formula_transformation()
-  
-  stage <- xgboost_classifier.spark_connection(
+
+    stage <- xgboost_classifier.spark_connection(
     x = spark_connection(x),
     formula = NULL,
     eta = eta,
@@ -318,43 +318,61 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
     ...
   )
   
+  formula <- sparklyr::ml_standardize_formula(formula, response, features)
+  
   if (is.null(formula)) {
     stage %>%
-      ml_fit(x)
+      sparklyr::ml_fit(x)
   } else {
-    ml_generate_ml_model(x, stage, formula, features_col, label_col,
-                         "classification", new_ml_model_xgboost_classification,
-                         predicted_label_col)
+    sparklyr::ml_model_supervised(
+      new_ml_model_xgboost_classification, 
+      predictor = stage, 
+      formula = formula, 
+      dataset = x,
+      features_col = features_col, 
+      label_col = label_col,
+      predicted_label_col = predicted_label_col
+    )
   }
 }
 
 # Validator
-validator_xgboost_classifier <- function(.args) {
-  .args[["checkpoint_interval"]] <- cast_scalar_integer(.args[["checkpoint_interval"]])
-  .args[["max_bins"]] <- cast_scalar_integer(.args[["max_bins"]])
-  .args[["max_depth"]] <- cast_scalar_integer(.args[["max_depth"]])
-  .args[["nthread"]] <- cast_scalar_integer(.args[["nthread"]])
-  .args[["num_class"]] <- cast_nullable_scalar_integer(.args[["num_class"]])
-  .args[["num_early_stopping_rounds"]] <- cast_scalar_integer(.args[["num_early_stopping_rounds"]])
-  .args[["num_round"]] <- cast_scalar_integer(.args[["num_round"]])
-  .args[["num_workers"]] <- cast_scalar_integer(.args[["num_workers"]])
-  .args[["seed"]] <- cast_scalar_integer(.args[["seed"]])
-  .args[["silent"]] <- cast_scalar_integer(.args[["silent"]])
-  .args[["thresholds"]] <- cast_nullable_double_list(.args[["thresholds"]])
-  .args[["missing"]] <- cast_nullable_scalar_double(.args[["missing"]])
-  .args
+validator_xgboost_classifier <- function(args) {
+  args[["checkpoint_interval"]] <- cast_scalar_integer(args[["checkpoint_interval"]])
+  args[["max_bins"]] <- cast_scalar_integer(args[["max_bins"]])
+  args[["max_depth"]] <- cast_scalar_integer(args[["max_depth"]])
+  args[["nthread"]] <- cast_scalar_integer(args[["nthread"]])
+  args[["num_class"]] <- cast_nullable_scalar_integer(args[["num_class"]])
+  args[["num_early_stopping_rounds"]] <- cast_scalar_integer(args[["num_early_stopping_rounds"]])
+  args[["num_round"]] <- cast_scalar_integer(args[["num_round"]])
+  args[["num_workers"]] <- cast_scalar_integer(args[["num_workers"]])
+  args[["seed"]] <- cast_scalar_integer(args[["seed"]])
+  args[["silent"]] <- cast_scalar_integer(args[["silent"]])
+  args[["thresholds"]] <- cast_nullable_double_list(args[["thresholds"]])
+  args[["missing"]] <- cast_nullable_scalar_double(args[["missing"]])
+  args
 }
 
 new_xgboost_classifier <- function(jobj) {
-  sparklyr:::new_ml_classifier(jobj, subclass = "xgboost_classifier")
+  sparklyr::ml_classifier(jobj, subclass = "xgboost_classifier")
 }
 
 new_xgboost_classification_model <- function(jobj) {
-  sparklyr:::new_ml_prediction_model(
+  sparklyr::ml_prediction_model(
     jobj,
     features_col = invoke(jobj, "getFeaturesCol"),
     prediction_col = invoke(jobj, "getPredictionCol"),
     probability_col = sparklyr:::try_null(invoke(jobj, "getProbabilityCol")),
     raw_prediction_col = sparklyr:::try_null(invoke(jobj, "getRawPredictionCol")),
     subclass = "xgboost_classification_model")
+}
+
+new_ml_model_xgboost_classification <- function(pipeline_model, formula, dataset, label_col,
+                                                features_col, predicted_label_col) {
+  sparklyr::ml_model_classification(
+    pipeline_model, formula, dataset = dataset,
+    label_col = label_col, features_col = features_col,
+    predicted_label_col = predicted_label_col,
+    class = "ml_model_xgboost_classification"
+  )
 }
