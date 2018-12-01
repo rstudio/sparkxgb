@@ -15,7 +15,7 @@ xgboost_classifier <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_dept
                                silent = 0, custom_obj = NULL, custom_eval = NULL,
                                missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                checkpoint_path = "", checkpoint_interval = -1,
-                               objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
+                               objective = "multi:softmax", base_score = 0.5, train_test_ratio = 1,
                                num_early_stopping_rounds = 0, objective_type = "classification",
                                eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                base_margin_col = NULL,
@@ -39,7 +39,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
                                                 silent = 0, custom_obj = NULL, custom_eval = NULL,
                                                 missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                                 checkpoint_path = "", checkpoint_interval = -1,
-                                                objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
+                                                objective = "multi:softmax", base_score = 0.5, train_test_ratio = 1,
                                                 num_early_stopping_rounds = 0, objective_type = "classification",
                                                 eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                                 base_margin_col = NULL,
@@ -135,7 +135,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setNumEarlyStoppingRounds", args[["num_early_stopping_rounds"]]) %>%
     invoke("setNumRound", args[["num_round"]]) %>%
     invoke("setNumWorkers", args[["num_workers"]]) %>%
-    invoke("setObjective", args[["objective"]]) %>%
+    sparklyr::jobj_set_param("setObjective", args[["objective"]]) %>%
     invoke("setObjectiveType", args[["objective_type"]]) %>%
     invoke("setRateDrop", args[["rate_drop"]]) %>%
     invoke("setSampleType", args[["sample_type"]]) %>%
@@ -172,7 +172,7 @@ xgboost_classifier.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma =
                                            silent = 0, custom_obj = NULL, custom_eval = NULL,
                                            missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                            checkpoint_path = "", checkpoint_interval = -1,
-                                           objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
+                                           objective = "multi:softmax", base_score = 0.5, train_test_ratio = 1,
                                            num_early_stopping_rounds = 0, objective_type = "classification",
                                            eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                            base_margin_col = NULL,
@@ -251,7 +251,7 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
                                          silent = 0, custom_obj = NULL, custom_eval = NULL,
                                          missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                          checkpoint_path = "", checkpoint_interval = -1,
-                                         objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
+                                         objective = "multi:softmax", base_score = 0.5, train_test_ratio = 1,
                                          num_early_stopping_rounds = 0, objective_type = "classification",
                                          eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                          base_margin_col = NULL,
