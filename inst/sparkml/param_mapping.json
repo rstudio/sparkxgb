@@ -10,7 +10,7 @@
   "eval_metric": "evalMetric",
   "grow_policy": "growPolicy",
   "lambda_bias": "lambdaBias",
-  "max_bins": "maxBins",
+  "max_bins": "maxBin",
   "max_delta_step": "maxDeltaStep",
   "maximize_evaluation_metrics": "maximizeEvaluationMetrics",
   "min_child_weight": "minChildWeight",
@@ -26,7 +26,9 @@
   "sketch_eps": "sketchEps",
   "skip_drop": "skipDrop",
   "timeout_request_workers": "timeoutRequestWorkers",
+  "tracker_conf": "trackerConf",
   "train_test_ratio": "trainTestRatio",
   "tree_method": "treeMethod",
+  "tree_limit": "treeLimit",
   "use_external_memory": "useExternalMemory"
 }
