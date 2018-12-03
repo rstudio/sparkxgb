@@ -106,8 +106,14 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
   stage_class <- "ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier"
   
   jobj <- sparklyr::spark_pipeline_stage(
-    x, stage_class, uid, args[["features_col"]], args[["label_col"]],
-    args[["prediction_col"]], args[["probability_col"]], args[["raw_prediction_col"]]
+    x, 
+    class = stage_class, 
+    uid = uid, 
+    features_col = args[["features_col"]],
+    label_col = args[["label_col"]],
+    prediction_col = args[["prediction_col"]],
+    probability_col = args[["probability_col"]], 
+    raw_prediction_col = args[["raw_prediction_col"]]
   ) %>%
     invoke("setAlpha", args[["alpha"]]) %>%
     sparklyr::jobj_set_param("setBaseMarginCol", args[["base_margin_col"]]) %>%
@@ -354,7 +360,7 @@ validator_xgboost_classifier <- function(args) {
 }
 
 new_xgboost_classifier <- function(jobj) {
-  sparklyr::ml_classifier(jobj, subclass = "xgboost_classifier")
+  sparklyr::ml_classifier(jobj, class = "xgboost_classifier")
 }
 
 new_xgboost_classification_model <- function(jobj) {
@@ -364,7 +370,7 @@ new_xgboost_classification_model <- function(jobj) {
     prediction_col = invoke(jobj, "getPredictionCol"),
     probability_col = sparklyr:::try_null(invoke(jobj, "getProbabilityCol")),
     raw_prediction_col = sparklyr:::try_null(invoke(jobj, "getRawPredictionCol")),
-    subclass = "xgboost_classification_model")
+    class = "xgboost_classification_model")
 }
 
 new_ml_model_xgboost_classification <- function(pipeline_model, formula, dataset, label_col,
