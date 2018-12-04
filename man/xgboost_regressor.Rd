@@ -25,6 +25,10 @@ xgboost_regressor(x, formula = NULL, eta = 0.3, gamma = 0,
   uid = random_string("xgboost_regressor_"), ...)
 }
 \arguments{
+\item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
+
+\item{formula}{Used when \code{x} is a \code{tbl_spark}. R formula as a character string or a formula. This is used to transform the input dataframe before fitting, see \link{ft_r_formula} for details.}
+
 \item{eta}{Step size shrinkage used in update to prevents overfitting. After each boosting step, we can directly get the weights of new features and eta actually shrinks the feature weights to make the boosting process more conservative. [default=0.3] range: [0,1]}
 
 \item{gamma}{Minimum loss reduction required to make a further partition on a leaf node of the tree. the larger, the more conservative the algorithm will be. [default=0]}
@@ -110,7 +114,40 @@ xgboost_regressor(x, formula = NULL, eta = 0.3, gamma = 0,
 \item{label_col}{Label column name. The column should be a numeric column. Usually this column is output by \code{\link{ft_r_formula}}.}
 
 \item{prediction_col}{Prediction column name.}
+
+\item{uid}{A character string used to uniquely identify the ML estimator.}
+
+\item{...}{Optional arguments; see Details.}
+}
+\value{
+The object returned depends on the class of \code{x}.
+
+\itemize{
+  \item \code{spark_connection}: When \code{x} is a \code{spark_connection}, the function returns an instance of a \code{ml_estimator} object. The object contains a pointer to
+  a Spark \code{Predictor} object and can be used to compose
+  \code{Pipeline} objects.
+
+  \item \code{ml_pipeline}: When \code{x} is a \code{ml_pipeline}, the function returns a \code{ml_pipeline} with
+  the predictor appended to the pipeline.
+
+  \item \code{tbl_spark}: When \code{x} is a \code{tbl_spark}, a predictor is constructed then
+  immediately fit with the input \code{tbl_spark}, returning a prediction model.
+
+  \item \code{tbl_spark}, with \code{formula}: specified When \code{formula}
+    is specified, the input \code{tbl_spark} is first transformed using a
+    \code{RFormula} transformer before being fit by
+    the predictor. The object returned in this case is a \code{ml_model} which is a
+    wrapper of a \code{ml_pipeline_model}.
+}
 }
 \description{
 XGBoost regressor for Spark.
 }
+\details{
+When \code{x} is a \code{tbl_spark} and \code{formula} (alternatively, \code{response} and \code{features}) is specified, the function returns a \code{ml_model} object wrapping a \code{ml_pipeline_model} which contains data pre-processing transformers, the ML predictor, and, for classification models, a post-processing transformer that converts predictions into class labels. For classification, an optional argument \code{predicted_label_col} (defaults to \code{"predicted_label"}) can be used to specify the name of the predicted label column. In addition to the fitted \code{ml_pipeline_model}, \code{ml_model} objects also contain a \code{ml_pipeline} object where the ML predictor stage is an estimator ready to be fit against data. This is utilized by \code{\link{ml_save}} with \code{type = "pipeline"} to faciliate model refresh workflows.
+}
+\seealso{
+See \url{http://spark.apache.org/docs/latest/ml-classification-regression.html} for
+  more information on the set of supervised learning algorithms.
+}
+\concept{ml algorithms}

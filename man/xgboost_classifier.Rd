@@ -26,6 +26,10 @@ xgboost_classifier(x, formula = NULL, eta = 0.3, gamma = 0,
   uid = random_string("xgboost_classifier_"), ...)
 }
 \arguments{
+\item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
+
+\item{formula}{Used when \code{x} is a \code{tbl_spark}. R formula as a character string or a formula. This is used to transform the input dataframe before fitting, see \link{ft_r_formula} for details.}
+
 \item{eta}{Step size shrinkage used in update to prevents overfitting. After each boosting step, we can directly get the weights of new features and eta actually shrinks the feature weights to make the boosting process more conservative. [default=0.3] range: [0,1]}
 
 \item{gamma}{Minimum loss reduction required to make a further partition on a leaf node of the tree. the larger, the more conservative the algorithm will be. [default=0]}
@@ -117,6 +121,10 @@ xgboost_classifier(x, formula = NULL, eta = 0.3, gamma = 0,
 \item{probability_col}{Column name for predicted class conditional probabilities.}
 
 \item{raw_prediction_col}{Raw prediction (a.k.a. confidence) column name.}
+
+\item{uid}{A character string used to uniquely identify the ML estimator.}
+
+\item{...}{Optional arguments; see Details.}
 }
 \description{
 XGBoost classifier for Spark.

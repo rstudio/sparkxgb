@@ -3,10 +3,7 @@
 #' XGBoost classifier for Spark.
 #' 
 #' @inheritParams xgboost_regressor
-#' @param probability_col Column name for predicted class conditional probabilities.
-#' @param raw_prediction_col Raw prediction (a.k.a. confidence) column name.
-#' @param thresholds Thresholds in multi-class classification to adjust the probability of predicting each class. Array must have length equal to the number of classes, with values > 0 excepting that at most one value may be 0. The class with largest value \code{p/t} is predicted, where \code{p} is the original probability of that class and \code{t} is the class's threshold.
-#' 
+#' @template roxlate-ml-probabilistic-classifier-params
 #' @export
 xgboost_classifier <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_depth = 6,
                                min_child_weight = 1, max_delta_step = 0,

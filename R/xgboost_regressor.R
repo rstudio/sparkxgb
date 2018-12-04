@@ -42,9 +42,9 @@
 #' @param tree_method The tree construction algorithm used in XGBoost. options: {'auto', 'exact', 'approx'} [default='auto']
 #' @param use_external_memory The tree construction algorithm used in XGBoost. options: {'auto', 'exact', 'approx'} [default='auto']
 #' @param weight_col Weight column.
-#' @param features_col Features column name, as a length-one character vector. The column should be single vector column of numeric values. Usually this column is output by \code{\link{ft_r_formula}}.
-#' @param label_col Label column name. The column should be a numeric column. Usually this column is output by \code{\link{ft_r_formula}}.
-#' @param prediction_col Prediction column name.
+#' @template roxlate-ml-algo
+#' @template roxlate-ml-formula-params
+#' @template roxlate-ml-predictor-params
 #' 
 #' @export
 xgboost_regressor <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_depth = 6,
