@@ -164,7 +164,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     sparklyr::jobj_set_param("setWeightCol", args[["weight_col"]])
   
   if (!is.null(args[["missing"]])) {
-    jobj <- sparklyr::invoke_static(sc, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]])
+    jobj <- sparklyr::invoke_static(x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]])
   }
   
   new_xgboost_classifier(jobj)
