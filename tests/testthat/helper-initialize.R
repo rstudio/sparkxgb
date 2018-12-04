@@ -69,7 +69,6 @@ check_params <- function(test_args, params) {
   purrr::iwalk(
     test_args,
     function(.x, .y) {
-      cat(.y, ": .x is ", .x, ", params[[.y]] is ", params[[.y]], "\n")
       testthat::expect_equal(.x, params[[.y]], info = .y)
     }
   )
@@ -102,6 +101,5 @@ test_default_args <- function(sc, fn) {
   params <- do.call(fn, list(x = sc)) %>%
     ml_params(allow_null = TRUE)
   
-  cat("\n str(params): ", str(params))
   check_params(default_args, params)
 }
