@@ -5,3 +5,4 @@
 ^configure\.R$
 ^logs$
 ^spark-warehouse$
+^man-roxygen$

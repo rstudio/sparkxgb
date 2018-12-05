@@ -3,6 +3,7 @@
 #' XGBoost classifier for Spark.
 #' 
 #' @inheritParams xgboost_regressor
+#' @param num_class Number of classes.
 #' @template roxlate-ml-probabilistic-classifier-params
 #' @export
 xgboost_classifier <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_depth = 6,
@@ -346,18 +347,9 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
 
 # Validator
 validator_xgboost_classifier <- function(args) {
-  args[["checkpoint_interval"]] <- cast_scalar_integer(args[["checkpoint_interval"]])
-  args[["max_bins"]] <- cast_scalar_integer(args[["max_bins"]])
-  args[["max_depth"]] <- cast_scalar_integer(args[["max_depth"]])
-  args[["nthread"]] <- cast_scalar_integer(args[["nthread"]])
-  args[["num_class"]] <- cast_nullable_scalar_integer(args[["num_class"]])
-  args[["num_early_stopping_rounds"]] <- cast_scalar_integer(args[["num_early_stopping_rounds"]])
-  args[["num_round"]] <- cast_scalar_integer(args[["num_round"]])
-  args[["num_workers"]] <- cast_scalar_integer(args[["num_workers"]])
-  args[["seed"]] <- cast_scalar_integer(args[["seed"]])
-  args[["silent"]] <- cast_scalar_integer(args[["silent"]])
-  args[["thresholds"]] <- cast_nullable_double_list(args[["thresholds"]])
-  args[["missing"]] <- cast_nullable_scalar_double(args[["missing"]])
+  args <- validator_xgboost_regressor(args)
+  args[["thresholds"]] <- cast_nullable_double_list(args[["thresholds"]]) %>%
+    certify(bounded(0, 1), .allow_null = TRUE, .id = "thresholds")
   args
 }
 
@@ -370,8 +362,8 @@ new_xgboost_classification_model <- function(jobj) {
     jobj,
     features_col = invoke(jobj, "getFeaturesCol"),
     prediction_col = invoke(jobj, "getPredictionCol"),
-    probability_col = sparklyr:::try_null(invoke(jobj, "getProbabilityCol")),
-    raw_prediction_col = sparklyr:::try_null(invoke(jobj, "getRawPredictionCol")),
+    probability_col = invoke(jobj, "getProbabilityCol"),
+    raw_prediction_col = invoke(jobj, "getRawPredictionCol"),
     class = "xgboost_classification_model")
 }
 

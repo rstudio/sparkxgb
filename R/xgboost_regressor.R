@@ -42,53 +42,55 @@
 #' @param tree_method The tree construction algorithm used in XGBoost. options: {'auto', 'exact', 'approx'} [default='auto']
 #' @param use_external_memory The tree construction algorithm used in XGBoost. options: {'auto', 'exact', 'approx'} [default='auto']
 #' @param weight_col Weight column.
+#' @param tree_limit Limit number of trees in the prediction; defaults to 0 (use all trees.)
+#' @param missing The value treated as missing. default: Float.NaN
 #' @template roxlate-ml-algo
 #' @template roxlate-ml-formula-params
 #' @template roxlate-ml-predictor-params
 #' 
 #' @export
 xgboost_regressor <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_depth = 6,
-                               min_child_weight = 1, max_delta_step = 0,
-                               grow_policy = "depthwise", max_bins = 16, subsample = 1,
-                               colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                               alpha = 0, tree_method = "auto", sketch_eps = 0.03,
-                               scale_pos_weight = 1, sample_type = "uniform",
-                               normalize_type = "tree", rate_drop = 0, skip_drop = 0,
-                               lambda_bias = 0, tree_limit = 0, num_round = 1,
-                               num_workers = 1, nthread = 1, use_external_memory = FALSE,
-                               silent = 0, custom_obj = NULL, custom_eval = NULL,
-                               missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
-                               checkpoint_path = "", checkpoint_interval = -1,
-                               objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
-                               num_early_stopping_rounds = 0, objective_type = "regression",
-                               eval_metric = NULL, maximize_evaluation_metrics = FALSE,
-                               base_margin_col = NULL,
-                               weight_col = NULL, features_col = "features", label_col = "label",
-                               prediction_col = "prediction",
-                               uid = random_string("xgboost_regressor_"), ...) {
+                              min_child_weight = 1, max_delta_step = 0,
+                              grow_policy = "depthwise", max_bins = 16, subsample = 1,
+                              colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
+                              alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                              scale_pos_weight = 1, sample_type = "uniform",
+                              normalize_type = "tree", rate_drop = 0, skip_drop = 0,
+                              lambda_bias = 0, tree_limit = 0, num_round = 1,
+                              num_workers = 1, nthread = 1, use_external_memory = FALSE,
+                              silent = 0, custom_obj = NULL, custom_eval = NULL,
+                              missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+                              checkpoint_path = "", checkpoint_interval = -1,
+                              objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
+                              num_early_stopping_rounds = 0, objective_type = "regression",
+                              eval_metric = NULL, maximize_evaluation_metrics = FALSE,
+                              base_margin_col = NULL,
+                              weight_col = NULL, features_col = "features", label_col = "label",
+                              prediction_col = "prediction",
+                              uid = random_string("xgboost_regressor_"), ...) {
   UseMethod("xgboost_regressor")
 }
 
 #' @export
 xgboost_regressor.spark_connection <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_depth = 6,
-                                                min_child_weight = 1, max_delta_step = 0,
-                                                grow_policy = "depthwise", max_bins = 16, subsample = 1,
-                                                colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                                alpha = 0, tree_method = "auto", sketch_eps = 0.03,
-                                                scale_pos_weight = 1, sample_type = "uniform",
-                                                normalize_type = "tree", rate_drop = 0, skip_drop = 0,
-                                                lambda_bias = 0, tree_limit = 0, num_round = 1,
-                                                num_workers = 1, nthread = 1, use_external_memory = FALSE,
-                                                silent = 0, custom_obj = NULL, custom_eval = NULL,
-                                                missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
-                                                checkpoint_path = "", checkpoint_interval = -1,
-                                                objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
-                                                num_early_stopping_rounds = 0, objective_type = "regression",
-                                                eval_metric = NULL, maximize_evaluation_metrics = FALSE,
-                                                base_margin_col = NULL,
-                                                weight_col = NULL, features_col = "features", label_col = "label",
-                                                prediction_col = "prediction",
-                                                uid = random_string("xgboost_regressor_"), ...) {
+                                               min_child_weight = 1, max_delta_step = 0,
+                                               grow_policy = "depthwise", max_bins = 16, subsample = 1,
+                                               colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
+                                               alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                               scale_pos_weight = 1, sample_type = "uniform",
+                                               normalize_type = "tree", rate_drop = 0, skip_drop = 0,
+                                               lambda_bias = 0, tree_limit = 0, num_round = 1,
+                                               num_workers = 1, nthread = 1, use_external_memory = FALSE,
+                                               silent = 0, custom_obj = NULL, custom_eval = NULL,
+                                               missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+                                               checkpoint_path = "", checkpoint_interval = -1,
+                                               objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
+                                               num_early_stopping_rounds = 0, objective_type = "regression",
+                                               eval_metric = NULL, maximize_evaluation_metrics = FALSE,
+                                               base_margin_col = NULL,
+                                               weight_col = NULL, features_col = "features", label_col = "label",
+                                               prediction_col = "prediction",
+                                               uid = random_string("xgboost_regressor_"), ...) {
   
   args <- list(
     eta = eta,
@@ -200,24 +202,24 @@ xgboost_regressor.spark_connection <- function(x, formula = NULL, eta = 0.3, gam
 
 #' @export
 xgboost_regressor.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_depth = 6,
-                                           min_child_weight = 1, max_delta_step = 0,
-                                           grow_policy = "depthwise", max_bins = 16, subsample = 1,
-                                           colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                           alpha = 0, tree_method = "auto", sketch_eps = 0.03,
-                                           scale_pos_weight = 1, sample_type = "uniform",
-                                           normalize_type = "tree", rate_drop = 0, skip_drop = 0,
-                                           lambda_bias = 0, tree_limit = 0, num_round = 1,
-                                           num_workers = 1, nthread = 1, use_external_memory = FALSE,
-                                           silent = 0, custom_obj = NULL, custom_eval = NULL,
-                                           missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
-                                           checkpoint_path = "", checkpoint_interval = -1,
-                                           objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
-                                           num_early_stopping_rounds = 0, objective_type = "regression",
-                                           eval_metric = NULL, maximize_evaluation_metrics = FALSE,
-                                           base_margin_col = NULL,
-                                           weight_col = NULL, features_col = "features", label_col = "label",
-                                           prediction_col = "prediction",
-                                           uid = random_string("xgboost_regressor_"), ...) {
+                                          min_child_weight = 1, max_delta_step = 0,
+                                          grow_policy = "depthwise", max_bins = 16, subsample = 1,
+                                          colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
+                                          alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                          scale_pos_weight = 1, sample_type = "uniform",
+                                          normalize_type = "tree", rate_drop = 0, skip_drop = 0,
+                                          lambda_bias = 0, tree_limit = 0, num_round = 1,
+                                          num_workers = 1, nthread = 1, use_external_memory = FALSE,
+                                          silent = 0, custom_obj = NULL, custom_eval = NULL,
+                                          missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+                                          checkpoint_path = "", checkpoint_interval = -1,
+                                          objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
+                                          num_early_stopping_rounds = 0, objective_type = "regression",
+                                          eval_metric = NULL, maximize_evaluation_metrics = FALSE,
+                                          base_margin_col = NULL,
+                                          weight_col = NULL, features_col = "features", label_col = "label",
+                                          prediction_col = "prediction",
+                                          uid = random_string("xgboost_regressor_"), ...) {
   stage <- xgboost_regressor.spark_connection(
     x = spark_connection(x),
     formula = formula,
@@ -274,25 +276,25 @@ xgboost_regressor.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma = 
 
 #' @export
 xgboost_regressor.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_depth = 6,
-                                         min_child_weight = 1, max_delta_step = 0,
-                                         grow_policy = "depthwise", max_bins = 16, subsample = 1,
-                                         colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                         alpha = 0, tree_method = "auto", sketch_eps = 0.03,
-                                         scale_pos_weight = 1, sample_type = "uniform",
-                                         normalize_type = "tree", rate_drop = 0, skip_drop = 0,
-                                         lambda_bias = 0, tree_limit = 0, num_round = 1,
-                                         num_workers = 1, nthread = 1, use_external_memory = FALSE,
-                                         silent = 0, custom_obj = NULL, custom_eval = NULL,
-                                         missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
-                                         checkpoint_path = "", checkpoint_interval = -1,
-                                         objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
-                                         num_early_stopping_rounds = 0, objective_type = "regression",
-                                         eval_metric = NULL, maximize_evaluation_metrics = FALSE,
-                                         base_margin_col = NULL,
-                                         weight_col = NULL, features_col = "features", label_col = "label",
-                                         prediction_col = "prediction",
-                                         uid = random_string("xgboost_regressor_"),
-                                         response = NULL, features = NULL, ...) {
+                                        min_child_weight = 1, max_delta_step = 0,
+                                        grow_policy = "depthwise", max_bins = 16, subsample = 1,
+                                        colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
+                                        alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                        scale_pos_weight = 1, sample_type = "uniform",
+                                        normalize_type = "tree", rate_drop = 0, skip_drop = 0,
+                                        lambda_bias = 0, tree_limit = 0, num_round = 1,
+                                        num_workers = 1, nthread = 1, use_external_memory = FALSE,
+                                        silent = 0, custom_obj = NULL, custom_eval = NULL,
+                                        missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+                                        checkpoint_path = "", checkpoint_interval = -1,
+                                        objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
+                                        num_early_stopping_rounds = 0, objective_type = "regression",
+                                        eval_metric = NULL, maximize_evaluation_metrics = FALSE,
+                                        base_margin_col = NULL,
+                                        weight_col = NULL, features_col = "features", label_col = "label",
+                                        prediction_col = "prediction",
+                                        uid = random_string("xgboost_regressor_"),
+                                        response = NULL, features = NULL, ...) {
   
   stage <- xgboost_regressor.spark_connection(
     x = spark_connection(x),
@@ -365,16 +367,83 @@ xgboost_regressor.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0,
 
 # Validator
 validator_xgboost_regressor <- function(args) {
-  args[["checkpoint_interval"]] <- cast_scalar_integer(args[["checkpoint_interval"]])
-  args[["max_bins"]] <- cast_scalar_integer(args[["max_bins"]])
-  args[["max_depth"]] <- cast_scalar_integer(args[["max_depth"]])
-  args[["nthread"]] <- cast_scalar_integer(args[["nthread"]])
-  args[["num_early_stopping_rounds"]] <- cast_scalar_integer(args[["num_early_stopping_rounds"]])
-  args[["num_round"]] <- cast_scalar_integer(args[["num_round"]])
-  args[["num_workers"]] <- cast_scalar_integer(args[["num_workers"]])
-  args[["seed"]] <- cast_scalar_integer(args[["seed"]])
-  args[["silent"]] <- cast_scalar_integer(args[["silent"]])
-  args[["missing"]] <- cast_nullable_scalar_double(args[["missing"]])
+  args[["alpha"]] <- cast_scalar_double(args[["alpha"]], .id = "alpha") %>%
+    certify(gte(0))
+  args[["base_score"]] <- cast_scalar_double(args[["base_score"]], .id = "base_score")
+  args[["checkpoint_interval"]] <- cast_scalar_integer(args[["checkpoint_interval"]], .id = "checkpoint_interval")
+  args[["colsample_bylevel"]] <- cast_scalar_double(args[["colsample_bylevel"]], .id = "colsample_bylevel") %>%
+    certify(bounded(0, 1, .incl_lower = FALSE))
+  args[["colsample_bytree"]] <- cast_scalar_double(args[["colsample_bytree"]], .id = "colsample_bytree") %>%
+    certify(bounded(0, 1, .incl_lower = FALSE))
+  args[["eta"]] <- cast_scalar_double(args[["eta"]], .id = "eta") %>%
+    certify(bounded(0, 1))
+  args[["eval_metric"]] <- if (!is.null(args[["eval_metric"]])) cast_choice(
+    args[["eval_metric"]], 
+    .choices = c("rmse", "mae", "logloss", "error", "merror", "mlogloss", "auc", "aucpr", "ndcg", "map", "gamma-variance"),
+    .id = "eval_metric"
+  )
+  args[["gamma"]] <- cast_scalar_double(args[["gamma"]], .id = "gamma") %>%
+    certify(gte(0))
+  args[["lambda"]] <- cast_scalar_double(args[["lambda"]], .id = "lambda") %>%
+    certify(gte(0))
+  args[["lambda_bias"]] <- cast_scalar_double(args[["lambda_bias"]], .id = "lambda_bias")
+  args[["max_bins"]] <- cast_scalar_integer(args[["max_bins"]], .id = "max_bins") %>%
+    certify(gte(1))
+  args[["max_delta_step"]] <- cast_scalar_double(args[["max_delta_step"]], .id = "max_delta_step") %>%
+    certify(gte(0))
+  args[["max_depth"]] <- cast_scalar_integer(args[["max_depth"]], .id = "max_depth") %>%
+    certify(gte(1))
+  args[["maximize_evaluation_metrics"]] <- cast_scalar_logical(
+    args[["maximize_evaluation_metrics"]],
+    .id = "maximize_evaluation_metrics"
+  )
+  args[["min_child_weight"]] <- cast_scalar_double(args[["min_child_weight"]], .id = "min_child_weight") %>%
+    certify(gte(0))
+  args[["missing"]] <- cast_nullable_scalar_double(args[["missing"]], .id = "missing")
+  args[["normalize_type"]] <- cast_choice(args[["normalize_type"]], .choices = c("tree", "forest"), .id = "normalize_type")
+  args[["nthread"]] <- cast_scalar_integer(args[["nthread"]], .id = "nthread") %>%
+    certify(gte(1))
+  args[["num_early_stopping_rounds"]] <- cast_scalar_integer(
+    args[["num_early_stopping_rounds"]],
+    .id = "num_early_stopping_rounds"
+  ) %>%
+    certify(gte(0))
+  args[["num_round"]] <- cast_scalar_integer(args[["num_round"]], .id = "num_round") %>%
+    certify(gte(1))
+  args[["num_workers"]] <- cast_scalar_integer(args[["num_workers"]], .id = "num_workers") %>%
+    certify(gte(1))
+  args[["objective"]] <- cast_choice(
+    args[["objective"]],
+    .choices = c(
+      "reg:linear", "reg:logistic", "binary:logistic", "binary:logitraw",
+      "count:poissong", "multi:softmax", "multi:softprob", "rank:pairwise",
+      "reg:gamma"
+    ),
+    .id = "objective"
+  )
+  args[["objective_type"]] <- cast_choice(
+    args[["objective_type"]], .choices = c("regression", "classification"),
+                                          .id = "objective_type"
+    )
+  args[["rate_drop"]] <- cast_scalar_double(args[["rate_drop"]], .id = "rate_drop") %>%
+    certify(bounded(0, 1))
+  args[["sample_type"]] <- cast_choice(args[["sample_type"]], .choices = c("uniform", "weighted"), .id = "sample_type")
+  args[["scale_pos_weight"]] <- cast_scalar_double(args[["scale_pos_weight"]], .id = "scale_pos_weight") %>%
+    certify(gt(0))
+  args[["seed"]] <- cast_scalar_integer(args[["seed"]], .id = "seed")
+  args[["silent"]] <- cast_scalar_integer(args[["silent"]], .id = "silent")
+  args[["sketch_eps"]] <- cast_scalar_double(args[["sketch_eps"]], .id = "sketch_eps") %>%
+    certify(bounded(0, 1))
+  args[["skip_drop"]] <- cast_scalar_double(args[["skip_drop"]], .id = "skip_drop") %>%
+    certify(bounded(0, 1))
+  args[["subsample"]] <- cast_scalar_double(args[["subsample"]], .id = "subsample") %>%
+    certify(bounded(0, 1, .incl_lower = FALSE))
+  args[["timeout_request_workers"]] <- cast_scalar_integer(args[["timeout_request_workers"]], .id = "timeout_request_workers") %>%
+    certify(gte(1))
+  args[["train_test_ratio"]] <- cast_scalar_double(args[["train_test_ratio"]], .id = "train_test_ratio") %>%
+    certify(bounded(0, 1))
+  args[["tree_method"]] <- cast_choice(args[["tree_method"]], .choices = c("auto", "exact", "approx"), .id = "tree_method")
+  args[["use_external_memory"]] <- cast_scalar_logical(args[["use_external_memory"]], .id = "use_external_memory")
   args
 }
 
@@ -391,7 +460,7 @@ new_xgboost_regression_model <- function(jobj) {
 }
 
 new_ml_model_xgboost_regression <- function(pipeline_model, formula, dataset, label_col,
-                                                features_col) {
+                                            features_col) {
   sparklyr::ml_model_regression(
     pipeline_model, formula, dataset = dataset,
     label_col = label_col, features_col = features_col,

@@ -70,6 +70,8 @@ xgboost_classifier(x, formula = NULL, eta = 0.3, gamma = 0,
 
 \item{lambda_bias}{Parameter of linear booster L2 regularization term on bias, default 0 (no L1 reg on bias because it is not important.)}
 
+\item{tree_limit}{Limit number of trees in the prediction; defaults to 0 (use all trees.)}
+
 \item{num_round}{The number of rounds for boosting.}
 
 \item{num_workers}{number of workers used to train xgboost model. Defaults to 1.}
@@ -83,6 +85,8 @@ xgboost_classifier(x, formula = NULL, eta = 0.3, gamma = 0,
 \item{custom_obj}{Customized objective function provided by user. Currently unsupported.}
 
 \item{custom_eval}{Customized evaluation function provided by user. Currently unsupported.}
+
+\item{missing}{The value treated as missing. default: Float.NaN}
 
 \item{seed}{Random seed for the C++ part of XGBoost and train/test splitting.}
 
@@ -105,6 +109,8 @@ xgboost_classifier(x, formula = NULL, eta = 0.3, gamma = 0,
 \item{eval_metric}{Evaluation metrics for validation data, a default metric will be assigned according to objective(rmse for regression, and error for classification, mean average precision for ranking). options: rmse, mae, logloss, error, merror, mlogloss, auc, aucpr, ndcg, map, gamma-deviance}
 
 \item{maximize_evaluation_metrics}{Whether to maximize evaluation metrics. Defaults to FALSE (for minization.)}
+
+\item{num_class}{Number of classes.}
 
 \item{base_margin_col}{Param for initial prediction (aka base margin) column name.}
 
