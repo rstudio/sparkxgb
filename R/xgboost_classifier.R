@@ -18,7 +18,7 @@ xgboost_classifier <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_dept
                                silent = 0, custom_obj = NULL, custom_eval = NULL,
                                missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                checkpoint_path = "", checkpoint_interval = -1,
-                               objective = "multi:softmax", base_score = 0.5, train_test_ratio = 1,
+                               objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
                                num_early_stopping_rounds = 0, objective_type = "classification",
                                eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                base_margin_col = NULL,
@@ -42,7 +42,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
                                                 silent = 0, custom_obj = NULL, custom_eval = NULL,
                                                 missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                                 checkpoint_path = "", checkpoint_interval = -1,
-                                                objective = "multi:softmax", base_score = 0.5, train_test_ratio = 1,
+                                                objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
                                                 num_early_stopping_rounds = 0, objective_type = "classification",
                                                 eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                                 base_margin_col = NULL,
@@ -181,7 +181,7 @@ xgboost_classifier.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma =
                                            silent = 0, custom_obj = NULL, custom_eval = NULL,
                                            missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                            checkpoint_path = "", checkpoint_interval = -1,
-                                           objective = "multi:softmax", base_score = 0.5, train_test_ratio = 1,
+                                           objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
                                            num_early_stopping_rounds = 0, objective_type = "classification",
                                            eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                            base_margin_col = NULL,
@@ -260,7 +260,7 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
                                          silent = 0, custom_obj = NULL, custom_eval = NULL,
                                          missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                          checkpoint_path = "", checkpoint_interval = -1,
-                                         objective = "multi:softmax", base_score = 0.5, train_test_ratio = 1,
+                                         objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
                                          num_early_stopping_rounds = 0, objective_type = "classification",
                                          eval_metric = NULL, maximize_evaluation_metrics = FALSE, num_class = NULL,
                                          base_margin_col = NULL,
@@ -270,8 +270,8 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
                                          uid = random_string("xgboost_classifier_"),
                                          response = NULL, features = NULL,
                                          predicted_label_col = "predicted_label", ...) {
-
-    stage <- xgboost_classifier.spark_connection(
+  
+  stage <- xgboost_classifier.spark_connection(
     x = spark_connection(x),
     formula = NULL,
     eta = eta,
@@ -348,23 +348,23 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
 # Validator
 validator_xgboost_classifier <- function(args) {
   args <- validator_xgboost_regressor(args)
-  args[["thresholds"]] <- cast_nullable_double_list(args[["thresholds"]]) %>%
+  args[["thresholds"]] <- cast_nullable_double_list(args[["thresholds"]], .id = "thresholds") %>%
     certify(bounded(0, 1), .allow_null = TRUE, .id = "thresholds")
+  args[["num_class"]] <- cast_nullable_scalar_integer(args[["num_class"]], .id = "num_class") %>%
+    certify(gte(2), .allow_null = TRUE, .id = "num_class")
+  
   args
 }
 
 new_xgboost_classifier <- function(jobj) {
-  sparklyr::ml_classifier(jobj, class = "xgboost_classifier")
+  sparklyr::ml_probabilistic_classifier(jobj, class = "xgboost_classifier")
 }
 
 new_xgboost_classification_model <- function(jobj) {
-  sparklyr::ml_prediction_model(
+  sparklyr::ml_probabilistic_classification_model(
     jobj,
-    features_col = invoke(jobj, "getFeaturesCol"),
-    prediction_col = invoke(jobj, "getPredictionCol"),
-    probability_col = invoke(jobj, "getProbabilityCol"),
-    raw_prediction_col = invoke(jobj, "getRawPredictionCol"),
-    class = "xgboost_classification_model")
+    class = "xgboost_classification_model"
+  )
 }
 
 new_ml_model_xgboost_classification <- function(pipeline_model, formula, dataset, label_col,

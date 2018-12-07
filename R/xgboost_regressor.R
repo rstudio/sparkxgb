@@ -423,8 +423,8 @@ validator_xgboost_regressor <- function(args) {
   )
   args[["objective_type"]] <- cast_choice(
     args[["objective_type"]], .choices = c("regression", "classification"),
-                                          .id = "objective_type"
-    )
+    .id = "objective_type"
+  )
   args[["rate_drop"]] <- cast_scalar_double(args[["rate_drop"]], .id = "rate_drop") %>%
     certify(bounded(0, 1))
   args[["sample_type"]] <- cast_choice(args[["sample_type"]], .choices = c("uniform", "weighted"), .id = "sample_type")
@@ -448,15 +448,14 @@ validator_xgboost_regressor <- function(args) {
 }
 
 new_xgboost_regressor <- function(jobj) {
-  sparklyr::ml_estimator(jobj, class = "xgboost_regressor")
+  sparklyr::ml_predictor(jobj, class = "xgboost_regressor")
 }
 
 new_xgboost_regression_model <- function(jobj) {
   sparklyr::ml_prediction_model(
     jobj,
-    features_col = invoke(jobj, "getFeaturesCol"),
-    prediction_col = invoke(jobj, "getPredictionCol"),
-    class = "xgboost_regression_model")
+    class = "xgboost_regression_model"
+  )
 }
 
 new_ml_model_xgboost_regression <- function(pipeline_model, formula, dataset, label_col,
