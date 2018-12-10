@@ -1,11 +1,13 @@
 Package: sparkxgb
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Interface for 'XGBoost' on 'Apache Spark'
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-  Use four spaces when indenting paragraphs within the Description.
+Authors@R: person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com", 
+                  role = c("aut", "cre"), comment = c(ORCID = "0000-0001-7803-7901"))
+Maintainer: Kevin Kuo <kevin.kuo@rstudio.com>
+Description: A 'sparklyr' <https://spark.rstudio.com/> extension that provides an R 
+  interface for 'XGBoost' <https://github.com/dmlc/xgboost> on 'Apache Spark'. 'XGBoost' is an 
+  optimized distributed gradient boosting library.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
