@@ -16,7 +16,7 @@ xgboost_classifier <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_dept
                                lambda_bias = 0, tree_limit = 0, num_round = 1,
                                num_workers = 1, nthread = 1, use_external_memory = FALSE,
                                silent = 0, custom_obj = NULL, custom_eval = NULL,
-                               missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+                               missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                checkpoint_path = "", checkpoint_interval = -1,
                                objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
                                num_early_stopping_rounds = 0, objective_type = "classification",
@@ -40,7 +40,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
                                                 lambda_bias = 0, tree_limit = 0, num_round = 1,
                                                 num_workers = 1, nthread = 1, use_external_memory = FALSE,
                                                 silent = 0, custom_obj = NULL, custom_eval = NULL,
-                                                missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+                                                missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                                 checkpoint_path = "", checkpoint_interval = -1,
                                                 objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
                                                 num_early_stopping_rounds = 0, objective_type = "classification",
@@ -161,7 +161,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
     sparklyr::jobj_set_param("setWeightCol", args[["weight_col"]])
   
-  if (!is.null(args[["missing"]])) {
+  if (!is.nan(args[["missing"]])) {
     jobj <- sparklyr::invoke_static(x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]])
   }
   
@@ -179,7 +179,7 @@ xgboost_classifier.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma =
                                            lambda_bias = 0, tree_limit = 0, num_round = 1,
                                            num_workers = 1, nthread = 1, use_external_memory = FALSE,
                                            silent = 0, custom_obj = NULL, custom_eval = NULL,
-                                           missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+                                           missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                            checkpoint_path = "", checkpoint_interval = -1,
                                            objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
                                            num_early_stopping_rounds = 0, objective_type = "classification",
@@ -258,7 +258,7 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
                                          lambda_bias = 0, tree_limit = 0, num_round = 1,
                                          num_workers = 1, nthread = 1, use_external_memory = FALSE,
                                          silent = 0, custom_obj = NULL, custom_eval = NULL,
-                                         missing = NULL, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+                                         missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
                                          checkpoint_path = "", checkpoint_interval = -1,
                                          objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
                                          num_early_stopping_rounds = 0, objective_type = "classification",
