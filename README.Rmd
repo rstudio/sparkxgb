@@ -28,6 +28,8 @@ devtools::install_github("kevinykuo/sparkxgb")
 
 ## Example
 
+**sparkxgb** supports the familiar formula interface for specifying models:
+
 ```{r, message = FALSE}
 library(sparkxgb)
 library(sparklyr)
@@ -51,4 +53,36 @@ xgb_model %>%
   glimpse()
 ```
 
+It also provides a Pipelines API, which means you can use a `xgboost_classifier` or `xgboost_regressor` in a pipeline as any `Estimator`, and do things like hyperparameter tuning:
 
+```{r}
+pipeline <- ml_pipeline(sc) %>%
+  ft_r_formula(Species ~ .) %>%
+  xgboost_classifier(
+    objective = "multi:softprob",
+    num_class = 3
+  )
+
+param_grid <- list(
+  xgboost = list(
+    max_depth = c(1, 5),
+    num_round = c(10, 50)
+  )
+)
+
+cv <- ml_cross_validator(
+  sc,
+  estimator = pipeline,
+  evaluator = ml_multiclass_classification_evaluator(
+    sc, 
+    label_col = "label",
+    raw_prediction_col = "rawPrediction"
+  ),
+  estimator_param_maps = param_grid
+)
+
+cv_model <- cv %>%
+  ml_fit(iris_tbl)
+
+summary(cv_model)
+```
