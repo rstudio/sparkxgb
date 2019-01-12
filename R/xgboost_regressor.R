@@ -354,7 +354,7 @@ xgboost_regressor.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0,
     stage %>%
       sparklyr::ml_fit(x)
   } else {
-    sparklyr::ml_model_supervised(
+    sparklyr::ml_construct_model_supervised(
       new_ml_model_xgboost_regression, 
       predictor = stage, 
       formula = formula, 
