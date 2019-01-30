@@ -14,10 +14,11 @@ LazyData: true
 Depends:
   R (>= 3.1.2)
 Imports:
-  sparklyr,
+  sparklyr (>0.9.9001),
   forge (>= 0.1.0.9002)
 RoxygenNote: 6.1.0
 Suggests: 
     testthat
 Remotes:
-    rstudio/forge
+    rstudio/forge,
+    rstudio/sparklyr
