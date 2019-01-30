@@ -416,7 +416,7 @@ validator_xgboost_regressor <- function(args) {
     args[["objective"]],
     .choices = c(
       "reg:linear", "reg:logistic", "binary:logistic", "binary:logitraw",
-      "count:poissong", "multi:softmax", "multi:softprob", "rank:pairwise",
+      "count:poisson", "multi:softmax", "multi:softprob", "rank:pairwise",
       "reg:gamma"
     ),
     .id = "objective"
