@@ -352,6 +352,7 @@ validator_xgboost_classifier <- function(args) {
     certify(bounded(0, 1), .allow_null = TRUE, .id = "thresholds")
   args[["num_class"]] <- cast_nullable_scalar_integer(args[["num_class"]], .id = "num_class") %>%
     certify(gte(2), .allow_null = TRUE, .id = "num_class")
+  args[["objective"]] <- cast_choice(args[["objective"]], "multi:softprob")
   
   args
 }
