@@ -14,6 +14,12 @@ knitr::opts_chunk$set(
 ```
 # sparkxgb
 
+<!-- badges: start -->
+  [![Travis build status](https://travis-ci.org/rstudio/sparkxgb.svg?branch=master)](https://travis-ci.org/rstudio/sparkxgb)
+  <!-- badges: end -->
+
+## Overview
+
 **sparkxgb** is a [sparklyr](https://spark.rstudio.com/) extension that provides an interface to [XGBoost](https://github.com/dmlc/xgboost) on Spark.
 
 ## Installation

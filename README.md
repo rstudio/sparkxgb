@@ -3,6 +3,14 @@
 
 # sparkxgb
 
+<!-- badges: start -->
+
+[![Travis build
+status](https://travis-ci.org/rstudio/sparkxgb.svg?branch=master)](https://travis-ci.org/rstudio/sparkxgb)
+<!-- badges: end -->
+
+## Overview
+
 **sparkxgb** is a [sparklyr](https://spark.rstudio.com/) extension that
 provides an interface to [XGBoost](https://github.com/dmlc/xgboost) on
 Spark.
@@ -45,11 +53,12 @@ xgb_model %>%
   glimpse()
 #> Observations: ??
 #> Variables: 5
-#> $ Species                <chr> "setosa", "setosa", "setosa", "setosa",...
-#> $ predicted_label        <chr> "setosa", "setosa", "setosa", "setosa",...
-#> $ probability_versicolor <dbl> 0.003566429, 0.003564076, 0.003566429, ...
-#> $ probability_virginica  <dbl> 0.001423170, 0.002082058, 0.001423170, ...
-#> $ probability_setosa     <dbl> 0.9950104, 0.9943539, 0.9950104, 0.9950...
+#> Database: spark_connection
+#> $ Species                <chr> "setosa", "setosa", "setosa", "setosa", "…
+#> $ predicted_label        <chr> "setosa", "setosa", "setosa", "setosa", "…
+#> $ probability_versicolor <dbl> 0.003566429, 0.003564076, 0.003566429, 0.…
+#> $ probability_virginica  <dbl> 0.001423170, 0.002082058, 0.001423170, 0.…
+#> $ probability_setosa     <dbl> 0.9950104, 0.9943539, 0.9950104, 0.995010…
 ```
 
 It also provides a Pipelines API, which means you can use a
@@ -87,7 +96,7 @@ cv_model <- cv %>%
 
 summary(cv_model)
 #> Summary for CrossValidatorModel 
-#>             <cross_validator_eb6a75829229> 
+#>             <cross_validator_b7217f46a0b5> 
 #> 
 #> Tuned Pipeline
 #>   with metric f1
@@ -95,9 +104,9 @@ summary(cv_model)
 #>   via 3-fold cross validation
 #> 
 #> Estimator: Pipeline
-#>            <pipeline_eb6af490ce5> 
+#>            <pipeline_b72115550276> 
 #> Evaluator: MulticlassClassificationEvaluator
-#>            <multiclass_classification_evaluator_eb6a2cd582dd> 
+#>            <multiclass_classification_evaluator_b721452ebc36> 
 #> 
 #> Results Summary: 
 #>          f1 num_round_1 max_depth_1
