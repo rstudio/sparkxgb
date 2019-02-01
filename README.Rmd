@@ -29,7 +29,7 @@ You can install the development version of sparkxgb with:
 ``` r
 # sparkxgb requires the development version of sparklyr
 devtools::install_github("rstudio/sparklyr")
-devtools::install_github("kevinykuo/sparkxgb")
+devtools::install_github("rstudio/sparkxgb")
 ```
 
 ## Example
@@ -47,7 +47,6 @@ iris_tbl <- sdf_copy_to(sc, iris)
 xgb_model <- xgboost_classifier(
   iris_tbl, 
   Species ~ .,
-  objective = "multi:softprob",
   num_class = 3,
   num_round = 50, 
   max_depth = 4
@@ -64,10 +63,7 @@ It also provides a Pipelines API, which means you can use a `xgboost_classifier`
 ```{r}
 pipeline <- ml_pipeline(sc) %>%
   ft_r_formula(Species ~ .) %>%
-  xgboost_classifier(
-    objective = "multi:softprob",
-    num_class = 3
-  )
+  xgboost_classifier(num_class = 3)
 
 param_grid <- list(
   xgboost = list(

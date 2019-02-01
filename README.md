@@ -22,7 +22,7 @@ You can install the development version of sparkxgb with:
 ``` r
 # sparkxgb requires the development version of sparklyr
 devtools::install_github("rstudio/sparklyr")
-devtools::install_github("kevinykuo/sparkxgb")
+devtools::install_github("rstudio/sparkxgb")
 ```
 
 ## Example
@@ -41,7 +41,6 @@ iris_tbl <- sdf_copy_to(sc, iris)
 xgb_model <- xgboost_classifier(
   iris_tbl, 
   Species ~ .,
-  objective = "multi:softprob",
   num_class = 3,
   num_round = 50, 
   max_depth = 4
@@ -68,10 +67,7 @@ It also provides a Pipelines API, which means you can use a
 ``` r
 pipeline <- ml_pipeline(sc) %>%
   ft_r_formula(Species ~ .) %>%
-  xgboost_classifier(
-    objective = "multi:softprob",
-    num_class = 3
-  )
+  xgboost_classifier(num_class = 3)
 
 param_grid <- list(
   xgboost = list(
@@ -96,7 +92,7 @@ cv_model <- cv %>%
 
 summary(cv_model)
 #> Summary for CrossValidatorModel 
-#>             <cross_validator_b7217f46a0b5> 
+#>             <cross_validator_ebc61803a06b> 
 #> 
 #> Tuned Pipeline
 #>   with metric f1
@@ -104,9 +100,9 @@ summary(cv_model)
 #>   via 3-fold cross validation
 #> 
 #> Estimator: Pipeline
-#>            <pipeline_b72115550276> 
+#>            <pipeline_ebc62f635bb6> 
 #> Evaluator: MulticlassClassificationEvaluator
-#>            <multiclass_classification_evaluator_b721452ebc36> 
+#>            <multiclass_classification_evaluator_ebc65fbf8a19> 
 #> 
 #> Results Summary: 
 #>          f1 num_round_1 max_depth_1
