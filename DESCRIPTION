@@ -14,7 +14,7 @@ LazyData: true
 Depends:
   R (>= 3.1.2)
 Imports:
-  sparklyr (>0.9.9001),
+  sparklyr (>= 0.9.9001),
   forge (>= 0.1.0.9002)
 RoxygenNote: 6.1.0
 Suggests: 
