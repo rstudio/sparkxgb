@@ -1,7 +1,7 @@
 Package: sparkxgb
 Type: Package
 Title: Interface for 'XGBoost' on 'Apache Spark'
-Version: 0.0.9000
+Version: 0.0.9001
 Authors@R: person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com", 
                   role = c("aut", "cre"), comment = c(ORCID = "0000-0001-7803-7901"))
 Maintainer: Kevin Kuo <kevin.kuo@rstudio.com>
@@ -14,7 +14,7 @@ LazyData: true
 Depends:
   R (>= 3.1.2)
 Imports:
-  sparklyr (>= 0.9.9001),
+  sparklyr (>= 0.9.9004),
   forge (>= 0.1.0.9002)
 RoxygenNote: 6.1.0
 Suggests: 
