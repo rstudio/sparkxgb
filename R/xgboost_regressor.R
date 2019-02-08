@@ -448,11 +448,11 @@ validator_xgboost_regressor <- function(args) {
 }
 
 new_xgboost_regressor <- function(jobj) {
-  sparklyr::ml_predictor(jobj, class = "xgboost_regressor")
+  sparklyr::new_ml_predictor(jobj, class = "xgboost_regressor")
 }
 
 new_xgboost_regression_model <- function(jobj) {
-  sparklyr::ml_prediction_model(
+  sparklyr::new_ml_prediction_model(
     jobj,
     class = "xgboost_regression_model"
   )
@@ -460,7 +460,7 @@ new_xgboost_regression_model <- function(jobj) {
 
 new_ml_model_xgboost_regression <- function(pipeline_model, formula, dataset, label_col,
                                             features_col) {
-  sparklyr::ml_model_regression(
+  sparklyr::new_ml_model_regression(
     pipeline_model, formula, dataset = dataset,
     label_col = label_col, features_col = features_col,
     class = "ml_model_xgboost_regression"

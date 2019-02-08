@@ -358,11 +358,11 @@ validator_xgboost_classifier <- function(args) {
 }
 
 new_xgboost_classifier <- function(jobj) {
-  sparklyr::ml_probabilistic_classifier(jobj, class = "xgboost_classifier")
+  sparklyr::new_ml_probabilistic_classifier(jobj, class = "xgboost_classifier")
 }
 
 new_xgboost_classification_model <- function(jobj) {
-  sparklyr::ml_probabilistic_classification_model(
+  sparklyr::new_ml_probabilistic_classification_model(
     jobj,
     class = "xgboost_classification_model"
   )
@@ -370,7 +370,7 @@ new_xgboost_classification_model <- function(jobj) {
 
 new_ml_model_xgboost_classification <- function(pipeline_model, formula, dataset, label_col,
                                                 features_col, predicted_label_col) {
-  sparklyr::ml_model_classification(
+  sparklyr::new_ml_model_classification(
     pipeline_model, formula, dataset = dataset,
     label_col = label_col, features_col = features_col,
     predicted_label_col = predicted_label_col,
