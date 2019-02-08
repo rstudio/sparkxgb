@@ -367,92 +367,92 @@ xgboost_regressor.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0,
 
 # Validator
 validator_xgboost_regressor <- function(args) {
-  args[["alpha"]] <- cast_scalar_double(args[["alpha"]], .id = "alpha") %>%
+  args[["alpha"]] <- cast_scalar_double(args[["alpha"]], id = "alpha") %>%
     certify(gte(0))
-  args[["base_score"]] <- cast_scalar_double(args[["base_score"]], .id = "base_score")
-  args[["checkpoint_interval"]] <- cast_scalar_integer(args[["checkpoint_interval"]], .id = "checkpoint_interval")
-  args[["colsample_bylevel"]] <- cast_scalar_double(args[["colsample_bylevel"]], .id = "colsample_bylevel") %>%
-    certify(bounded(0, 1, .incl_lower = FALSE))
-  args[["colsample_bytree"]] <- cast_scalar_double(args[["colsample_bytree"]], .id = "colsample_bytree") %>%
-    certify(bounded(0, 1, .incl_lower = FALSE))
-  args[["eta"]] <- cast_scalar_double(args[["eta"]], .id = "eta") %>%
+  args[["base_score"]] <- cast_scalar_double(args[["base_score"]], id = "base_score")
+  args[["checkpoint_interval"]] <- cast_scalar_integer(args[["checkpoint_interval"]], id = "checkpoint_interval")
+  args[["colsample_bylevel"]] <- cast_scalar_double(args[["colsample_bylevel"]], id = "colsample_bylevel") %>%
+    certify(bounded(0, 1, incl_lower = FALSE))
+  args[["colsample_bytree"]] <- cast_scalar_double(args[["colsample_bytree"]], id = "colsample_bytree") %>%
+    certify(bounded(0, 1, incl_lower = FALSE))
+  args[["eta"]] <- cast_scalar_double(args[["eta"]], id = "eta") %>%
     certify(bounded(0, 1))
   args[["eval_metric"]] <- if (!is.null(args[["eval_metric"]])) cast_choice(
     args[["eval_metric"]], 
-    .choices = c("rmse", "mae", "logloss", "error", "merror", "mlogloss", "auc", "aucpr", "ndcg", "map", "gamma-variance"),
-    .id = "eval_metric"
+    choices = c("rmse", "mae", "logloss", "error", "merror", "mlogloss", "auc", "aucpr", "ndcg", "map", "gamma-variance"),
+    id = "eval_metric"
   )
-  args[["gamma"]] <- cast_scalar_double(args[["gamma"]], .id = "gamma") %>%
+  args[["gamma"]] <- cast_scalar_double(args[["gamma"]], id = "gamma") %>%
     certify(gte(0))
-  args[["lambda"]] <- cast_scalar_double(args[["lambda"]], .id = "lambda") %>%
+  args[["lambda"]] <- cast_scalar_double(args[["lambda"]], id = "lambda") %>%
     certify(gte(0))
-  args[["lambda_bias"]] <- cast_scalar_double(args[["lambda_bias"]], .id = "lambda_bias")
-  args[["max_bins"]] <- cast_scalar_integer(args[["max_bins"]], .id = "max_bins") %>%
+  args[["lambda_bias"]] <- cast_scalar_double(args[["lambda_bias"]], id = "lambda_bias")
+  args[["max_bins"]] <- cast_scalar_integer(args[["max_bins"]], id = "max_bins") %>%
     certify(gte(1))
-  args[["max_delta_step"]] <- cast_scalar_double(args[["max_delta_step"]], .id = "max_delta_step") %>%
+  args[["max_delta_step"]] <- cast_scalar_double(args[["max_delta_step"]], id = "max_delta_step") %>%
     certify(gte(0))
-  args[["max_depth"]] <- cast_scalar_integer(args[["max_depth"]], .id = "max_depth") %>%
+  args[["max_depth"]] <- cast_scalar_integer(args[["max_depth"]], id = "max_depth") %>%
     certify(gte(1))
   args[["maximize_evaluation_metrics"]] <- cast_scalar_logical(
     args[["maximize_evaluation_metrics"]],
-    .id = "maximize_evaluation_metrics"
+    id = "maximize_evaluation_metrics"
   )
-  args[["min_child_weight"]] <- cast_scalar_double(args[["min_child_weight"]], .id = "min_child_weight") %>%
+  args[["min_child_weight"]] <- cast_scalar_double(args[["min_child_weight"]], id = "min_child_weight") %>%
     certify(gte(0))
-  args[["missing"]] <- cast_scalar_double(args[["missing"]], .allow_na = TRUE, .id = "missing")
-  args[["normalize_type"]] <- cast_choice(args[["normalize_type"]], .choices = c("tree", "forest"), .id = "normalize_type")
-  args[["nthread"]] <- cast_scalar_integer(args[["nthread"]], .id = "nthread") %>%
+  args[["missing"]] <- cast_scalar_double(args[["missing"]], allow_na = TRUE, id = "missing")
+  args[["normalize_type"]] <- cast_choice(args[["normalize_type"]], choices = c("tree", "forest"), id = "normalize_type")
+  args[["nthread"]] <- cast_scalar_integer(args[["nthread"]], id = "nthread") %>%
     certify(gte(1))
   args[["num_early_stopping_rounds"]] <- cast_scalar_integer(
     args[["num_early_stopping_rounds"]],
-    .id = "num_early_stopping_rounds"
+    id = "num_early_stopping_rounds"
   ) %>%
     certify(gte(0))
-  args[["num_round"]] <- cast_scalar_integer(args[["num_round"]], .id = "num_round") %>%
+  args[["num_round"]] <- cast_scalar_integer(args[["num_round"]], id = "num_round") %>%
     certify(gte(1))
-  args[["num_workers"]] <- cast_scalar_integer(args[["num_workers"]], .id = "num_workers") %>%
+  args[["num_workers"]] <- cast_scalar_integer(args[["num_workers"]], id = "num_workers") %>%
     certify(gte(1))
   args[["objective"]] <- cast_choice(
     args[["objective"]],
-    .choices = c(
+    choices = c(
       "reg:linear", "reg:logistic", "binary:logistic", "binary:logitraw",
       "count:poisson", "multi:softmax", "multi:softprob", "rank:pairwise",
       "reg:gamma"
     ),
-    .id = "objective"
+    id = "objective"
   )
   args[["objective_type"]] <- cast_choice(
-    args[["objective_type"]], .choices = c("regression", "classification"),
-    .id = "objective_type"
+    args[["objective_type"]], choices = c("regression", "classification"),
+    id = "objective_type"
   )
-  args[["rate_drop"]] <- cast_scalar_double(args[["rate_drop"]], .id = "rate_drop") %>%
+  args[["rate_drop"]] <- cast_scalar_double(args[["rate_drop"]], id = "rate_drop") %>%
     certify(bounded(0, 1))
-  args[["sample_type"]] <- cast_choice(args[["sample_type"]], .choices = c("uniform", "weighted"), .id = "sample_type")
-  args[["scale_pos_weight"]] <- cast_scalar_double(args[["scale_pos_weight"]], .id = "scale_pos_weight") %>%
+  args[["sample_type"]] <- cast_choice(args[["sample_type"]], choices = c("uniform", "weighted"), id = "sample_type")
+  args[["scale_pos_weight"]] <- cast_scalar_double(args[["scale_pos_weight"]], id = "scale_pos_weight") %>%
     certify(gt(0))
-  args[["seed"]] <- cast_scalar_integer(args[["seed"]], .id = "seed")
-  args[["silent"]] <- cast_scalar_integer(args[["silent"]], .id = "silent")
-  args[["sketch_eps"]] <- cast_scalar_double(args[["sketch_eps"]], .id = "sketch_eps") %>%
+  args[["seed"]] <- cast_scalar_integer(args[["seed"]], id = "seed")
+  args[["silent"]] <- cast_scalar_integer(args[["silent"]], id = "silent")
+  args[["sketch_eps"]] <- cast_scalar_double(args[["sketch_eps"]], id = "sketch_eps") %>%
     certify(bounded(0, 1))
-  args[["skip_drop"]] <- cast_scalar_double(args[["skip_drop"]], .id = "skip_drop") %>%
+  args[["skip_drop"]] <- cast_scalar_double(args[["skip_drop"]], id = "skip_drop") %>%
     certify(bounded(0, 1))
-  args[["subsample"]] <- cast_scalar_double(args[["subsample"]], .id = "subsample") %>%
-    certify(bounded(0, 1, .incl_lower = FALSE))
-  args[["timeout_request_workers"]] <- cast_scalar_integer(args[["timeout_request_workers"]], .id = "timeout_request_workers") %>%
+  args[["subsample"]] <- cast_scalar_double(args[["subsample"]], id = "subsample") %>%
+    certify(bounded(0, 1, incl_lower = FALSE))
+  args[["timeout_request_workers"]] <- cast_scalar_integer(args[["timeout_request_workers"]], id = "timeout_request_workers") %>%
     certify(gte(1))
-  args[["train_test_ratio"]] <- cast_scalar_double(args[["train_test_ratio"]], .id = "train_test_ratio") %>%
+  args[["train_test_ratio"]] <- cast_scalar_double(args[["train_test_ratio"]], id = "train_test_ratio") %>%
     certify(bounded(0, 1))
-  args[["tree_method"]] <- cast_choice(args[["tree_method"]], .choices = c("auto", "exact", "approx"), .id = "tree_method")
-  args[["use_external_memory"]] <- cast_scalar_logical(args[["use_external_memory"]], .id = "use_external_memory")
+  args[["tree_method"]] <- cast_choice(args[["tree_method"]], choices = c("auto", "exact", "approx"), id = "tree_method")
+  args[["use_external_memory"]] <- cast_scalar_logical(args[["use_external_memory"]], id = "use_external_memory")
   args
 }
 
 new_xgboost_regressor <- function(jobj) {
-  sparklyr::ml_predictor(jobj, class = "xgboost_regressor")
+  sparklyr::new_ml_predictor(jobj, class = "xgboost_regressor")
 }
 
 new_xgboost_regression_model <- function(jobj) {
-  sparklyr::ml_prediction_model(
+  sparklyr::new_ml_prediction_model(
     jobj,
     class = "xgboost_regression_model"
   )
@@ -460,7 +460,7 @@ new_xgboost_regression_model <- function(jobj) {
 
 new_ml_model_xgboost_regression <- function(pipeline_model, formula, dataset, label_col,
                                             features_col) {
-  sparklyr::ml_model_regression(
+  sparklyr::new_ml_model_regression(
     pipeline_model, formula, dataset = dataset,
     label_col = label_col, features_col = features_col,
     class = "ml_model_xgboost_regression"
