@@ -13,7 +13,7 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
       )
     ),
     packages = c("ml.dmlc:xgboost4j-spark:0.81"),
-    web_jars = "https://github.com/rstudio/sparkxgb/blob/master/inst/java/%s?raw=true"
+    catalog = "https://github.com/rstudio/sparkxgb/blob/master/inst/java/%s?raw=true"
   )
 }
 
