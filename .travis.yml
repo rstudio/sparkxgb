@@ -4,7 +4,8 @@ language: R
 sudo: false
 cache: packages
 env:
-  - JAVA_VERSION=oraclejdk8
-before_install:
-  - if [[ ! -z "$JAVA_VERSION" ]]; then jdk_switcher use $JAVA_VERSION ; fi
-  - echo $JAVA_HOME
+  - JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre"
+addons:
+  apt:
+    packages:
+      - openjdk-8-jre
