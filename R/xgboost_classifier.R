@@ -389,7 +389,7 @@ ml_feature_importances.ml_model_xgboost_classification <- function(model, ...) {
     )
   
   feature <- names(gains)
-  gains <- purrr::flatten_dbl(gains)
+  gains <- as.numeric(gains)
 
   result <- data.frame(
     feature = feature,
