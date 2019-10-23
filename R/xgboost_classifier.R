@@ -377,3 +377,25 @@ new_ml_model_xgboost_classification <- function(pipeline_model, formula, dataset
     class = "ml_model_xgboost_classification"
   )
 }
+
+#' @export
+ml_feature_importances.ml_model_xgboost_classification <- function(model, ...) {
+  gains <- model$model$.jobj %>%
+    invoke("nativeBooster") %>% 
+    invoke(
+      "getScore",
+      cast_string_list(model$feature_names),
+      cast_string("gain")
+    )
+  
+  feature <- names(gains)
+  gains <- purrr::flatten_dbl(gains)
+
+  result <- data.frame(
+    feature = feature,
+    importance = gains / sum(gains),
+    stringsAsFactors = FALSE
+  )
+  
+  result[order(result$importance, decreasing = TRUE), ]
+}
