@@ -22,6 +22,3 @@ Suggests:
   purrr,
   rlang,
   testthat
-    
-Remotes:
-    rstudio/forge
