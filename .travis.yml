@@ -3,3 +3,9 @@
 language: R
 sudo: false
 cache: packages
+env:
+  - JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre"
+addons:
+  apt:
+    packages:
+      - openjdk-8-jre
