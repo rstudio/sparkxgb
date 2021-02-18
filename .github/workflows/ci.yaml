@@ -75,6 +75,12 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: sparkxgb-ci-${{ steps.os-name.outputs.os-name }}-${{ hashFiles('.github/R-version') }}-${{ hashFiles('.github/deps.Rds') }}
           restore-keys: sparkxgb-ci-${{ steps.os-name.outputs.os-name }}-${{ hashFiles('.github/R-version') }}-
+      - name: Cache Spark installations
+        if: runner.os != 'Windows'
+        uses: actions/cache@master
+        with:
+          path: ~/spark
+          key: apache-spark-${{ env.SPARK_VERSION }}
       - name: Install system dependencies
         run: |
           sudo DEBIAN_FRONTEND=noninteractive apt-get -y install libcurl4-gnutls-dev libgit2-dev procps socat
