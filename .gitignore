@@ -5,3 +5,4 @@
 **/.DS_Store
 logs
 internal
+derby.log
