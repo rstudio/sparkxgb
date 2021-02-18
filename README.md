@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/rstudio/sparkxgb.svg?branch=master)](https://travis-ci.org/rstudio/sparkxgb)
+[![CI](https://github.com/rstudio/sparkxgb/actions/workflows/ci.yaml/badge.svg)](https://github.com/rstudio/sparkxgb/actions/workflows/ci.yaml)
 <!-- badges: end -->
 
 ## Overview
@@ -39,10 +38,10 @@ sc <- spark_connect(master = "local")
 iris_tbl <- sdf_copy_to(sc, iris)
 
 xgb_model <- xgboost_classifier(
-  iris_tbl, 
+  iris_tbl,
   Species ~ .,
   num_class = 3,
-  num_round = 50, 
+  num_round = 50,
   max_depth = 4
 )
 
@@ -80,7 +79,7 @@ cv <- ml_cross_validator(
   sc,
   estimator = pipeline,
   evaluator = ml_multiclass_classification_evaluator(
-    sc, 
+    sc,
     label_col = "label",
     raw_prediction_col = "rawPrediction"
   ),
@@ -91,20 +90,20 @@ cv_model <- cv %>%
   ml_fit(iris_tbl)
 
 summary(cv_model)
-#> Summary for CrossValidatorModel 
-#>             <cross_validator_ebc61803a06b> 
-#> 
+#> Summary for CrossValidatorModel
+#>             <cross_validator_ebc61803a06b>
+#>
 #> Tuned Pipeline
 #>   with metric f1
-#>   over 4 hyperparameter sets 
+#>   over 4 hyperparameter sets
 #>   via 3-fold cross validation
-#> 
+#>
 #> Estimator: Pipeline
-#>            <pipeline_ebc62f635bb6> 
+#>            <pipeline_ebc62f635bb6>
 #> Evaluator: MulticlassClassificationEvaluator
-#>            <multiclass_classification_evaluator_ebc65fbf8a19> 
-#> 
-#> Results Summary: 
+#>            <multiclass_classification_evaluator_ebc65fbf8a19>
+#>
+#> Results Summary:
 #>          f1 num_round_1 max_depth_1
 #> 1 0.9549670          10           1
 #> 2 0.9674460          10           5
