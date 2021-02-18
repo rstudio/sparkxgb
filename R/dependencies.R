@@ -1,6 +1,4 @@
 spark_dependencies <- function(spark_version, scala_version, ...) {
-  if (spark_version > "2.3") spark_version <- "2.3"
-
   sparklyr::spark_dependency(
     jars = c(
       system.file(
@@ -9,7 +7,9 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
       )
     ),
     packages = (
-      if (scala_version == "2.11") {
+      if (spark_version < "2.4") {
+        "ml.dmlc:xgboost4j-spark:0.81"
+      } else if (scala_version == "2.11") {
         # This is the last version of xgboost4j built with Scala 2.11.
         "ml.dmlc:xgboost4j-spark_2.11:1.1.2"
       } else if (scala_version == "2.12") {
