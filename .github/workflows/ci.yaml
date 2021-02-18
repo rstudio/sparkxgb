@@ -60,14 +60,21 @@ jobs:
           print(R.version)
           install.packages("remotes")
           saveRDS(remotes::dev_package_deps(".", dependencies = TRUE), ".github/deps.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
+      - name: Get OS name
+        id: os-name
+        run: |
+          # `os_name` will be like "Ubuntu-20.04.1-LTS"
+          OS_NAME=$(lsb_release -ds | sed 's/\s/-/g')
+          echo "::set-output name=os-name::$OS_NAME"
       - name: Cache R packages
         if: runner.os != 'Windows'
         uses: actions/cache@master
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: sparkxgb-ci-${{ runner.os }}-R-${{ matrix.r }}-${{ hashFiles('.github/R-version') }}
-          restore-keys: sparkxgb-ci-${{ runner.os }}-R-${{ matrix.r }}
+          key: sparkxgb-ci-${{ steps.os-name.outputs.os-name }}-${{ hashFiles('.github/R-version') }}-${{ hashFiles('.github/deps.Rds') }}
+          restore-keys: sparkxgb-ci-${{ steps.os-name.outputs.os-name }}-${{ hashFiles('.github/R-version') }}-
       - name: Install system dependencies
         run: |
           sudo DEBIAN_FRONTEND=noninteractive apt-get -y install libcurl4-gnutls-dev libgit2-dev procps socat
