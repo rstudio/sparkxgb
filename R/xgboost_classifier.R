@@ -1,7 +1,7 @@
 #' XGBoost Classifier
-#' 
+#'
 #' XGBoost classifier for Spark.
-#' 
+#'
 #' @inheritParams xgboost_regressor
 #' @param num_class Number of classes.
 #' @template roxlate-ml-probabilistic-classifier-params
@@ -50,43 +50,43 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
                                                 prediction_col = "prediction", probability_col = "probability",
                                                 raw_prediction_col = "rawPrediction",
                                                 uid = random_string("xgboost_classifier_"), ...) {
-  
+
   args <- list(
     eta = eta,
     gamma = gamma,
     max_depth = max_depth,
-    min_child_weight = min_child_weight, 
+    min_child_weight = min_child_weight,
     max_delta_step = max_delta_step,
     grow_policy = grow_policy,
-    max_bins = max_bins, 
+    max_bins = max_bins,
     subsample = subsample,
-    colsample_bytree = colsample_bytree, 
-    colsample_bylevel = colsample_bylevel, 
+    colsample_bytree = colsample_bytree,
+    colsample_bylevel = colsample_bylevel,
     lambda = lambda,
-    alpha = alpha, 
-    tree_method = tree_method, 
+    alpha = alpha,
+    tree_method = tree_method,
     sketch_eps = sketch_eps,
-    scale_pos_weight = scale_pos_weight, 
+    scale_pos_weight = scale_pos_weight,
     sample_type = sample_type,
-    normalize_type = normalize_type, 
-    rate_drop = rate_drop, 
+    normalize_type = normalize_type,
+    rate_drop = rate_drop,
     skip_drop = skip_drop,
-    lambda_bias = lambda_bias, 
+    lambda_bias = lambda_bias,
     tree_limit = tree_limit,
     num_round = num_round,
-    num_workers = num_workers, 
-    nthread = nthread, 
+    num_workers = num_workers,
+    nthread = nthread,
     use_external_memory = use_external_memory,
-    silent = silent, 
+    silent = silent,
     custom_obj = custom_obj,
     custom_eval = custom_eval,
     missing = missing,
-    seed = seed, 
+    seed = seed,
     timeout_request_workers = timeout_request_workers,
-    checkpoint_path = checkpoint_path, 
+    checkpoint_path = checkpoint_path,
     checkpoint_interval = checkpoint_interval,
-    objective = objective, 
-    base_score = base_score, 
+    objective = objective,
+    base_score = base_score,
     train_test_ratio = train_test_ratio,
     num_early_stopping_rounds = num_early_stopping_rounds,
     objective_type = objective_type,
@@ -96,26 +96,26 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     base_margin_col = base_margin_col,
     thresholds = thresholds,
     weight_col = weight_col,
-    features_col = features_col, 
+    features_col = features_col,
     label_col = label_col,
-    prediction_col = prediction_col, 
+    prediction_col = prediction_col,
     probability_col = probability_col,
     raw_prediction_col = raw_prediction_col,
     ...
   )
-  
+
   args <- validator_xgboost_classifier(args)
-  
+
   stage_class <- "ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier"
-  
+
   jobj <- sparklyr::spark_pipeline_stage(
-    x, 
-    class = stage_class, 
-    uid = uid, 
+    x,
+    class = stage_class,
+    uid = uid,
     features_col = args[["features_col"]],
     label_col = args[["label_col"]],
     prediction_col = args[["prediction_col"]],
-    probability_col = args[["probability_col"]], 
+    probability_col = args[["probability_col"]],
     raw_prediction_col = args[["raw_prediction_col"]]
   ) %>%
     invoke("setAlpha", args[["alpha"]]) %>%
@@ -160,11 +160,11 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
     sparklyr::jobj_set_param("setWeightCol", args[["weight_col"]])
-  
+
   if (!is.nan(args[["missing"]])) {
     jobj <- sparklyr::invoke_static(x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]])
   }
-  
+
   new_xgboost_classifier(jobj)
 }
 
@@ -195,38 +195,38 @@ xgboost_classifier.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma =
     eta = eta,
     gamma = gamma,
     max_depth = max_depth,
-    min_child_weight = min_child_weight, 
+    min_child_weight = min_child_weight,
     max_delta_step = max_delta_step,
     grow_policy = grow_policy,
-    max_bins = max_bins, 
+    max_bins = max_bins,
     subsample = subsample,
-    colsample_bytree = colsample_bytree, 
-    colsample_bylevel = colsample_bylevel, 
+    colsample_bytree = colsample_bytree,
+    colsample_bylevel = colsample_bylevel,
     lambda = lambda,
-    alpha = alpha, 
-    tree_method = tree_method, 
+    alpha = alpha,
+    tree_method = tree_method,
     sketch_eps = sketch_eps,
-    scale_pos_weight = scale_pos_weight, 
+    scale_pos_weight = scale_pos_weight,
     sample_type = sample_type,
-    normalize_type = normalize_type, 
-    rate_drop = rate_drop, 
+    normalize_type = normalize_type,
+    rate_drop = rate_drop,
     skip_drop = skip_drop,
-    lambda_bias = lambda_bias, 
+    lambda_bias = lambda_bias,
     tree_limit = tree_limit,
     num_round = num_round,
-    num_workers = num_workers, 
-    nthread = nthread, 
+    num_workers = num_workers,
+    nthread = nthread,
     use_external_memory = use_external_memory,
-    silent = silent, 
+    silent = silent,
     custom_obj = custom_obj,
     custom_eval = custom_eval,
     missing = missing,
-    seed = seed, 
+    seed = seed,
     timeout_request_workers = timeout_request_workers,
-    checkpoint_path = checkpoint_path, 
+    checkpoint_path = checkpoint_path,
     checkpoint_interval = checkpoint_interval,
-    objective = objective, 
-    base_score = base_score, 
+    objective = objective,
+    base_score = base_score,
     train_test_ratio = train_test_ratio,
     num_early_stopping_rounds = num_early_stopping_rounds,
     objective_type = objective_type,
@@ -236,9 +236,9 @@ xgboost_classifier.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma =
     base_margin_col = base_margin_col,
     thresholds = thresholds,
     weight_col = weight_col,
-    features_col = features_col, 
+    features_col = features_col,
     label_col = label_col,
-    prediction_col = prediction_col, 
+    prediction_col = prediction_col,
     probability_col = probability_col,
     raw_prediction_col = raw_prediction_col,
     uid = uid,
@@ -270,45 +270,45 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
                                          uid = random_string("xgboost_classifier_"),
                                          response = NULL, features = NULL,
                                          predicted_label_col = "predicted_label", ...) {
-  
+
   stage <- xgboost_classifier.spark_connection(
     x = spark_connection(x),
     formula = NULL,
     eta = eta,
     gamma = gamma,
     max_depth = max_depth,
-    min_child_weight = min_child_weight, 
+    min_child_weight = min_child_weight,
     max_delta_step = max_delta_step,
     grow_policy = grow_policy,
-    max_bins = max_bins, 
+    max_bins = max_bins,
     subsample = subsample,
-    colsample_bytree = colsample_bytree, 
-    colsample_bylevel = colsample_bylevel, 
+    colsample_bytree = colsample_bytree,
+    colsample_bylevel = colsample_bylevel,
     lambda = lambda,
-    alpha = alpha, 
-    tree_method = tree_method, 
+    alpha = alpha,
+    tree_method = tree_method,
     sketch_eps = sketch_eps,
-    scale_pos_weight = scale_pos_weight, 
+    scale_pos_weight = scale_pos_weight,
     sample_type = sample_type,
-    normalize_type = normalize_type, 
-    rate_drop = rate_drop, 
+    normalize_type = normalize_type,
+    rate_drop = rate_drop,
     skip_drop = skip_drop,
-    lambda_bias = lambda_bias, 
+    lambda_bias = lambda_bias,
     tree_limit = tree_limit,
     num_round = num_round,
-    num_workers = num_workers, 
-    nthread = nthread, 
+    num_workers = num_workers,
+    nthread = nthread,
     use_external_memory = use_external_memory,
-    silent = silent, 
+    silent = silent,
     custom_obj = custom_obj,
     custom_eval = custom_eval,
     missing = missing,
-    seed = seed, 
+    seed = seed,
     timeout_request_workers = timeout_request_workers,
-    checkpoint_path = checkpoint_path, 
+    checkpoint_path = checkpoint_path,
     checkpoint_interval = checkpoint_interval,
-    objective = objective, 
-    base_score = base_score, 
+    objective = objective,
+    base_score = base_score,
     train_test_ratio = train_test_ratio,
     num_early_stopping_rounds = num_early_stopping_rounds,
     objective_type = objective_type,
@@ -318,27 +318,27 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
     base_margin_col = base_margin_col,
     thresholds = thresholds,
     weight_col = weight_col,
-    features_col = features_col, 
+    features_col = features_col,
     label_col = label_col,
-    prediction_col = prediction_col, 
+    prediction_col = prediction_col,
     probability_col = probability_col,
     raw_prediction_col = raw_prediction_col,
     uid = uid,
     ...
   )
-  
+
   formula <- sparklyr::ml_standardize_formula(formula, response, features)
-  
+
   if (is.null(formula)) {
     stage %>%
       sparklyr::ml_fit(x)
   } else {
     sparklyr::ml_construct_model_supervised(
-      new_ml_model_xgboost_classification, 
-      predictor = stage, 
-      formula = formula, 
+      new_ml_model_xgboost_classification,
+      predictor = stage,
+      formula = formula,
       dataset = x,
-      features_col = features_col, 
+      features_col = features_col,
       label_col = label_col,
       predicted_label_col = predicted_label_col
     )
@@ -353,7 +353,7 @@ validator_xgboost_classifier <- function(args) {
   args[["num_class"]] <- cast_nullable_scalar_integer(args[["num_class"]], id = "num_class") %>%
     certify(gte(2), allow_null = TRUE, id = "num_class")
   args[["objective"]] <- cast_choice(args[["objective"]], "multi:softprob")
-  
+
   args
 }
 
@@ -376,4 +376,27 @@ new_ml_model_xgboost_classification <- function(pipeline_model, formula, dataset
     predicted_label_col = predicted_label_col,
     class = "ml_model_xgboost_classification"
   )
+}
+
+#' @importFrom sparklyr ml_feature_importances
+#' @export
+ml_feature_importances.ml_model_xgboost_classification <- function(model, ...) {
+  gains <- model$model$.jobj %>%
+    invoke("nativeBooster") %>%
+    invoke(
+      "getScore",
+      cast_string_list(model$feature_names),
+      cast_string("gain")
+    )
+
+  feature <- names(gains)
+  gains <- as.numeric(gains)
+
+  result <- data.frame(
+    feature = feature,
+    importance = gains / sum(gains),
+    stringsAsFactors = FALSE
+  )
+
+  result[order(result$importance, decreasing = TRUE), ]
 }
