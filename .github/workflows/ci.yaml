@@ -1,0 +1,106 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+name: CI
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: 'Spark 2.3.2 (R release, openjdk8)'
+            r: 'release'
+            env:
+              SPARK_VERSION: '2.3.2'
+          - name: 'Spark 2.4.4 (R release, openjdk8)'
+            r: 'release'
+            env:
+              SPARK_VERSION: '2.4.4'
+          - name: 'Spark 3.0.0 (R release, openjdk8)'
+            r: 'release'
+            env:
+              SPARK_VERSION: '3.0.0'
+    env:
+      ${{ matrix.env }}
+    steps:
+      - name: Delete pre-existing R binaries
+        run: |
+          for b in R Rscript
+          do
+            while [ -n "$(which "$b")" ]
+            do
+              sudo rm -v "$(which "$b")"
+            done
+          done
+        shell: bash
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: ${{ matrix.r }}
+      - name: Install Java
+        id: install-java
+        run: |
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -y remove --purge default-jdk adoptopenjdk-11-hotspot || :
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -y install openjdk-8-jdk
+          wget https://raw.githubusercontent.com/michaelklishin/jdk_switcher/master/jdk_switcher.sh
+          . ./jdk_switcher.sh
+          jdk_switcher use openjdk8;
+
+          echo "${JAVA_HOME}"
+          echo "::set-output name=JAVA_HOME::${JAVA_HOME}"
+      - name: Query dependencies
+        run: |
+          print(R.version)
+          install.packages("remotes")
+          saveRDS(remotes::dev_package_deps(".", dependencies = TRUE), ".github/deps.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+        shell: Rscript {0}
+      - name: Get OS name
+        id: os-name
+        run: |
+          # `os_name` will be like "Ubuntu-20.04.1-LTS"
+          OS_NAME=$(lsb_release -ds | sed 's/\s/-/g')
+          echo "::set-output name=os-name::$OS_NAME"
+      - name: Cache R packages
+        if: runner.os != 'Windows'
+        uses: actions/cache@master
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: sparkxgb-ci-${{ steps.os-name.outputs.os-name }}-${{ hashFiles('.github/R-version') }}-${{ hashFiles('.github/deps.Rds') }}
+          restore-keys: sparkxgb-ci-${{ steps.os-name.outputs.os-name }}-${{ hashFiles('.github/R-version') }}-
+      - name: Cache Spark installations
+        if: runner.os != 'Windows'
+        uses: actions/cache@master
+        with:
+          path: ~/spark
+          key: apache-spark-${{ env.SPARK_VERSION }}
+      - name: Install system dependencies
+        run: |
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -y install libcurl4-gnutls-dev libgit2-dev procps socat
+      - name: Install dependencies
+        run: remotes::install_deps(".", dependencies = TRUE, upgrade = FALSE)
+        shell: Rscript {0}
+      - name: Build
+        env:
+          WARNINGS_ARE_ERRORS: 1
+        run: R CMD build .
+      - name: Check
+        env:
+          _R_CHECK_FORCE_SUGGESTS_: false
+          WARNINGS_ARE_ERRORS: 1
+        run: R CMD check --no-build-vignettes --no-manual --no-tests sparkxgb*tar.gz
+      - name: Install sparkxgb from source
+        run: Rscript -e 'install.packages(".", repo = NULL)'
+      - name: Run tests
+        run: |
+          export SPARKLYR_LOG_FILE='/tmp/sparklyr.log'
+          export JAVA_HOME="${{ steps.install-java.outputs.JAVA_HOME }}"
+          cd tests
+          NOT_CRAN='true' Rscript testthat.R
