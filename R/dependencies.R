@@ -2,7 +2,11 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
   sparklyr::spark_dependency(
     jars = c(
       system.file(
-        sprintf("java/sparkxgb-%s-%s.jar", spark_version, scala_version),
+        sprintf(
+          "java/sparkxgb-%s-%s.jar",
+          sparklyr::spark_dependency_fallback(spark_version, "2.3"),
+          scala_version
+        ),
         package = "sparkxgb"
       )
     ),
@@ -19,7 +23,8 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
         # There is no known support for other versions of Scala at the moment.
         stop(sprintf("Unsupported Scala version '%s'.", scala_version))
       }
-    )
+    ),
+    catalog = "https://github.com/rstudio/sparkxgb/blob/master/inst/java/%s?raw=true"
   )
 }
 
