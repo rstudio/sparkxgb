@@ -8,7 +8,4 @@
 ^logs$
 ^spark-warehouse$
 ^man-roxygen$
-^.git$
-^.github$
-^derby.log$
-^tests/testthat/testthat-problems.rds$
+^NEWS\.md$
