@@ -1,6 +1,7 @@
 library(purrr)
 library(rvest)
 library(sparklyr)
+library(fs)
 
 # Install Scala version if missing
 invisible(download_scalac())
@@ -15,17 +16,18 @@ sparklyr_comps %>%
 
 maven_url <- "https://repo1.maven.org/maven2/ml/dmlc/"
 
+# Pull all of the links from the main page in Maven
 maven_links <- maven_url %>% 
   read_html() %>% 
   html_elements("a") %>% 
   html_attr("href") 
 
-maven_links[
+# Iterates through each Scala version page, y select the most recent version
+scala_links <- maven_links[
   grepl("xgboost4j-spark", maven_links) &
     !grepl("gpu", maven_links) &
     grepl("_", maven_links)
   ] %>% 
-  head(1) %>% 
   paste0(maven_url, .) %>% 
   map(~{
     folder <-  .x %>% 
@@ -52,13 +54,20 @@ maven_links[
         !grepl("-sources", file_list) &
         !grepl("-javadoc", file_list)
       ] 
-    paste0(x, top_folder, jar_file)
+    paste0(.x, top_folder, jar_file)
   })
 
+jar_paths <- path("utils", "jars")
+if(!dir_exists(jar_paths)) dir_create(jar_paths)
 
-
-sort(ver_folders, decreasing = TRUE)
-
+# Downloads files if missing
+scala_links %>% 
+  map(~ {
+    y <- path(jar_paths, path_file(.x)) 
+    if(!file_exists(y)) {
+      download.file(.x, y)
+    }
+  }) 
 
 if (!dir.exists("internal")) dir.create("internal")
 if (!dir.exists("internal/xgboost4j-spark")) dir.create("internal/xgboost4j-spark")
