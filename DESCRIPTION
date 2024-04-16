@@ -23,7 +23,8 @@ Imports:
   forge (>= 0.1.9005)
 RoxygenNote: 7.3.1
 Suggests:
-  dplyr,
-  purrr,
-  rlang,
-  testthat
+    dplyr,
+    purrr,
+    rlang,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

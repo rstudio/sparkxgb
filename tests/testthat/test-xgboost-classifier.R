@@ -1,9 +1,5 @@
-context("xgboost classifier")
-
-sc <- testthat_spark_connection()
-
 test_that("xgboost_classifier() default params", {
-  test_default_args(sc, xgboost_classifier)
+  test_default_args(testthat_spark_connection(), xgboost_classifier)
 })
 
 test_that("xgboost_classifier() param setting", {
@@ -18,13 +14,19 @@ test_that("xgboost_classifier() param setting", {
     probability_col = "prcol",
     raw_prediction_col = "rpcol"
   )
-  test_param_setting(sc, xgboost_classifier, test_args)
+  test_param_setting(
+    testthat_spark_connection(),
+    xgboost_classifier, test_args
+    )
 })
 
 test_that("ml_feature_importances() works as expected", {
-  skip_if(spark_version(sc) < "2.4")
+  skip_if(spark_version(testthat_spark_connection()) < "2.4")
 
-  iris_tbl <- sparklyr::copy_to(sc, iris, overwrite = TRUE)
+  iris_tbl <- sparklyr::copy_to(
+    testthat_spark_connection(), 
+    iris, overwrite = TRUE
+    )
 
   xgb_model <- xgboost_classifier(
     iris_tbl,

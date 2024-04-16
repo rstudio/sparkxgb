@@ -1,5 +1,3 @@
-context("save/load")
-
 test_that("we can save/load xgboost models", {
   sc <- testthat_spark_connection()
   iris_tbl <- testthat_tbl("iris")
