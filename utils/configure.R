@@ -8,9 +8,10 @@ invisible(download_scalac())
 # Get current compilation specs from `sparklyr`
 sparklyr_comps <- sparklyr::spark_default_compilation_spec()
 
+# Installs Spark versions if missing
 sparklyr_comps %>% 
   map(~.x$spark_version) %>% 
-  walk(sparklyr::spark_install)
+  walk(spark_install)
 
 maven_url <- "https://repo1.maven.org/maven2/ml/dmlc/"
 
@@ -23,9 +24,40 @@ maven_links[
   grepl("xgboost4j-spark", maven_links) &
     !grepl("gpu", maven_links) &
     grepl("_", maven_links)
-  ]
+  ] %>% 
+  head(1) %>% 
+  paste0(maven_url, .) %>% 
+  map(~{
+    folder <-  .x %>% 
+      read_html() %>% 
+      html_elements("a") %>% 
+      html_attr("href") 
+    
+    ver_folders <- folder[!grepl("maven", folder) & !grepl("\\.\\.", folder)]
+    
+    top_folder <- ver_folders %>% 
+      sort(decreasing = TRUE) %>%  
+      head(1)
+    
+    file_list <- paste0(.x, top_folder) %>% 
+      read_html() %>% 
+      html_elements("a") %>% 
+      html_attr("href") 
+    
+    jar_file <- file_list[
+      grepl("jar", file_list) &
+        !grepl("\\.asc", file_list) &
+        !grepl("\\.sha1", file_list) &
+        !grepl("\\.md5", file_list) &
+        !grepl("-sources", file_list) &
+        !grepl("-javadoc", file_list)
+      ] 
+    paste0(x, top_folder, jar_file)
+  })
 
 
+
+sort(ver_folders, decreasing = TRUE)
 
 
 if (!dir.exists("internal")) dir.create("internal")
