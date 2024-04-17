@@ -117,49 +117,49 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     prediction_col = args[["prediction_col"]],
     probability_col = args[["probability_col"]],
     raw_prediction_col = args[["raw_prediction_col"]]
-  ) %>%
-    invoke("setAlpha", args[["alpha"]]) %>%
-    sparklyr::jobj_set_param("setBaseMarginCol", args[["base_margin_col"]]) %>%
-    invoke("setBaseScore", args[["base_score"]]) %>%
-    invoke("setCheckpointInterval", args[["checkpoint_interval"]]) %>%
-    invoke("setCheckpointPath", args[["checkpoint_path"]]) %>%
-    invoke("setColsampleBylevel", args[["colsample_bylevel"]]) %>%
-    invoke("setColsampleBytree", args[["colsample_bytree"]]) %>%
-    sparklyr::jobj_set_param("setCustomEval", args[["custom_eval"]]) %>%
-    sparklyr::jobj_set_param("setCustomObj", args[["custom_obj"]]) %>%
-    invoke("setEta", args[["eta"]]) %>%
-    sparklyr::jobj_set_param("setEvalMetric", args[["eval_metric"]]) %>%
-    invoke("setGamma", args[["gamma"]]) %>%
-    invoke("setGrowPolicy", args[["grow_policy"]]) %>%
-    invoke("setLambda", args[["lambda"]]) %>%
-    invoke("setLambdaBias", args[["lambda_bias"]]) %>%
-    invoke("setMaxBins", args[["max_bins"]]) %>%
-    invoke("setMaxDeltaStep", args[["max_delta_step"]]) %>%
-    invoke("setMaxDepth", args[["max_depth"]]) %>%
-    invoke("setMaximizeEvaluationMetrics", args[["maximize_evaluation_metrics"]]) %>%
-    invoke("setMinChildWeight", args[["min_child_weight"]]) %>%
-    invoke("setNormalizeType", args[["normalize_type"]]) %>%
-    invoke("setNthread", args[["nthread"]]) %>%
-    sparklyr::jobj_set_param("setNumClass", args[["num_class"]]) %>%
-    invoke("setNumEarlyStoppingRounds", args[["num_early_stopping_rounds"]]) %>%
-    invoke("setNumRound", args[["num_round"]]) %>%
-    invoke("setNumWorkers", args[["num_workers"]]) %>%
-    sparklyr::jobj_set_param("setObjective", args[["objective"]]) %>%
-    invoke("setObjectiveType", args[["objective_type"]]) %>%
-    invoke("setRateDrop", args[["rate_drop"]]) %>%
-    invoke("setSampleType", args[["sample_type"]]) %>%
-    invoke("setScalePosWeight", args[["scale_pos_weight"]]) %>%
-    invoke("setSeed", args[["seed"]]) %>%
-    invoke("setSilent", args[["silent"]]) %>%
-    #invoke("setSketchEps", args[["sketch_eps"]]) %>%
-    invoke("setSkipDrop", args[["skip_drop"]]) %>%
-    invoke("setSubsample", args[["subsample"]]) %>%
-    sparklyr::jobj_set_param("setThresholds", args[["thresholds"]]) %>%
-    #invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
-    invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
-    invoke("setTreeMethod", args[["tree_method"]]) %>%
-    invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
-    sparklyr::jobj_set_param("setWeightCol", args[["weight_col"]])
+  ) #%>%
+    # invoke("setAlpha", args[["alpha"]]) %>%
+    # sparklyr::jobj_set_param("setBaseMarginCol", args[["base_margin_col"]]) %>%
+    # invoke("setBaseScore", args[["base_score"]]) %>%
+    # invoke("setCheckpointInterval", args[["checkpoint_interval"]]) %>%
+    # invoke("setCheckpointPath", args[["checkpoint_path"]]) %>%
+    # invoke("setColsampleBylevel", args[["colsample_bylevel"]]) %>%
+    # invoke("setColsampleBytree", args[["colsample_bytree"]]) %>%
+    # sparklyr::jobj_set_param("setCustomEval", args[["custom_eval"]]) %>%
+    # sparklyr::jobj_set_param("setCustomObj", args[["custom_obj"]]) %>%
+    # invoke("setEta", args[["eta"]]) %>%
+    # sparklyr::jobj_set_param("setEvalMetric", args[["eval_metric"]]) %>%
+    # invoke("setGamma", args[["gamma"]]) %>%
+    # invoke("setGrowPolicy", args[["grow_policy"]]) %>%
+    # invoke("setLambda", args[["lambda"]]) %>%
+    # invoke("setLambdaBias", args[["lambda_bias"]]) %>%
+    # invoke("setMaxBins", args[["max_bins"]]) %>%
+    # invoke("setMaxDeltaStep", args[["max_delta_step"]]) %>%
+    # invoke("setMaxDepth", args[["max_depth"]]) %>%
+    # invoke("setMaximizeEvaluationMetrics", args[["maximize_evaluation_metrics"]]) %>%
+    # invoke("setMinChildWeight", args[["min_child_weight"]]) %>%
+    # invoke("setNormalizeType", args[["normalize_type"]]) %>%
+    # invoke("setNthread", args[["nthread"]]) %>%
+    # sparklyr::jobj_set_param("setNumClass", args[["num_class"]]) %>%
+    # invoke("setNumEarlyStoppingRounds", args[["num_early_stopping_rounds"]]) %>%
+    # invoke("setNumRound", args[["num_round"]]) %>%
+    # invoke("setNumWorkers", args[["num_workers"]]) %>%
+    # sparklyr::jobj_set_param("setObjective", args[["objective"]]) %>%
+    # invoke("setObjectiveType", args[["objective_type"]]) %>%
+    # invoke("setRateDrop", args[["rate_drop"]]) %>%
+    # invoke("setSampleType", args[["sample_type"]]) %>%
+    # invoke("setScalePosWeight", args[["scale_pos_weight"]]) %>%
+    # invoke("setSeed", args[["seed"]]) %>%
+    # invoke("setSilent", args[["silent"]]) %>%
+    # #invoke("setSketchEps", args[["sketch_eps"]]) %>%
+    # invoke("setSkipDrop", args[["skip_drop"]]) %>%
+    # invoke("setSubsample", args[["subsample"]]) %>%
+    # sparklyr::jobj_set_param("setThresholds", args[["thresholds"]]) %>%
+    # #invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
+    # invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
+    # invoke("setTreeMethod", args[["tree_method"]]) %>%
+    # invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
+    # sparklyr::jobj_set_param("setWeightCol", args[["weight_col"]])
 
   if (!is.nan(args[["missing"]])) {
     jobj <- sparklyr::invoke_static(x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]])

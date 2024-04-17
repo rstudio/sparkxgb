@@ -22,8 +22,8 @@ spark_dependencies <- function(spark_version, scala_version, ...) {
         # There is no known support for other versions of Scala at the moment.
         stop(sprintf("Unsupported Scala version '%s'.", scala_version))
       }
-    ),
-    catalog = "https://github.com/rstudio/sparkxgb/blob/master/inst/java/%s?raw=true"
+    )#,
+    #catalog = "https://github.com/rstudio/sparkxgb/blob/master/inst/java/%s?raw=true"
   )
 }
 

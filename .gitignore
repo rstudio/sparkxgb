@@ -6,3 +6,4 @@
 logs
 derby.log
 tests/testthat/testthat-problems.rds
+.bsp
