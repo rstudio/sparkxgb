@@ -15,6 +15,7 @@ sparklyr_comps %>%
   walk(spark_install)
 
 maven_url <- "https://repo1.maven.org/maven2/ml/dmlc/"
+pkg_name <- "xgboost4j-spark"
 
 # Pull all of the links from the main page in Maven
 maven_links <- maven_url %>% 
@@ -22,12 +23,16 @@ maven_links <- maven_url %>%
   html_elements("a") %>% 
   html_attr("href") 
 
-# Iterates through each Scala version page, y select the most recent version
-scala_links <- maven_links[
-  grepl("xgboost4j-spark", maven_links) &
+scala_folders <- maven_links[
+  grepl(pkg_name, maven_links) &
     !grepl("gpu", maven_links) &
     grepl("_", maven_links)
-  ] %>% 
+] 
+
+scala_names <- substr(scala_folders, nchar(pkg_name) + 2, nchar(scala_folders) - 1)
+
+# Iterates through each Scala version page, y select the most recent version
+scala_links <- scala_folders %>% 
   paste0(maven_url, .) %>% 
   map(~{
     folder <-  .x %>% 
@@ -55,7 +60,9 @@ scala_links <- maven_links[
         !grepl("-javadoc", file_list)
       ] 
     paste0(.x, top_folder, jar_file)
-  })
+  }) %>% 
+  set_names(scala_names)
+
 
 jar_paths <- path("utils", "jars")
 if(!dir_exists(jar_paths)) dir_create(jar_paths)
@@ -68,6 +75,15 @@ scala_links %>%
       download.file(.x, y)
     }
   }) 
+
+scala_ver <- function(x) {
+  parts <- unlist(strsplit(x, "/"))
+  sc_ver <- parts[grepl("scala-", parts)]
+  substr(sc_ver, 7, 10)  
+}
+
+scala_ver(sparklyr_comps[[2]]$scalac_path)
+
 
 if (!dir.exists("internal")) dir.create("internal")
 if (!dir.exists("internal/xgboost4j-spark")) dir.create("internal/xgboost4j-spark")
