@@ -151,11 +151,11 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setScalePosWeight", args[["scale_pos_weight"]]) %>%
     invoke("setSeed", args[["seed"]]) %>%
     invoke("setSilent", args[["silent"]]) %>%
-    invoke("setSketchEps", args[["sketch_eps"]]) %>%
+    #invoke("setSketchEps", args[["sketch_eps"]]) %>%
     invoke("setSkipDrop", args[["skip_drop"]]) %>%
     invoke("setSubsample", args[["subsample"]]) %>%
     sparklyr::jobj_set_param("setThresholds", args[["thresholds"]]) %>%
-    invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
+    #invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
     invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%

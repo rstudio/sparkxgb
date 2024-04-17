@@ -62,8 +62,6 @@ scala_links <- scala_folders %>%
     paste0(.x, top_folder, jar_file)
   }) %>% 
   set_names(scala_names)
-
-
 jar_paths <- path("utils", "jars")
 if(!dir_exists(jar_paths)) dir_create(jar_paths)
 
@@ -76,30 +74,26 @@ scala_links %>%
     }
   }) 
 
+scala_paths <- scala_links %>% 
+  map(~ {
+    path(jar_paths, path_file(.x)) %>% 
+      path_abs()
+    }) 
+
 scala_ver <- function(x) {
   parts <- unlist(strsplit(x, "/"))
   sc_ver <- parts[grepl("scala-", parts)]
   substr(sc_ver, 7, 10)  
 }
 
-scala_ver(sparklyr_comps[[2]]$scalac_path)
+spec <- sparklyr_comps %>% 
+  map(~{
+    sp <- scala_paths[names(scala_paths) == scala_ver(.x$scalac_path)]
+    .x$jar_dep <- as.character(sp)
+    .x$embedded_srcs <- NULL
+    .x
+  }) %>% 
+  tail(2) %>% 
+  head(1)
 
-
-if (!dir.exists("internal")) dir.create("internal")
-if (!dir.exists("internal/xgboost4j-spark")) dir.create("internal/xgboost4j-spark")
-if (!file.exists("internal/xgboost4j-spark/xgboost4j-spark-0.81.jar")) download.file(
-  "http://central.maven.org/maven2/ml/dmlc/xgboost4j-spark/0.81/xgboost4j-spark-0.81.jar",
-  "internal/xgboost4j-spark/xgboost4j-spark-0.81.jar"
-)
-
-
-
-spec <- sparklyr::spark_default_compilation_spec() %>%
-  map(function(x) {
-    x$jar_dep <- list.files("internal/xgboost4j-spark", full.names = TRUE) %>% 
-      map_chr(normalizePath)
-    x
-  }) %>%
-  keep(~ .x$spark_version >= "2.3.0")
-
-sparklyr::compile_package_jars(spec = spec)
+compile_package_jars(spec = spec)

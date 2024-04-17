@@ -41,7 +41,7 @@ library(sparkxgb)
 library(sparklyr)
 library(dplyr)
 
-sc <- spark_connect(master = "local")
+sc <- spark_connect(master = "local", version = "3.3")
 iris_tbl <- sdf_copy_to(sc, iris)
 
 xgb_model <- xgboost_classifier(
