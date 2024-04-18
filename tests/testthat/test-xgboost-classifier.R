@@ -16,13 +16,12 @@ test_that("xgboost_classifier() param setting", {
   )
   test_param_setting(
     testthat_spark_connection(),
-    xgboost_classifier, test_args
+    xgboost_classifier,
+    test_args
     )
 })
 
 test_that("ml_feature_importances() works as expected", {
-  skip_if(sparklyr::spark_version(testthat_spark_connection()) < "2.4")
-
   iris_tbl <- testthat_tbl("iris")
 
   xgb_model <- xgboost_classifier(
