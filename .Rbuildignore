@@ -3,10 +3,11 @@
 ^LICENSE\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^utils\$
+^utils$
 ^configure\.R$
 ^logs$
 ^spark-warehouse$
 ^man-roxygen$
 ^NEWS\.md$
 ^\.github/
+^derby\.log$

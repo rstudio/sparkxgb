@@ -55,3 +55,41 @@ cast_choice <- function(x, choices, error_arg = rlang::caller_arg(x),
 certify <- function(x, ..., allow_null = FALSE, id = NULL, return_id = FALSE) {
   x
 }
+
+gt <- function(l) {
+  force(l)
+  function(x) all(x > l)
+}
+
+gte <- function(l) {
+  force(l)
+  function(x) all(x >= l)
+}
+
+bounded <- function(l = NULL, u = NULL, incl_lower = TRUE, incl_upper = TRUE) {
+  if (is.null(l) && is.null(u)) stop("At least one of `l` or `u` must be specified.", call. = FALSE)
+  
+  lower_bound <- if (!is.null(l)) {
+    if (incl_lower) gte(l) else gt(l)
+  } else {
+    function() TRUE
+  }
+  
+  upper_bound <- if (!is.null(u)) {
+    if (incl_upper) lte(u) else lt(u)
+  } else {
+    function() TRUE
+  }
+  
+  function(x) lower_bound(x) && upper_bound(x)
+}
+
+lt <- function(u) {
+  force(u)
+  function(x) all(x < u)
+}
+
+lte <- function(u) {
+  force(u)
+  function(x) all(x <= u)
+}
