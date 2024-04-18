@@ -41,7 +41,7 @@ library(sparkxgb)
 library(sparklyr)
 library(dplyr)
 
-sc <- spark_connect(master = "local", version = "3.5")
+sc <- spark_connect(master = "local")
 iris_tbl <- sdf_copy_to(sc, iris)
 
 xgb_model <- xgboost_classifier(
@@ -63,11 +63,10 @@ It also provides a Pipelines API, which means you can use a `xgboost_classifier`
 ```{r}
 pipeline <- ml_pipeline(sc) %>%
   ft_r_formula(Species ~ .) %>%
-  xgboost_classifier(num_class = 3, timeout_request_workers = 1800000)
+  xgboost_classifier(num_class = 3)
 
 param_grid <- list(
   xgboost = list(
-    timeout_request_workers = 1800000L,
     max_depth = c(1, 5),
     num_round = c(10, 50)
   )
@@ -88,4 +87,6 @@ cv_model <- cv %>%
   ml_fit(iris_tbl)
 
 summary(cv_model)
+
+spark_disconnect(sc)
 ```
