@@ -20,15 +20,14 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-**sparkxgb** is a [sparklyr](https://spark.rstudio.com/) extension that provides an interface to [XGBoost](https://github.com/dmlc/xgboost) on Spark.
+**sparkxgb** is a [sparklyr](https://spark.posit.co/) extension that provides
+an interface to [XGBoost](https://github.com/dmlc/xgboost) on Spark.
 
 ## Installation
 
-You can install the development version of sparkxgb with:
+You can install the development version of `sparkxgb` with:
 
 ``` r
-# sparkxgb requires the development version of sparklyr
-devtools::install_github("rstudio/sparklyr")
 devtools::install_github("rstudio/sparkxgb")
 ```
 
@@ -58,7 +57,9 @@ xgb_model %>%
   glimpse()
 ```
 
-It also provides a Pipelines API, which means you can use a `xgboost_classifier` or `xgboost_regressor` in a pipeline as any `Estimator`, and do things like hyperparameter tuning:
+It also provides a Pipelines API, which means you can use a `xgboost_classifier`
+or `xgboost_regressor` in a pipeline as any `Estimator`, and do things like 
+hyperparameter tuning:
 
 ```{r}
 pipeline <- ml_pipeline(sc) %>%
@@ -87,4 +88,6 @@ cv_model <- cv %>%
   ml_fit(iris_tbl)
 
 summary(cv_model)
+
+spark_disconnect(sc)
 ```

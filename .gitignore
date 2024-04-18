@@ -4,6 +4,6 @@
 .Ruserdata
 **/.DS_Store
 logs
-internal
 derby.log
 tests/testthat/testthat-problems.rds
+.bsp
