@@ -1,33 +1,16 @@
 spark_dependencies <- function(spark_version, scala_version, ...) {
   sparklyr::spark_dependency(
-    # jars = c(
-    #   system.file(
-    #     sprintf(
-    #       "java/sparkxgb-%s-%s.jar",
-    #       sparklyr::spark_dependency_fallback(spark_version, "2.3"),
-    #       scala_version
-    #     ),
-    #     package = "sparkxgb"
-    #   )
-    # ),
     jars = system.file("java/sparkxgb-3.0-2.12.jar", package = "sparkxgb"),
     packages = (
-      if (scala_version == "2.11") {
-        # This is the last version of xgboost4j built with Scala 2.11.
-        "ml.dmlc:xgboost4j-spark_2.11:1.1.2"
-      } else if (scala_version == "2.12") {
-        # This is the last known version of xgboost4j built with Scala 2.12.
+      if (scala_version == "2.12") {
         "ml.dmlc:xgboost4j-spark_2.12:2.0.3"
       } else {
-        # There is no known support for other versions of Scala at the moment.
         stop(sprintf("Unsupported Scala version '%s'.", scala_version))
       }
-    )#,
-    #catalog = "https://github.com/rstudio/sparkxgb/blob/master/inst/java/%s?raw=true"
+    )
   )
 }
 
-#' @import sparklyr
 .onLoad <- function(libname, pkgname) {
   sparklyr::register_extension(pkgname)
 }
