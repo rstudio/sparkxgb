@@ -105,7 +105,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
   )
 
   args <- validator_xgboost_classifier(args)
-
+  
   stage_class <- "ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier"
   
   jobj <- sparklyr::spark_pipeline_stage(
@@ -151,11 +151,9 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setScalePosWeight", args[["scale_pos_weight"]]) %>%
     invoke("setSeed", args[["seed"]]) %>%
     invoke("setSilent", args[["silent"]]) %>%
-    #invoke("setSketchEps", args[["sketch_eps"]]) %>%
     invoke("setSkipDrop", args[["skip_drop"]]) %>%
     invoke("setSubsample", args[["subsample"]]) %>%
     sparklyr::jobj_set_param("setThresholds", args[["thresholds"]]) %>%
-    #invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
     invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
@@ -348,8 +346,6 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
 # Validator
 validator_xgboost_classifier <- function(args) {
   args <- validator_xgboost_regressor(args)
-  #args[["thresholds"]] <- cast_nullable_double_list(args[["thresholds"]], id = "thresholds") %>%
-    #certify(bounded(0, 1), allow_null = TRUE, id = "thresholds")
   thresholds <- args[["thresholds"]]
   if(!is.null(thresholds)) {
     thresholds <- as.list(thresholds)
