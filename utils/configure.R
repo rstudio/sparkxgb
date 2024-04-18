@@ -86,14 +86,16 @@ scala_ver <- function(x) {
   substr(sc_ver, 7, 10)  
 }
 
-spec <- sparklyr_comps %>% 
+# Selecting 1 & 3 to select 2.4, and 3.0, which use 2.11 and 2.12 respectively
+spec <- sparklyr_comps[c(1, 3)] %>% 
   map(~{
     sp <- scala_paths[names(scala_paths) == scala_ver(.x$scalac_path)]
     .x$jar_dep <- as.character(sp)
     .x$embedded_srcs <- NULL
     .x
-  }) %>% 
-  tail(2) %>% 
-  head(1)
+  }) 
 
 compile_package_jars(spec = spec)
+
+
+
