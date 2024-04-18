@@ -1,9 +1,3 @@
-"%||%" <- function(x, y) {
-  if (is.null(x)) y else x
-}
-
-# helper functions from sparklyr tests
-# https://github.com/rstudio/sparklyr/blob/master/tests/testthat/helper-initialize.R
 testthat_spark_connection <- function() {
   version <- Sys.getenv("SPARK_VERSION", unset = "3.3.4")
   
@@ -78,12 +72,12 @@ test_param_setting <- function(sc, fn, test_args) {
   collapse_sublists <- function(x) purrr::map_if(x, rlang::is_bare_list, unlist)
   
   params1 <- do.call(fn, c(list(x = sc), test_args)) %>%
-    ml_params(allow_null = TRUE) %>%
+    sparklyr::ml_params(allow_null = TRUE) %>%
     collapse_sublists()
   
   params2 <- do.call(fn, c(list(x = ml_pipeline(sc)), test_args)) %>%
     ml_stage(1) %>%
-    ml_params(allow_null = TRUE) %>%
+    sparklyr::ml_params(allow_null = TRUE) %>%
     collapse_sublists()
   
   test_args <- collapse_sublists(test_args)
@@ -95,11 +89,11 @@ test_default_args <- function(sc, fn) {
   default_args <- rlang::fn_fmls(fn) %>%
     as.list() %>%
     purrr::discard(~ is.symbol(.x) || is.language(.x)) %>%
-    rlang::modify(uid = NULL) %>%
+    #rlang::modify(uid = NULL) %>%
     purrr::compact()
   
   params <- do.call(fn, list(x = sc)) %>%
-    ml_params(allow_null = TRUE)
+    sparklyr::ml_params(allow_null = TRUE)
   
   check_params(default_args, params)
 }

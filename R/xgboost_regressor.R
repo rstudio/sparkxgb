@@ -187,7 +187,7 @@ xgboost_regressor.spark_connection <- function(x, formula = NULL, eta = 0.3, gam
     #invoke("setSketchEps", args[["sketch_eps"]]) %>%
     invoke("setSkipDrop", args[["skip_drop"]]) %>%
     invoke("setSubsample", args[["subsample"]]) %>%
-    invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
+    #invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
     invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%

@@ -155,7 +155,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setSkipDrop", args[["skip_drop"]]) %>%
     invoke("setSubsample", args[["subsample"]]) %>%
     sparklyr::jobj_set_param("setThresholds", args[["thresholds"]]) %>%
-    #invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
+    invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
     invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
@@ -353,7 +353,6 @@ validator_xgboost_classifier <- function(args) {
   args[["num_class"]] <- cast_nullable_scalar_integer(args[["num_class"]], id = "num_class") %>%
     certify(gte(2), allow_null = TRUE, id = "num_class")
   args[["objective"]] <- cast_choice(args[["objective"]], "multi:softprob")
-
   args
 }
 
