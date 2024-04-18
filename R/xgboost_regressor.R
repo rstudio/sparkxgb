@@ -80,18 +80,15 @@
 #' @param seed Random seed for the C++ part of XGBoost and train/test splitting.
 #' @param silent 0 means printing running messages, 1 means silent mode.
 #'  default: 0
-#' @param sketch_eps This is only used for approximate greedy algorithm. This 
-#' roughly translated into O(1 / sketch_eps) number of bins. Compared to 
-#' directly select number of bins, this comes with theoretical guarantee with 
-#' sketch accuracy. [default=0.03] range: (0, 1)
+#' @param sketch_eps No longer supported as of XGBoost 1.6.0. Consider using
+#' 'max_bins' instead. 
 #' @param skip_drop Parameter of Dart booster. probability of skip dropout. 
 #' If a dropout is skipped, new trees are added in the same manner as gbtree.
 #'  [default=0.0] range: [0.0, 1.0]
 #' @param subsample Subsample ratio of the training instance. Setting it to 0.5
 #'  means that XGBoost randomly collected half of the data instances to grow 
 #'  trees and this will prevent overfitting. [default=1] range:(0,1]
-#' @param timeout_request_workers the maximum time to wait for the job requesting 
-#' new workers. default: 30 minutes
+#' @param timeout_request_workers No longer supported as of XGBoost 1.7.0.
 #' @param train_test_ratio Fraction of training points to use for testing.
 #' @param tree_method The tree construction algorithm used in XGBoost. options: 
 #' {'auto', 'exact', 'approx'} [default='auto']
@@ -117,7 +114,7 @@ xgboost_regressor <- function(
     lambda_bias = 0, tree_limit = 0, num_round = 1,
     num_workers = 1, nthread = 1, use_external_memory = FALSE,
     silent = 0, custom_obj = NULL, custom_eval = NULL,
-    missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+    missing = NaN, seed = 0, timeout_request_workers = NULL,
     checkpoint_path = "", checkpoint_interval = -1,
     objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
     num_early_stopping_rounds = 0, objective_type = "regression",
@@ -141,7 +138,7 @@ xgboost_regressor.spark_connection <- function(
     lambda_bias = 0, tree_limit = 0, num_round = 1,
     num_workers = 1, nthread = 1, use_external_memory = FALSE,
     silent = 0, custom_obj = NULL, custom_eval = NULL,
-    missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+    missing = NaN, seed = 0, timeout_request_workers = NULL,
     checkpoint_path = "", checkpoint_interval = -1,
     objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
     num_early_stopping_rounds = 0, objective_type = "regression",
@@ -200,6 +197,8 @@ xgboost_regressor.spark_connection <- function(
   )
 
   args <- validator_xgboost_regressor(args)
+  
+  xg_unsupported(args)
 
   stage_class <- "ml.dmlc.xgboost4j.scala.spark.XGBoostRegressor"
 
@@ -271,7 +270,7 @@ xgboost_regressor.ml_pipeline <- function(
     lambda_bias = 0, tree_limit = 0, num_round = 1,
     num_workers = 1, nthread = 1, use_external_memory = FALSE,
     silent = 0, custom_obj = NULL, custom_eval = NULL,
-    missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+    missing = NaN, seed = 0, timeout_request_workers = NULL,
     checkpoint_path = "", checkpoint_interval = -1,
     objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
     num_early_stopping_rounds = 0, objective_type = "regression",
@@ -346,7 +345,7 @@ xgboost_regressor.tbl_spark <- function(
     lambda_bias = 0, tree_limit = 0, num_round = 1,
     num_workers = 1, nthread = 1, use_external_memory = FALSE,
     silent = 0, custom_obj = NULL, custom_eval = NULL,
-    missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+    missing = NaN, seed = 0, timeout_request_workers = NULL,
     checkpoint_path = "", checkpoint_interval = -1,
     objective = "reg:linear", base_score = 0.5, train_test_ratio = 1,
     num_early_stopping_rounds = 0, objective_type = "regression",

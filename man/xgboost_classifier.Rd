@@ -37,7 +37,7 @@ xgboost_classifier(
   custom_eval = NULL,
   missing = NaN,
   seed = 0,
-  timeout_request_workers = 30 * 60 * 1000,
+  timeout_request_workers = NULL,
   checkpoint_path = "",
   checkpoint_interval = -1,
   objective = "multi:softprob",
@@ -114,10 +114,8 @@ model more conservative, defaults to 0.}
 \item{tree_method}{The tree construction algorithm used in XGBoost. options: 
 {'auto', 'exact', 'approx'} [default='auto']}
 
-\item{sketch_eps}{This is only used for approximate greedy algorithm. This 
-roughly translated into O(1 / sketch_eps) number of bins. Compared to 
-directly select number of bins, this comes with theoretical guarantee with 
-sketch accuracy. [default=0.03] range: (0, 1)}
+\item{sketch_eps}{No longer supported as of XGBoost 1.6.0. Consider using
+'max_bins' instead.}
 
 \item{scale_pos_weight}{Control the balance of positive and negative weights,
 useful for unbalanced classes. A typical value to consider: 
@@ -166,8 +164,7 @@ unsupported.}
 
 \item{seed}{Random seed for the C++ part of XGBoost and train/test splitting.}
 
-\item{timeout_request_workers}{the maximum time to wait for the job requesting 
-new workers. default: 30 minutes}
+\item{timeout_request_workers}{No longer supported as of XGBoost 1.7.0.}
 
 \item{checkpoint_path}{The hdfs folder to load and save checkpoint boosters.}
 

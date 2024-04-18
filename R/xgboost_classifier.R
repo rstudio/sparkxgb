@@ -17,7 +17,7 @@ xgboost_classifier <- function(
     lambda_bias = 0, tree_limit = 0, num_round = 1,
     num_workers = 1, nthread = 1, use_external_memory = FALSE,
     silent = 0, custom_obj = NULL, custom_eval = NULL,
-    missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+    missing = NaN, seed = 0, timeout_request_workers = NULL,
     checkpoint_path = "", checkpoint_interval = -1,
     objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
     num_early_stopping_rounds = 0, objective_type = "classification",
@@ -42,7 +42,7 @@ xgboost_classifier.spark_connection <- function(
     lambda_bias = 0, tree_limit = 0, num_round = 1,
     num_workers = 1, nthread = 1, use_external_memory = FALSE,
     silent = 0, custom_obj = NULL, custom_eval = NULL,
-    missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+    missing = NaN, seed = 0, timeout_request_workers = NULL,
     checkpoint_path = "", checkpoint_interval = -1,
     objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
     num_early_stopping_rounds = 0, objective_type = "classification",
@@ -106,6 +106,8 @@ xgboost_classifier.spark_connection <- function(
   )
 
   args <- validator_xgboost_classifier(args)
+  
+  xg_unsupported(args)
 
   stage_class <- "ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier"
 
@@ -181,7 +183,7 @@ xgboost_classifier.ml_pipeline <- function(
     lambda_bias = 0, tree_limit = 0, num_round = 1,
     num_workers = 1, nthread = 1, use_external_memory = FALSE,
     silent = 0, custom_obj = NULL, custom_eval = NULL,
-    missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+    missing = NaN, seed = 0, timeout_request_workers = NULL,
     checkpoint_path = "", checkpoint_interval = -1,
     objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
     num_early_stopping_rounds = 0, objective_type = "classification",
@@ -261,7 +263,7 @@ xgboost_classifier.tbl_spark <- function(
     lambda_bias = 0, tree_limit = 0, num_round = 1,
     num_workers = 1, nthread = 1, use_external_memory = FALSE,
     silent = 0, custom_obj = NULL, custom_eval = NULL,
-    missing = NaN, seed = 0, timeout_request_workers = 30 * 60 * 1000,
+    missing = NaN, seed = 0, timeout_request_workers = NULL,
     checkpoint_path = "", checkpoint_interval = -1,
     objective = "multi:softprob", base_score = 0.5, train_test_ratio = 1,
     num_early_stopping_rounds = 0, objective_type = "classification",
@@ -406,4 +408,18 @@ ml_feature_importances.ml_model_xgboost_classification <- function(model, ...) {
   )
 
   result[order(result$importance, decreasing = TRUE), ]
+}
+
+xg_unsupported <- function(args) {
+  if(!is.null(args$sketch_eps)) {
+    stop("As of XGBoost version 1.6.0, 'Sketch EPS'",
+         " is no longer supported, consider using 'Max Bins'"
+         )
+  }
+  if(!is.null(args$timeout_request_workers)) {
+    stop("As of XGBoost version 1.7.0, 'Timeout Request Workers'",
+         " is no longer supported"
+    )
+  }
+  invisible()
 }
