@@ -42,11 +42,6 @@ cast_nullable_scalar_integer <- function(x, ...) {
   cast_scalar_integer(x)
 }
 
-# TODO: Real processing needed
-cast_nullable_double_list <- function(x, ...) {
-  as.null(x)
-}
-
 cast_double <- function(x, ...) {
   vctrs::vec_cast(x, numeric())
 }

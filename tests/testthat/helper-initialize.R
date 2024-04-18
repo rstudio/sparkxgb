@@ -1,5 +1,9 @@
+testthat_spark_version <- function() {
+  Sys.getenv("SPARK_VERSION", unset = "3.5")
+}
+
 testthat_spark_connection <- function() {
-  version <- Sys.getenv("SPARK_VERSION", unset = "3.3.4")
+  version <- testthat_spark_version()
   
   spark_installed <- sparklyr::spark_installed_versions()
   if (nrow(spark_installed[spark_installed$spark == version, ]) == 0) {
@@ -35,7 +39,9 @@ testthat_tbl <- function(name) {
   tbl <- tryCatch(dplyr::tbl(sc, name), error = identity)
   if (inherits(tbl, "error")) {
     data <- eval(as.name(name), envir = parent.frame())
-    tbl <- dplyr::copy_to(sc, data, name = name)
+    invisible(
+      tbl <- dplyr::copy_to(sc, data, name = name)  
+    )
   }
   tbl
 }

@@ -107,7 +107,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
   args <- validator_xgboost_classifier(args)
 
   stage_class <- "ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier"
-
+  
   jobj <- sparklyr::spark_pipeline_stage(
     x,
     class = stage_class,
@@ -350,7 +350,13 @@ validator_xgboost_classifier <- function(args) {
   args <- validator_xgboost_regressor(args)
   #args[["thresholds"]] <- cast_nullable_double_list(args[["thresholds"]], id = "thresholds") %>%
     #certify(bounded(0, 1), allow_null = TRUE, id = "thresholds")
-  args[["thresholds"]] <- as.list(args[["thresholds"]])
+  thresholds <- args[["thresholds"]]
+  if(!is.null(thresholds)) {
+    thresholds <- as.list(thresholds)
+  } else if (length(list()) == 0) {
+    thresholds <- NULL
+  }
+  args[["thresholds"]] <- thresholds 
   args[["num_class"]] <- cast_nullable_scalar_integer(args[["num_class"]], id = "num_class") %>%
     certify(gte(2), allow_null = TRUE, id = "num_class")
   args[["objective"]] <- cast_choice(args[["objective"]], "multi:softprob")
