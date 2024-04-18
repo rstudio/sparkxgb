@@ -184,10 +184,8 @@ xgboost_regressor.spark_connection <- function(x, formula = NULL, eta = 0.3, gam
     invoke("setScalePosWeight", args[["scale_pos_weight"]]) %>%
     invoke("setSeed", args[["seed"]]) %>%
     invoke("setSilent", args[["silent"]]) %>%
-    #invoke("setSketchEps", args[["sketch_eps"]]) %>%
     invoke("setSkipDrop", args[["skip_drop"]]) %>%
     invoke("setSubsample", args[["subsample"]]) %>%
-    #invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
     invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
@@ -436,8 +434,6 @@ validator_xgboost_regressor <- function(args) {
     certify(bounded(0, 1))
   args[["subsample"]] <- cast_scalar_double(args[["subsample"]], id = "subsample") %>%
     certify(bounded(0, 1, incl_lower = FALSE))
-  args[["timeout_request_workers"]] <- cast_scalar_integer(args[["timeout_request_workers"]], id = "timeout_request_workers") %>%
-    certify(gte(1))
   args[["train_test_ratio"]] <- cast_scalar_double(args[["train_test_ratio"]], id = "train_test_ratio") %>%
     certify(bounded(0, 1))
   args[["tree_method"]] <- cast_choice(args[["tree_method"]], choices = c("auto", "exact", "approx"), id = "tree_method")
