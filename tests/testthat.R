@@ -1,3 +1,16 @@
+# IMPORTAT - To Run locally:
+# Make sure that when Spark/XGBoost calls 'python' directly that it will work.
+# If calling 'python3' works, but 'python' does not, consider using a link
+# service, such as 'python-is-python3' in Ubuntu. Also, make sure that when inside
+# the default 'python', 'import xgboost' can be called with out issues. This
+# is due the a tracker system (called Rabbit) NEEDS a Python implementation 
+# in order for it to work, regardless if you're using Scala.  The documentation
+# says that you can change it to Scala, but I did not find any example where 
+# that was successful. I found that there is a way to set the "path" of a 
+# local Python path, but I was not able to get it to work via sparklyr.
+# Error you will get if the above is not setup properly:
+# java.lang.IllegalArgumentException: requirement failed: FAULT: Failed to start tracker
+
 library(testthat)
 library(sparklyr)
 library(sparkxgb)
