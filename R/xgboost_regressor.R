@@ -153,16 +153,16 @@ xgboost_regressor.spark_connection <- function(x, formula = NULL, eta = 0.3, gam
     prediction_col = args[["prediction_col"]]
   ) %>%
     invoke("setAlpha", args[["alpha"]]) %>%
-    sparklyr::jobj_set_param("setBaseMarginCol", args[["base_margin_col"]]) %>%
+    jobj_set_param("setBaseMarginCol", args[["base_margin_col"]]) %>%
     invoke("setBaseScore", args[["base_score"]]) %>%
     invoke("setCheckpointInterval", args[["checkpoint_interval"]]) %>%
     invoke("setCheckpointPath", args[["checkpoint_path"]]) %>%
     invoke("setColsampleBylevel", args[["colsample_bylevel"]]) %>%
     invoke("setColsampleBytree", args[["colsample_bytree"]]) %>%
-    sparklyr::jobj_set_param("setCustomEval", args[["custom_eval"]]) %>%
-    sparklyr::jobj_set_param("setCustomObj", args[["custom_obj"]]) %>%
+    jobj_set_param("setCustomEval", args[["custom_eval"]]) %>%
+    jobj_set_param("setCustomObj", args[["custom_obj"]]) %>%
     invoke("setEta", args[["eta"]]) %>%
-    sparklyr::jobj_set_param("setEvalMetric", args[["eval_metric"]]) %>%
+    jobj_set_param("setEvalMetric", args[["eval_metric"]]) %>%
     invoke("setGamma", args[["gamma"]]) %>%
     invoke("setGrowPolicy", args[["grow_policy"]]) %>%
     invoke("setLambda", args[["lambda"]]) %>%
@@ -177,7 +177,7 @@ xgboost_regressor.spark_connection <- function(x, formula = NULL, eta = 0.3, gam
     invoke("setNumEarlyStoppingRounds", args[["num_early_stopping_rounds"]]) %>%
     invoke("setNumRound", args[["num_round"]]) %>%
     invoke("setNumWorkers", args[["num_workers"]]) %>%
-    sparklyr::jobj_set_param("setObjective", args[["objective"]]) %>%
+    jobj_set_param("setObjective", args[["objective"]]) %>%
     invoke("setObjectiveType", args[["objective_type"]]) %>%
     invoke("setRateDrop", args[["rate_drop"]]) %>%
     invoke("setSampleType", args[["sample_type"]]) %>%
@@ -189,7 +189,7 @@ xgboost_regressor.spark_connection <- function(x, formula = NULL, eta = 0.3, gam
     invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
-    sparklyr::jobj_set_param("setWeightCol", args[["weight_col"]])
+    jobj_set_param("setWeightCol", args[["weight_col"]])
   
   if (!is.nan(args[["missing"]])) {
     jobj <- sparklyr::invoke_static(x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]])

@@ -119,16 +119,16 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     raw_prediction_col = args[["raw_prediction_col"]]
   ) %>%
     invoke("setAlpha", args[["alpha"]]) %>%
-    sparklyr::jobj_set_param("setBaseMarginCol", args[["base_margin_col"]]) %>%
+    jobj_set_param("setBaseMarginCol", args[["base_margin_col"]]) %>%
     invoke("setBaseScore", args[["base_score"]]) %>%
     invoke("setCheckpointInterval", args[["checkpoint_interval"]]) %>%
     invoke("setCheckpointPath", args[["checkpoint_path"]]) %>%
     invoke("setColsampleBylevel", args[["colsample_bylevel"]]) %>%
     invoke("setColsampleBytree", args[["colsample_bytree"]]) %>%
-    sparklyr::jobj_set_param("setCustomEval", args[["custom_eval"]]) %>%
-    sparklyr::jobj_set_param("setCustomObj", args[["custom_obj"]]) %>%
+    jobj_set_param("setCustomEval", args[["custom_eval"]]) %>%
+    jobj_set_param("setCustomObj", args[["custom_obj"]]) %>%
     invoke("setEta", args[["eta"]]) %>%
-    sparklyr::jobj_set_param("setEvalMetric", args[["eval_metric"]]) %>%
+    jobj_set_param("setEvalMetric", args[["eval_metric"]]) %>%
     invoke("setGamma", args[["gamma"]]) %>%
     invoke("setGrowPolicy", args[["grow_policy"]]) %>%
     invoke("setLambda", args[["lambda"]]) %>%
@@ -140,11 +140,11 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setMinChildWeight", args[["min_child_weight"]]) %>%
     invoke("setNormalizeType", args[["normalize_type"]]) %>%
     invoke("setNthread", args[["nthread"]]) %>%
-    sparklyr::jobj_set_param("setNumClass", args[["num_class"]]) %>%
+    jobj_set_param("setNumClass", args[["num_class"]]) %>%
     invoke("setNumEarlyStoppingRounds", args[["num_early_stopping_rounds"]]) %>%
     invoke("setNumRound", args[["num_round"]]) %>%
     invoke("setNumWorkers", args[["num_workers"]]) %>%
-    sparklyr::jobj_set_param("setObjective", args[["objective"]]) %>%
+    jobj_set_param("setObjective", args[["objective"]]) %>%
     invoke("setObjectiveType", args[["objective_type"]]) %>%
     invoke("setRateDrop", args[["rate_drop"]]) %>%
     invoke("setSampleType", args[["sample_type"]]) %>%
@@ -153,11 +153,11 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setSilent", args[["silent"]]) %>%
     invoke("setSkipDrop", args[["skip_drop"]]) %>%
     invoke("setSubsample", args[["subsample"]]) %>%
-    sparklyr::jobj_set_param("setThresholds", args[["thresholds"]]) %>%
+    jobj_set_param("setThresholds", args[["thresholds"]]) %>%
     invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
-    sparklyr::jobj_set_param("setWeightCol", args[["weight_col"]])
+    jobj_set_param("setWeightCol", args[["weight_col"]])
 
   if (!is.nan(args[["missing"]])) {
     jobj <- sparklyr::invoke_static(x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]])
