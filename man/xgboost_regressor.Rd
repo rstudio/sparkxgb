@@ -20,7 +20,7 @@ xgboost_regressor(
   lambda = 1,
   alpha = 0,
   tree_method = "auto",
-  sketch_eps = 0.03,
+  sketch_eps = NULL,
   scale_pos_weight = 1,
   sample_type = "uniform",
   normalize_type = "tree",

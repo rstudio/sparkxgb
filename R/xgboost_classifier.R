@@ -10,7 +10,7 @@ xgboost_classifier <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_dept
                                min_child_weight = 1, max_delta_step = 0,
                                grow_policy = "depthwise", max_bins = 16, subsample = 1,
                                colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                               alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                               alpha = 0, tree_method = "auto", sketch_eps = NULL,
                                scale_pos_weight = 1, sample_type = "uniform",
                                normalize_type = "tree", rate_drop = 0, skip_drop = 0,
                                lambda_bias = 0, tree_limit = 0, num_round = 1,
@@ -34,7 +34,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
                                                 min_child_weight = 1, max_delta_step = 0,
                                                 grow_policy = "depthwise", max_bins = 16, subsample = 1,
                                                 colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                                alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                                alpha = 0, tree_method = "auto", sketch_eps = NULL,
                                                 scale_pos_weight = 1, sample_type = "uniform",
                                                 normalize_type = "tree", rate_drop = 0, skip_drop = 0,
                                                 lambda_bias = 0, tree_limit = 0, num_round = 1,
@@ -155,7 +155,7 @@ xgboost_classifier.spark_connection <- function(x, formula = NULL, eta = 0.3, ga
     invoke("setSkipDrop", args[["skip_drop"]]) %>%
     invoke("setSubsample", args[["subsample"]]) %>%
     sparklyr::jobj_set_param("setThresholds", args[["thresholds"]]) %>%
-    invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
+    #invoke("setTimeoutRequestWorkers", args[["timeout_request_workers"]]) %>%
     invoke("setTrainTestRatio", args[["train_test_ratio"]]) %>%
     invoke("setTreeMethod", args[["tree_method"]]) %>%
     invoke("setUseExternalMemory", args[["use_external_memory"]]) %>%
@@ -173,7 +173,7 @@ xgboost_classifier.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma =
                                            min_child_weight = 1, max_delta_step = 0,
                                            grow_policy = "depthwise", max_bins = 16, subsample = 1,
                                            colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                           alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                           alpha = 0, tree_method = "auto", sketch_eps = NULL,
                                            scale_pos_weight = 1, sample_type = "uniform",
                                            normalize_type = "tree", rate_drop = 0, skip_drop = 0,
                                            lambda_bias = 0, tree_limit = 0, num_round = 1,
@@ -252,7 +252,7 @@ xgboost_classifier.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0
                                          min_child_weight = 1, max_delta_step = 0,
                                          grow_policy = "depthwise", max_bins = 16, subsample = 1,
                                          colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                         alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                         alpha = 0, tree_method = "auto", sketch_eps = NULL,
                                          scale_pos_weight = 1, sample_type = "uniform",
                                          normalize_type = "tree", rate_drop = 0, skip_drop = 0,
                                          lambda_bias = 0, tree_limit = 0, num_round = 1,

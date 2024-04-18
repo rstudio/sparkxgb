@@ -75,8 +75,8 @@ test_param_setting <- function(sc, fn, test_args) {
     sparklyr::ml_params(allow_null = TRUE) %>%
     collapse_sublists()
   
-  params2 <- do.call(fn, c(list(x = ml_pipeline(sc)), test_args)) %>%
-    ml_stage(1) %>%
+  params2 <- do.call(fn, c(list(x = sparklyr::ml_pipeline(sc)), test_args)) %>%
+    sparklyr::ml_stage(1) %>%
     sparklyr::ml_params(allow_null = TRUE) %>%
     collapse_sublists()
   

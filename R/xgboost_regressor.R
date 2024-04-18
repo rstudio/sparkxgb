@@ -53,7 +53,7 @@ xgboost_regressor <- function(x, formula = NULL, eta = 0.3, gamma = 0, max_depth
                               min_child_weight = 1, max_delta_step = 0,
                               grow_policy = "depthwise", max_bins = 16, subsample = 1,
                               colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                              alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                              alpha = 0, tree_method = "auto", sketch_eps = NULL,
                               scale_pos_weight = 1, sample_type = "uniform",
                               normalize_type = "tree", rate_drop = 0, skip_drop = 0,
                               lambda_bias = 0, tree_limit = 0, num_round = 1,
@@ -76,7 +76,7 @@ xgboost_regressor.spark_connection <- function(x, formula = NULL, eta = 0.3, gam
                                                min_child_weight = 1, max_delta_step = 0,
                                                grow_policy = "depthwise", max_bins = 16, subsample = 1,
                                                colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                               alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                               alpha = 0, tree_method = "auto", sketch_eps = NULL,
                                                scale_pos_weight = 1, sample_type = "uniform",
                                                normalize_type = "tree", rate_drop = 0, skip_drop = 0,
                                                lambda_bias = 0, tree_limit = 0, num_round = 1,
@@ -205,7 +205,7 @@ xgboost_regressor.ml_pipeline <- function(x, formula = NULL, eta = 0.3, gamma = 
                                           min_child_weight = 1, max_delta_step = 0,
                                           grow_policy = "depthwise", max_bins = 16, subsample = 1,
                                           colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                          alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                          alpha = 0, tree_method = "auto", sketch_eps = NULL,
                                           scale_pos_weight = 1, sample_type = "uniform",
                                           normalize_type = "tree", rate_drop = 0, skip_drop = 0,
                                           lambda_bias = 0, tree_limit = 0, num_round = 1,
@@ -279,7 +279,7 @@ xgboost_regressor.tbl_spark <- function(x, formula = NULL, eta = 0.3, gamma = 0,
                                         min_child_weight = 1, max_delta_step = 0,
                                         grow_policy = "depthwise", max_bins = 16, subsample = 1,
                                         colsample_bytree = 1, colsample_bylevel = 1, lambda = 1,
-                                        alpha = 0, tree_method = "auto", sketch_eps = 0.03,
+                                        alpha = 0, tree_method = "auto", sketch_eps = NULL,
                                         scale_pos_weight = 1, sample_type = "uniform",
                                         normalize_type = "tree", rate_drop = 0, skip_drop = 0,
                                         lambda_bias = 0, tree_limit = 0, num_round = 1,
@@ -432,8 +432,6 @@ validator_xgboost_regressor <- function(args) {
     certify(gt(0))
   args[["seed"]] <- cast_scalar_integer(args[["seed"]], id = "seed")
   args[["silent"]] <- cast_scalar_integer(args[["silent"]], id = "silent")
-  args[["sketch_eps"]] <- cast_scalar_double(args[["sketch_eps"]], id = "sketch_eps") %>%
-    certify(bounded(0, 1))
   args[["skip_drop"]] <- cast_scalar_double(args[["skip_drop"]], id = "skip_drop") %>%
     certify(bounded(0, 1))
   args[["subsample"]] <- cast_scalar_double(args[["subsample"]], id = "subsample") %>%

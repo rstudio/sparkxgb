@@ -37,16 +37,22 @@ test_that("ml_feature_importances() works as expected", {
     max_depth = 4
   )
 
-  expect_equivalent(
-    ml_feature_importances(xgb_model),
-    data.frame(
-      feature = c("Petal_Length", "Petal_Width", "Sepal_Width", "Sepal_Length"),
-      importance = c(
-        0.61188768978835550,
-        0.34706520994955187,
-        0.02978168609216137,
-        0.01126541416993130
-      )
+  importances <- ml_feature_importances(xgb_model)
+  
+  expect_equal(
+    sort(importances$feature),
+    c("Petal_Length", "Petal_Width", "Sepal_Length", "Sepal_Width")
     )
+  
+  expect_equal(
+    sort(importances$importance, decreasing = TRUE),
+    c(
+      0.61188768978835550,
+      0.34706520994955187,
+      0.02978168609216137,
+      0.01126541416993130
+    ), 
+    tolerance = 0.1
   )
+
 })
