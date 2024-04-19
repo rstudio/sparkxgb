@@ -75,7 +75,6 @@ jobs:
 
       - name: R Tests
         run: |
-          Sys.setenv("NOT_CRAN" = "true")
           devtools::load_all()
           devtools::test()
         shell: Rscript {0}

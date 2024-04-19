@@ -18,7 +18,7 @@ library(testthat)
 library(sparklyr)
 library(sparkxgb)
 
-if (identical(Sys.getenv("NOT_CRAN"), "true")) {
+if (identical(Sys.getenv("CODE_COVERAGE"), "true")) {
   # timeout for downloading Apache Spark
   options(timeout = 300)
 

@@ -76,7 +76,7 @@ jobs:
         
       - name: Test coverage
         run: |
-          Sys.setenv("NOT_CRAN" = "true")
+          Sys.setenv("CODE_COVERAGE" = "true")
           devtools::load_all()
           covr::codecov(
             quiet = FALSE,
