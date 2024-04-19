@@ -5,7 +5,9 @@
 
 <!-- badges: start -->
 
-[![CI](https://github.com/rstudio/sparkxgb/actions/workflows/ci.yaml/badge.svg)](https://github.com/rstudio/sparkxgb/actions/workflows/ci.yaml)
+[![R-CMD-check](https://github.com/rstudio/sparkxgb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/sparkxgb/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/rstudio/sparkxgb/branch/main/graph/badge.svg)](https://app.codecov.io/gh/rstudio/sparkxgb?branch=main)
 <!-- badges: end -->
 
 ## Overview
@@ -89,7 +91,7 @@ cv_model <- cv %>%
 
 summary(cv_model)
 #> Summary for CrossValidatorModel 
-#>             <cross_validator__39c495f4_15f2_4b0e_8a4b_27406ab2bd47> 
+#>             <cross_validator__d4b17d3e_5d5e_46d3_938b_eabd7c9ad019> 
 #> 
 #> Tuned Pipeline
 #>   with metric f1
@@ -97,9 +99,9 @@ summary(cv_model)
 #>   via 3-fold cross validation
 #> 
 #> Estimator: Pipeline
-#>            <pipeline__890087bb_2843_4fae_954e_25805b100d3a> 
+#>            <pipeline__f14177eb_6b27_4c1c_a7ca_0479badb36da> 
 #> Evaluator: MulticlassClassificationEvaluator
-#>            <multiclass_classification_evaluator__490c522b_0b19_4b09_84ed_f9f6035615d6> 
+#>            <multiclass_classification_evaluator__ddc8eaf7_00d1_413b_a7f5_1adcccb758dd> 
 #> 
 #> Results Summary: 
 #>          f1 max_depth_1 num_round_1

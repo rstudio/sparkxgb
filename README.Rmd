@@ -15,9 +15,9 @@ knitr::opts_chunk$set(
 # sparkxgb
 
 <!-- badges: start -->
-  [![CI](https://github.com/rstudio/sparkxgb/actions/workflows/ci.yaml/badge.svg)](https://github.com/rstudio/sparkxgb/actions/workflows/ci.yaml)
 [![R-CMD-check](https://github.com/rstudio/sparkxgb/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/sparkxgb/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/rstudio/sparkxgb/branch/main/graph/badge.svg)](https://app.codecov.io/gh/rstudio/sparkxgb?branch=main)
+[![CRAN status](https://www.r-pkg.org/badges/version/sparkxgb)](https://CRAN.R-project.org/package=sparkxgb)
 <!-- badges: end -->
 
 ## Overview
