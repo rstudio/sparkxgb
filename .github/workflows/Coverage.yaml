@@ -43,8 +43,8 @@ jobs:
         id: cache-spark-2
         uses: actions/cache@v2
         with:
-          path: /home/runner/spark/spark-3.5.0-bin-hadoop3
-          key: sparklyr-spark-3.5.0-bin-hadoop3-2
+          path: /home/runner/spark/spark-3.5.1-bin-hadoop3
+          key: sparklyr-spark-3.5.1-bin-hadoop3-2
 
       - name: Cache Scala
         id: cache-scala

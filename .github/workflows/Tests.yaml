@@ -1,8 +1,8 @@
 on:
   push:
-    branches: temp
+    branches: main
   pull_request:
-    branches: temp
+    branches: main
 
 name: Tests
 
@@ -42,8 +42,8 @@ jobs:
         id: cache-spark-2
         uses: actions/cache@v2
         with:
-          path: /home/runner/spark/spark-3.5.0-bin-hadoop3
-          key: sparklyr-spark-3.5.0-bin-hadoop3-2
+          path: /home/runner/spark/spark-3.4.2-bin-hadoop3
+          key: sparklyr-spark-3.4.2-bin-hadoop3-2
 
       - name: Cache Scala
         id: cache-scala
