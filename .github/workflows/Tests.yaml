@@ -45,12 +45,6 @@ jobs:
           path: /home/runner/spark/spark-3.5.0-bin-hadoop3
           key: sparklyr-spark-3.5.0-bin-hadoop3-2
 
-      - name: Install Spark (via sparklyr)
-        if: steps.cache-spark.outputs.cache-hit != 'true'
-        run: |
-          sparklyr::spark_install(version = Sys.getenv("SPARK_VERSION"))
-        shell: Rscript {0}
-
       - name: Cache Scala
         id: cache-scala
         uses: actions/cache@v3
