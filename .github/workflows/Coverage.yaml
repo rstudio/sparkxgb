@@ -7,7 +7,7 @@ on:
 name: Tests
 
 jobs:
-  Spark-Tests:
+  Coverage:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -27,6 +27,7 @@ jobs:
             any::devtools
             any::arrow
             any::sparklyr
+            any::covr
           needs: check
 
       - name: Set up Python 3.10
