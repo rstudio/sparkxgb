@@ -11,3 +11,5 @@
 ^NEWS\.md$
 ^\.github/
 ^derby\.log$
+^\.github$
+^codecov\.yml$

@@ -1,0 +1,101 @@
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+
+name: Tests
+
+jobs:
+  Coverage:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+      
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::devtools
+            any::arrow
+            any::sparklyr
+            any::covr
+          needs: check
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install XGBooxt
+        run: |
+          pip install xgboost
+
+      - name: Cache Spark
+        id: cache-spark-2
+        uses: actions/cache@v2
+        with:
+          path: /home/runner/spark/spark-3.5.1-bin-hadoop3
+          key: sparklyr-spark-3.5.1-bin-hadoop3-2
+
+      - name: Cache Scala
+        id: cache-scala
+        uses: actions/cache@v3
+        with:
+          path: /home/runner/scala/
+          key: scala-2
+
+      - name: Install Scala (via sparklyr)
+        if: steps.cache-scala.outputs.cache-hit != 'true'
+        run: |
+          sparklyr::download_scalac()
+        shell: Rscript {0}
+
+      - name: R Session Info
+        run: sessionInfo()
+        shell: Rscript {0}
+
+      - name: R Environment Variables
+        run: Sys.getenv()
+        shell: Rscript {0}
+
+      - name: R Installed Packages
+        run: |
+          m_pkgs <- installed.packages()
+          t_pkgs <- as.data.frame(m_pkgs, row.names = FALSE)
+          print(t_pkgs[, c("Package", "Version")])
+        shell: Rscript {0}
+        
+      - name: Test coverage
+        run: |
+          Sys.setenv("CODE_COVERAGE" = "true")
+          devtools::load_all()
+          covr::codecov(
+            quiet = FALSE,
+            clean = FALSE,
+            install_path = file.path(Sys.getenv("RUNNER_TEMP"), "package")
+          )
+        shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: |
+          ## --------------------------------------------------------------------
+          find ${{ runner.temp }}/package -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-test-failures
+          path: ${{ runner.temp }}/package
+
