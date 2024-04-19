@@ -40,12 +40,14 @@ jobs:
             any::sparklyr
           needs: check
 
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          cache: 'pip' 
-      - run: pip install xgboost
+
+      - name: Install XGBooxt
+        run: |
+          pip install xgboost
 
       - name: Cache Spark
         id: cache-spark
