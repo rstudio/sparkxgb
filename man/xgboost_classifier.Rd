@@ -112,7 +112,7 @@ make model more conservative. [default=1]}
 model more conservative, defaults to 0.}
 
 \item{tree_method}{The tree construction algorithm used in XGBoost. options:
-{'auto', 'exact', 'approx'} [default='auto']}
+'auto', 'exact' or'approx' [default='auto']}
 
 \item{sketch_eps}{No longer supported as of XGBoost 1.6.0. Consider using
 'max_bins' instead.}
@@ -126,7 +126,7 @@ sum(negative cases) / sum(positive cases). [default=1]}
 are selected in proportion to weight. [default="uniform"]}
 
 \item{normalize_type}{Parameter of Dart booster. type of normalization
-algorithm, options: {'tree', 'forest'}. [default="tree"]}
+algorithm, options: 'tree', or 'forest'. [default="tree"]}
 
 \item{rate_drop}{Parameter of Dart booster. dropout rate. [default=0.0]
 range: [0.0, 1.0]}
@@ -149,7 +149,7 @@ Defaults to 1.}
 \item{nthread}{Number of threads used by per worker. Defaults to 1.}
 
 \item{use_external_memory}{The tree construction algorithm used in XGBoost.
-options: {'auto', 'exact', 'approx'} [default='auto']}
+options: 'auto', 'exact' or 'approx' [default='auto']}
 
 \item{silent}{0 means printing running messages, 1 means silent mode.
 default: 0}

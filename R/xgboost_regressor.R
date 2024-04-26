@@ -55,7 +55,7 @@
 #'   corresponds to minimum number of instances needed to be in each node. The
 #'   larger, the more conservative the algorithm will be. [default=1]
 #' @param normalize_type Parameter of Dart booster. type of normalization
-#' algorithm, options: {'tree', 'forest'}. [default="tree"]
+#' algorithm, options: 'tree', or 'forest'. [default="tree"]
 #' @param nthread Number of threads used by per worker. Defaults to 1.
 #' @param num_early_stopping_rounds If non-zero, the training will be stopped
 #' after a specified number of consecutive increases in any evaluation metric.
@@ -91,9 +91,9 @@
 #' @param timeout_request_workers No longer supported as of XGBoost 1.7.0.
 #' @param train_test_ratio Fraction of training points to use for testing.
 #' @param tree_method The tree construction algorithm used in XGBoost. options:
-#' {'auto', 'exact', 'approx'} [default='auto']
+#' 'auto', 'exact' or'approx' [default='auto']
 #' @param use_external_memory The tree construction algorithm used in XGBoost.
-#' options: {'auto', 'exact', 'approx'} [default='auto']
+#' options: 'auto', 'exact' or 'approx' [default='auto']
 #' @param weight_col Weight column.
 #' @param tree_limit Limit number of trees in the prediction; defaults to 0
 #' (use all trees.)
