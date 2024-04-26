@@ -12,7 +12,6 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      SPARK_VERSION:  "3.4"
       
     steps:
       - uses: actions/checkout@v3
@@ -46,6 +45,12 @@ jobs:
           path: /home/runner/spark/spark-3.4.2-bin-hadoop3
           key: sparklyr-spark-3.4.2-bin-hadoop3-2
 
+      - name: Install Spark (via sparklyr)
+        if: steps.cache-spark.outputs.cache-hit != 'true'
+        run: |
+          sparklyr::spark_install(version = "3.4")
+        shell: Rscript {0}
+
       - name: Cache Scala
         id: cache-scala
         uses: actions/cache@v3
@@ -76,6 +81,7 @@ jobs:
 
       - name: R Tests
         run: |
+          Sys.setenv("SPARK_VERSION" = "3.4")
           devtools::load_all()
           devtools::test()
         shell: Rscript {0}
