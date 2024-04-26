@@ -15,7 +15,8 @@ sparklyr_comps %>%
   map(~.x$spark_version) %>% 
   walk(spark_install)
 
-maven_url <- "https://repo1.maven.org/maven2/ml/dmlc/"
+maven_root <- "https://repo1.maven.org/maven2/"
+maven_url <- paste0(maven_root, "ml/dmlc/")
 pkg_name <- "xgboost4j-spark"
 
 # Pull all of the links from the main page in Maven
@@ -96,6 +97,20 @@ spec <- sparklyr_comps %>%
   }) 
 
 compile_package_jars(spec = spec)
+
+
+# Updates the Maven package to use
+
+scala_212 <- scala_links[names(scala_links) == "2.12"][[1]]
+scala_212_jar <- substr(scala_212, nchar(maven_root), nchar(scala_212)) 
+scala_212_dir <- path_dir(scala_212_jar)
+scala_212_split <- unlist(strsplit(scala_212_dir, "/"))
+
+scala_212 <- scala_212_split %>% 
+  keep(~.x != "") %>% 
+  paste0(collapse = ":")
+
+writeLines(scala_212, "inst/maven/scala_212.txt")
 
 
 
