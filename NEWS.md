@@ -12,6 +12,10 @@ to use them:
 - Adds setMissing param handler for XGBoostRegressor in the Scala code. The
 `missing` parameter in `xgboost_regressor()` was not working.
 
+- Creates the JAR for Scala version 2.12 only. The code is simple enough that
+it does not seem to need multiple Spark version compiling. This also means that
+Scala 2.11 is not supported at this time. 
+
 ### Internal improvements
 
 - Modernizes the entire `testthat` suite, it also expands it to provide more
