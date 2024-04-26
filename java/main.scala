@@ -1,6 +1,7 @@
 package sparkxgb
 
 import ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier
+import ml.dmlc.xgboost4j.scala.spark.XGBoostRegressor
 
 object Utils {
   def setMissingParamClass(xgb: XGBoostClassifier, missing: Double) : XGBoostClassifier = {
