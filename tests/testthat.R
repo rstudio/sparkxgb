@@ -14,12 +14,9 @@
 # Error you will get if the above is not setup properly:
 # java.lang.IllegalArgumentException: requirement failed: FAULT: Failed to start tracker
 
-library(testthat)
-library(sparklyr)
-library(sparkxgb)
-
 if (identical(Sys.getenv("CODE_COVERAGE"), "true")) {
-  # timeout for downloading Apache Spark
-  options(timeout = 300)
+  library(testthat)
+  library(sparklyr)
+  library(sparkxgb)
   test_check("sparkxgb")
 }
