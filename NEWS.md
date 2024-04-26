@@ -1,4 +1,4 @@
-# sparkxgb 0.1.2.9000
+# sparkxgb 0.2
 
 - Avoids sending two deprecated parameters to XGBoost. The default arguments in
 the R function are NULL, and it will return an error message if the call intends
@@ -21,6 +21,8 @@ coverage
 - Removes `forge` dependency 
 
 - Improves download, preparation and building of the JAR
+
+- Adds setMissing param handler for XGBoostRegressor in the Scala code.
 
 - Updates and cleans up the call that sets the Maven package to be used in the
 Spark session

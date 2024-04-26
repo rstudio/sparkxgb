@@ -1,7 +1,7 @@
 Package: sparkxgb
 Type: Package
 Title: Interface for 'XGBoost' on 'Apache Spark'
-Version: 0.1.2.9000
+Version: 0.2
 Authors@R: c(person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com",
                   role = "aut", comment = c(ORCID = "0000-0001-7803-7901")),
              person("Yitao", "Li", email = "yitaoli1990@gmail.com",
@@ -11,8 +11,8 @@ Authors@R: c(person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com",
            )
 Maintainer: Edgar Ruiz <edgar@posit.co>
 Description: A 'sparklyr' <https://spark.posit.co/> extension that provides an R
-  interface for 'XGBoost' <https://github.com/dmlc/xgboost> on 'Apache Spark'. 'XGBoost' is an
-  optimized distributed gradient boosting library.
+  interface for 'XGBoost' <https://github.com/dmlc/xgboost> on 'Apache Spark'. 
+  'XGBoost' is an optimized distributed gradient boosting library.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
