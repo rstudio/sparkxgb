@@ -31,7 +31,7 @@ test_that("ml_feature_importances() works as expected", {
 
 test_that("setMissing scala code works", {
   expect_s3_class(
-    xgboost_regressor(testthat_tbl("mtcars"), mpg ~ wt + am + gear), 
+    xgboost_regressor(testthat_tbl("mtcars"), mpg ~ wt + am + gear, missing = 0), 
     "ml_model"
   )
 })
