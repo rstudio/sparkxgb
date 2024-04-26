@@ -1,37 +1,25 @@
+.test_env <- new.env()
+.test_env$sc <- NULL
+
 testthat_spark_version <- function() {
   Sys.getenv("SPARK_VERSION", unset = "3.5")
 }
 
 testthat_spark_connection <- function() {
   version <- testthat_spark_version()
-  
   spark_installed <- sparklyr::spark_installed_versions()
   if (nrow(spark_installed[spark_installed$spark == version, ]) == 0) {
     options(sparkinstall.verbose = TRUE)
     sparklyr::spark_install(version)
   }
-
-  # generate connection if none yet exists
-  connected <- FALSE
-  if (exists(".testthat_spark_connection", envir = .GlobalEnv)) {
-    sc <- get(".testthat_spark_connection", envir = .GlobalEnv)
-    connected <- sparklyr::connection_is_open(sc)
-  }
-  
-  if (!connected) {
-    config <- sparklyr::spark_config()
-    
+  if (is.null(.test_env$sc)) {
     options(sparklyr.sanitize.column.names.verbose = TRUE)
     options(sparklyr.verbose = TRUE)
     options(sparklyr.na.omit.verbose = TRUE)
     options(sparklyr.na.action.verbose = TRUE)
-    
-    sc <- sparklyr::spark_connect(master = "local", version = version, config = config)
-    assign(".testthat_spark_connection", sc, envir = .GlobalEnv)
+    .test_env$sc <- sparklyr::spark_connect(master = "local", version = version)
   }
-  
-  # retrieve spark connection
-  get(".testthat_spark_connection", envir = .GlobalEnv)
+  .test_env$sc
 }
 
 testthat_tbl <- function(name) {
