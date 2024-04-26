@@ -28,7 +28,7 @@ testthat_tbl <- function(name) {
   if (inherits(tbl, "error")) {
     data <- eval(as.name(name), envir = parent.frame())
     invisible(
-      tbl <- dplyr::copy_to(sc, data, name = name)  
+      tbl <- dplyr::copy_to(sc, data, name = name)
     )
   }
   tbl
@@ -42,14 +42,13 @@ skip_unless_verbose <- function(message = NULL) {
 }
 
 test_requires <- function(...) {
-  
   for (pkg in list(...)) {
     if (!require(pkg, character.only = TRUE, quietly = TRUE)) {
       fmt <- "test requires '%s' but '%s' is not installed"
       skip(sprintf(fmt, pkg, pkg))
     }
   }
-  
+
   invisible(TRUE)
 }
 
@@ -64,16 +63,16 @@ check_params <- function(test_args, params) {
 
 test_param_setting <- function(sc, fn, test_args) {
   collapse_sublists <- function(x) purrr::map_if(x, rlang::is_bare_list, unlist)
-  
+
   params1 <- do.call(fn, c(list(x = sc), test_args)) %>%
     sparklyr::ml_params(allow_null = TRUE) %>%
     collapse_sublists()
-  
+
   params2 <- do.call(fn, c(list(x = sparklyr::ml_pipeline(sc)), test_args)) %>%
     sparklyr::ml_stage(1) %>%
     sparklyr::ml_params(allow_null = TRUE) %>%
     collapse_sublists()
-  
+
   test_args <- collapse_sublists(test_args)
   check_params(test_args, params1)
   check_params(test_args, params2)
@@ -83,11 +82,11 @@ test_default_args <- function(sc, fn) {
   default_args <- rlang::fn_fmls(fn) %>%
     as.list() %>%
     purrr::discard(~ is.symbol(.x) || is.language(.x)) %>%
-    #rlang::modify(uid = NULL) %>%
+    # rlang::modify(uid = NULL) %>%
     purrr::compact()
-  
+
   params <- do.call(fn, list(x = sc)) %>%
     sparklyr::ml_params(allow_null = TRUE)
-  
+
   check_params(default_args, params)
 }

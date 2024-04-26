@@ -46,7 +46,7 @@ cast_string_list <- function(x, allow_null = FALSE, ...) {
   cast_list(x, character(), allow_null = allow_null)
 }
 
-cast_choice <- function(x, choices, error_arg = rlang::caller_arg(x), 
+cast_choice <- function(x, choices, error_arg = rlang::caller_arg(x),
                         error_call = rlang::caller_env(), ...) {
   rlang::arg_match(x, choices, error_arg = error_arg, error_call = error_call)
 }
@@ -68,19 +68,19 @@ gte <- function(l) {
 
 bounded <- function(l = NULL, u = NULL, incl_lower = TRUE, incl_upper = TRUE) {
   if (is.null(l) && is.null(u)) stop("At least one of `l` or `u` must be specified.", call. = FALSE)
-  
+
   lower_bound <- if (!is.null(l)) {
     if (incl_lower) gte(l) else gt(l)
   } else {
     function() TRUE
   }
-  
+
   upper_bound <- if (!is.null(u)) {
     if (incl_upper) lte(u) else lt(u)
   } else {
     function() TRUE
   }
-  
+
   function(x) lower_bound(x) && upper_bound(x)
 }
 

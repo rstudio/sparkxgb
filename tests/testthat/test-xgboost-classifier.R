@@ -18,7 +18,7 @@ test_that("xgboost_classifier() param setting", {
     testthat_spark_connection(),
     xgboost_classifier,
     test_args
-    )
+  )
 })
 
 test_that("ml_feature_importances() works as expected", {
@@ -34,7 +34,7 @@ test_that("ml_feature_importances() works as expected", {
   expect_equal(
     sort(importances$feature),
     c("Petal_Length", "Petal_Width", "Sepal_Length", "Sepal_Width")
-    )
+  )
   expect_equal(
     sort(importances$importance, decreasing = TRUE),
     c(
@@ -42,7 +42,7 @@ test_that("ml_feature_importances() works as expected", {
       0.34706520994955187,
       0.02978168609216137,
       0.01126541416993130
-    ), 
+    ),
     tolerance = 0.1
   )
 })
@@ -57,7 +57,7 @@ test_that("setMissing scala code works", {
       num_round = 50,
       max_depth = 4,
       missing = 0
-    ), 
+    ),
     "ml_model"
-    )
+  )
 })
