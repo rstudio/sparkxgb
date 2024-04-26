@@ -164,7 +164,7 @@ xgboost_classifier.spark_connection <- function(
 
   if (!is.nan(args[["missing"]])) {
     jobj <- sparklyr::invoke_static(
-      x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]]
+      x, "sparkxgb.Utils", "setMissingParamClass", jobj, args[["missing"]]
     )
   }
 

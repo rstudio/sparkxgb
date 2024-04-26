@@ -251,7 +251,7 @@ xgboost_regressor.spark_connection <- function(
 
   if (!is.nan(args[["missing"]])) {
     jobj <- sparklyr::invoke_static(
-      x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]]
+      x, "sparkxgb.Utils", "setMissingParamReg", jobj, args[["missing"]]
       )
   }
 
