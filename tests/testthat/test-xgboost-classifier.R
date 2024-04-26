@@ -22,24 +22,19 @@ test_that("xgboost_classifier() param setting", {
 })
 
 test_that("ml_feature_importances() works as expected", {
-  iris_tbl <- testthat_tbl("iris")
-
   xgb_model <- xgboost_classifier(
-    iris_tbl,
+    testthat_tbl("iris"),
     Species ~ .,
     objective = "multi:softprob",
     num_class = 3,
     num_round = 50,
     max_depth = 4
   )
-
   importances <- ml_feature_importances(xgb_model)
-  
   expect_equal(
     sort(importances$feature),
     c("Petal_Length", "Petal_Width", "Sepal_Length", "Sepal_Width")
     )
-  
   expect_equal(
     sort(importances$importance, decreasing = TRUE),
     c(
@@ -50,5 +45,19 @@ test_that("ml_feature_importances() works as expected", {
     ), 
     tolerance = 0.1
   )
+})
 
+test_that("setMissing scala code works", {
+  expect_s3_class(
+    xgboost_classifier(
+      testthat_tbl("iris"),
+      Species ~ .,
+      objective = "multi:softprob",
+      num_class = 3,
+      num_round = 50,
+      max_depth = 4,
+      missing = 0
+    ), 
+    "ml_model"
+    )
 })
