@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: main
 
-name: Tests
+name: Coverage
 
 jobs:
   Coverage:
@@ -12,7 +12,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      
+
     steps:
       - uses: actions/checkout@v3
 
@@ -46,6 +46,12 @@ jobs:
           path: /home/runner/spark/spark-3.5.1-bin-hadoop3
           key: sparklyr-spark-3.5.1-bin-hadoop3-2
 
+      - name: Install Spark (via sparklyr)
+        if: steps.cache-spark-2.outputs.cache-hit != 'true'
+        run: |
+          sparklyr::spark_install(version = "3.5")
+        shell: Rscript {0}
+
       - name: Cache Scala
         id: cache-scala
         uses: actions/cache@v3
@@ -76,6 +82,7 @@ jobs:
         
       - name: Test coverage
         run: |
+          Sys.setenv("SPARK_VERSION" = "3.5")
           Sys.setenv("CODE_COVERAGE" = "true")
           devtools::load_all()
           covr::codecov(

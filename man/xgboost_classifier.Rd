@@ -65,30 +65,30 @@ xgboost_classifier(
 
 \item{formula}{Used when \code{x} is a \code{tbl_spark}. R formula as a character string or a formula. This is used to transform the input dataframe before fitting, see \link{ft_r_formula} for details.}
 
-\item{eta}{Step size shrinkage used in update to prevents overfitting. After 
-each boosting step, we can directly get the weights of new features and eta 
+\item{eta}{Step size shrinkage used in update to prevents overfitting. After
+each boosting step, we can directly get the weights of new features and eta
 actually shrinks the feature weights to make the boosting process more
  conservative. [default=0.3] range: [0,1]}
 
-\item{gamma}{Minimum loss reduction required to make a further partition on 
+\item{gamma}{Minimum loss reduction required to make a further partition on
 a leaf node of the tree. the larger, the more conservative the algorithm
  will be. [default=0]}
 
 \item{max_depth}{Maximum depth of a tree, increase this value will make model
 more complex / likely to be overfitting. [default=6]}
 
-\item{min_child_weight}{Minimum sum of instance weight(hessian) needed in 
+\item{min_child_weight}{Minimum sum of instance weight(hessian) needed in
 a child. If the tree partition step results in a leaf node with the sum of
  instance weight less than min_child_weight, then the building process will
-  give up further partitioning. In linear regression mode, this simply 
-  corresponds to minimum number of instances needed to be in each node. The 
+  give up further partitioning. In linear regression mode, this simply
+  corresponds to minimum number of instances needed to be in each node. The
   larger, the more conservative the algorithm will be. [default=1]}
 
-\item{max_delta_step}{Maximum delta step we allow each tree's weight 
+\item{max_delta_step}{Maximum delta step we allow each tree's weight
 estimation to be. If the value is set to 0, it means there is no constraint.
  If it is set to a positive value, it can help making the update step more
-  conservative. Usually this parameter is not needed, but it might help in 
-  logistic regression when class is extremely imbalanced. Set it to value 
+  conservative. Usually this parameter is not needed, but it might help in
+  logistic regression when class is extremely imbalanced. Set it to value
   of 1-10 might help control the update. [default=0]}
 
 \item{grow_policy}{Growth policy for fast histogram algorithm.}
@@ -96,65 +96,65 @@ estimation to be. If the value is set to 0, it means there is no constraint.
 \item{max_bins}{Maximum number of bins in histogram.}
 
 \item{subsample}{Subsample ratio of the training instance. Setting it to 0.5
-means that XGBoost randomly collected half of the data instances to grow 
+means that XGBoost randomly collected half of the data instances to grow
 trees and this will prevent overfitting. [default=1] range:(0,1]}
 
 \item{colsample_bytree}{Subsample ratio of columns when constructing each tree.
 [default=1] range: (0,1]}
 
-\item{colsample_bylevel}{Subsample ratio of columns for each split, in each 
+\item{colsample_bylevel}{Subsample ratio of columns for each split, in each
 level. [default=1] range: (0,1]}
 
-\item{lambda}{L2 regularization term on weights, increase this value will 
+\item{lambda}{L2 regularization term on weights, increase this value will
 make model more conservative. [default=1]}
 
-\item{alpha}{L1 regularization term on weights, increase this value will make 
+\item{alpha}{L1 regularization term on weights, increase this value will make
 model more conservative, defaults to 0.}
 
-\item{tree_method}{The tree construction algorithm used in XGBoost. options: 
-{'auto', 'exact', 'approx'} [default='auto']}
+\item{tree_method}{The tree construction algorithm used in XGBoost. options:
+'auto', 'exact' or'approx' [default='auto']}
 
 \item{sketch_eps}{No longer supported as of XGBoost 1.6.0. Consider using
 'max_bins' instead.}
 
 \item{scale_pos_weight}{Control the balance of positive and negative weights,
-useful for unbalanced classes. A typical value to consider: 
+useful for unbalanced classes. A typical value to consider:
 sum(negative cases) / sum(positive cases). [default=1]}
 
-\item{sample_type}{Parameter for Dart booster. Type of sampling algorithm. 
-"uniform": dropped trees are selected uniformly. "weighted": dropped trees 
+\item{sample_type}{Parameter for Dart booster. Type of sampling algorithm.
+"uniform": dropped trees are selected uniformly. "weighted": dropped trees
 are selected in proportion to weight. [default="uniform"]}
 
-\item{normalize_type}{Parameter of Dart booster. type of normalization 
-algorithm, options: {'tree', 'forest'}. [default="tree"]}
+\item{normalize_type}{Parameter of Dart booster. type of normalization
+algorithm, options: 'tree', or 'forest'. [default="tree"]}
 
-\item{rate_drop}{Parameter of Dart booster. dropout rate. [default=0.0] 
+\item{rate_drop}{Parameter of Dart booster. dropout rate. [default=0.0]
 range: [0.0, 1.0]}
 
-\item{skip_drop}{Parameter of Dart booster. probability of skip dropout. 
+\item{skip_drop}{Parameter of Dart booster. probability of skip dropout.
 If a dropout is skipped, new trees are added in the same manner as gbtree.
  [default=0.0] range: [0.0, 1.0]}
 
-\item{lambda_bias}{Parameter of linear booster L2 regularization term on 
+\item{lambda_bias}{Parameter of linear booster L2 regularization term on
 bias, default 0 (no L1 reg on bias because it is not important.)}
 
-\item{tree_limit}{Limit number of trees in the prediction; defaults to 0 
+\item{tree_limit}{Limit number of trees in the prediction; defaults to 0
 (use all trees.)}
 
 \item{num_round}{The number of rounds for boosting.}
 
-\item{num_workers}{number of workers used to train xgboost model. 
+\item{num_workers}{number of workers used to train xgboost model.
 Defaults to 1.}
 
 \item{nthread}{Number of threads used by per worker. Defaults to 1.}
 
-\item{use_external_memory}{The tree construction algorithm used in XGBoost. 
-options: {'auto', 'exact', 'approx'} [default='auto']}
+\item{use_external_memory}{The tree construction algorithm used in XGBoost.
+options: 'auto', 'exact' or 'approx' [default='auto']}
 
 \item{silent}{0 means printing running messages, 1 means silent mode.
 default: 0}
 
-\item{custom_obj}{Customized objective function provided by user. Currently 
+\item{custom_obj}{Customized objective function provided by user. Currently
 unsupported.}
 
 \item{custom_eval}{Customized evaluation function provided by user. Currently
@@ -168,39 +168,39 @@ unsupported.}
 
 \item{checkpoint_path}{The hdfs folder to load and save checkpoint boosters.}
 
-\item{checkpoint_interval}{Param for set checkpoint interval (>= 1) or disable 
-checkpoint (-1). E.g. 10 means that the trained model will get checkpointed 
-every 10 iterations. Note: checkpoint_path must also be set if the checkpoint 
+\item{checkpoint_interval}{Param for set checkpoint interval (>= 1) or disable
+checkpoint (-1). E.g. 10 means that the trained model will get checkpointed
+every 10 iterations. Note: checkpoint_path must also be set if the checkpoint
 interval is greater than 0.}
 
-\item{objective}{Specify the learning task and the corresponding learning 
-objective. options: reg:linear, reg:logistic, binary:logistic, 
+\item{objective}{Specify the learning task and the corresponding learning
+objective. options: reg:linear, reg:logistic, binary:logistic,
 binary:logitraw, count:poisson, multi:softmax, multi:softprob, rank:pairwise,
  reg:gamma. default: reg:linear.}
 
-\item{base_score}{Param for initial prediction (aka base margin) column name. 
+\item{base_score}{Param for initial prediction (aka base margin) column name.
 Defaults to 0.5.}
 
 \item{train_test_ratio}{Fraction of training points to use for testing.}
 
-\item{num_early_stopping_rounds}{If non-zero, the training will be stopped 
+\item{num_early_stopping_rounds}{If non-zero, the training will be stopped
 after a specified number of consecutive increases in any evaluation metric.}
 
-\item{objective_type}{The learning objective type of the specified custom 
-objective and eval. Corresponding type will be assigned if custom objective 
+\item{objective_type}{The learning objective type of the specified custom
+objective and eval. Corresponding type will be assigned if custom objective
 is defined options: regression, classification.}
 
-\item{eval_metric}{Evaluation metrics for validation data, a default metric 
-will be assigned according to objective(rmse for regression, and error for 
-classification, mean average precision for ranking). options: rmse, mae, 
+\item{eval_metric}{Evaluation metrics for validation data, a default metric
+will be assigned according to objective(rmse for regression, and error for
+classification, mean average precision for ranking). options: rmse, mae,
 logloss, error, merror, mlogloss, auc, aucpr, ndcg, map, gamma-deviance}
 
-\item{maximize_evaluation_metrics}{Whether to maximize evaluation metrics. 
+\item{maximize_evaluation_metrics}{Whether to maximize evaluation metrics.
 Defaults to FALSE (for minization.)}
 
 \item{num_class}{Number of classes.}
 
-\item{base_margin_col}{Param for initial prediction (aka base margin) column 
+\item{base_margin_col}{Param for initial prediction (aka base margin) column
 name.}
 
 \item{thresholds}{Thresholds in multi-class classification to adjust the probability of predicting each class. Array must have length equal to the number of classes, with values > 0 excepting that at most one value may be 0. The class with largest value \code{p/t} is predicted, where \code{p} is the original probability of that class and \code{t} is the class's threshold.}

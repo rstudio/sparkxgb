@@ -106,7 +106,7 @@ xgboost_classifier.spark_connection <- function(
   )
 
   args <- validator_xgboost_classifier(args)
-  
+
   xg_unsupported(args)
 
   stage_class <- "ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier"
@@ -164,7 +164,7 @@ xgboost_classifier.spark_connection <- function(
 
   if (!is.nan(args[["missing"]])) {
     jobj <- sparklyr::invoke_static(
-      x, "sparkxgb.Utils", "setMissingParam", jobj, args[["missing"]]
+      x, "sparkxgb.Utils", "setMissingParamClass", jobj, args[["missing"]]
     )
   }
 
@@ -411,14 +411,16 @@ ml_feature_importances.ml_model_xgboost_classification <- function(model, ...) {
 }
 
 xg_unsupported <- function(args) {
-  if(!is.null(args$sketch_eps)) {
-    stop("As of XGBoost version 1.6.0, 'Sketch EPS'",
-         " is no longer supported, consider using 'Max Bins'"
-         )
+  if (!is.null(args$sketch_eps)) {
+    stop(
+      "As of XGBoost version 1.6.0, 'Sketch EPS'",
+      " is no longer supported, consider using 'Max Bins'"
+    )
   }
-  if(!is.null(args$timeout_request_workers)) {
-    stop("As of XGBoost version 1.7.0, 'Timeout Request Workers'",
-         " is no longer supported"
+  if (!is.null(args$timeout_request_workers)) {
+    stop(
+      "As of XGBoost version 1.7.0, 'Timeout Request Workers'",
+      " is no longer supported"
     )
   }
   invisible()

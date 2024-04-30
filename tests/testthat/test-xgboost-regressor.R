@@ -15,16 +15,21 @@ test_that("xgboost_regressor() param setting", {
     testthat_spark_connection(),
     xgboost_regressor,
     test_args
-    )
+  )
 })
 
 test_that("ml_feature_importances() works as expected", {
-
   mtcars_tbl <- testthat_tbl("mtcars")
 
   xgb_model <- xgboost_regressor(mtcars_tbl, mpg ~ wt + am + gear)
-  
+
   expect_s3_class(sparklyr::ml_predict(xgb_model, mtcars_tbl), "tbl")
   expect_s3_class(xgb_model, "ml_model")
+})
 
+test_that("setMissing scala code works", {
+  expect_s3_class(
+    xgboost_regressor(testthat_tbl("mtcars"), mpg ~ wt + am + gear, missing = 0),
+    "ml_model"
+  )
 })

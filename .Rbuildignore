@@ -13,3 +13,4 @@
 ^derby\.log$
 ^\.github$
 ^codecov\.yml$
+^cran-comments\.md$
