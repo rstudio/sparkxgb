@@ -28,10 +28,17 @@ an interface to [XGBoost](https://github.com/dmlc/xgboost) on Spark.
 
 ## Installation
 
+```r
+install.packages("sparkxgb")
+```
+
+### Development version 
+
 You can install the development version of `sparkxgb` with:
 
 ``` r
-devtools::install_github("rstudio/sparkxgb")
+# install.packages("pak")
+pak::pak("rstudio/sparkxgb")
 ```
 
 ## Example

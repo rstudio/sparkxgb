@@ -22,10 +22,17 @@ Spark.
 
 ## Installation
 
+``` r
+install.packages("sparkxgb")
+```
+
+### Development version
+
 You can install the development version of `sparkxgb` with:
 
 ``` r
-devtools::install_github("rstudio/sparkxgb")
+# install.packages("pak")
+pak::pak("rstudio/sparkxgb")
 ```
 
 ## Example
@@ -95,7 +102,7 @@ cv_model <- cv %>%
 
 summary(cv_model)
 #> Summary for CrossValidatorModel 
-#>             <cross_validator__ea57ccc8_7a70_48e9_8e9d_e5f99a22e624> 
+#>             <cross_validator__13c346ec_bc09_4b8a_952d_92f9711299d7> 
 #> 
 #> Tuned Pipeline
 #>   with metric f1
@@ -103,9 +110,9 @@ summary(cv_model)
 #>   via 3-fold cross validation
 #> 
 #> Estimator: Pipeline
-#>            <pipeline__cd9a6e1b_37a6_4c95_979f_0ac758dbdd81> 
+#>            <pipeline__bf0a05c1_6f0e_4875_ac1a_c77fbd6635f3> 
 #> Evaluator: MulticlassClassificationEvaluator
-#>            <multiclass_classification_evaluator__970183c3_fd91_4eed_8958_31c4cfd81640> 
+#>            <multiclass_classification_evaluator__387ea4db_61da_45cb_813e_8c6f63811fff> 
 #> 
 #> Results Summary: 
 #>          f1 max_depth_1 num_round_1
