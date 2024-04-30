@@ -8,7 +8,6 @@
 ^logs$
 ^spark-warehouse$
 ^man-roxygen$
-^NEWS\.md$
 ^\.github/
 ^derby\.log$
 ^\.github$
