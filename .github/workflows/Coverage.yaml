@@ -47,7 +47,7 @@ jobs:
           key: sparklyr-spark-3.5.1-bin-hadoop3-2
 
       - name: Install Spark (via sparklyr)
-        if: steps.cache-spark.outputs.cache-hit != 'true'
+        if: steps.cache-spark-2.outputs.cache-hit != 'true'
         run: |
           sparklyr::spark_install(version = "3.5")
         shell: Rscript {0}
