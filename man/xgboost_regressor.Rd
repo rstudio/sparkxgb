@@ -59,7 +59,7 @@ xgboost_regressor(
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
 
-\item{formula}{Used when \code{x} is a \code{tbl_spark}. R formula as a character string or a formula. This is used to transform the input dataframe before fitting, see \link{ft_r_formula} for details.}
+\item{formula}{Used when \code{x} is a \code{tbl_spark}. R formula as a character string or a formula. This is used to transform the input dataframe before fitting, see \code{\link[sparklyr]{ft_r_formula}} for details.}
 
 \item{eta}{Step size shrinkage used in update to prevents overfitting. After
 each boosting step, we can directly get the weights of new features and eta
@@ -199,9 +199,9 @@ name.}
 
 \item{weight_col}{Weight column.}
 
-\item{features_col}{Features column name, as a length-one character vector. The column should be single vector column of numeric values. Usually this column is output by \code{\link{ft_r_formula}}.}
+\item{features_col}{Features column name, as a length-one character vector. The column should be single vector column of numeric values. Usually this column is output by \code{\link[sparklyr]{ft_r_formula}}.}
 
-\item{label_col}{Label column name. The column should be a numeric column. Usually this column is output by \code{\link{ft_r_formula}}.}
+\item{label_col}{Label column name. The column should be a numeric column. Usually this column is output by \code{\link[sparklyr]{ft_r_formula}}.}
 
 \item{prediction_col}{Prediction column name.}
 
@@ -234,6 +234,6 @@ The object returned depends on the class of \code{x}.
 XGBoost regressor for Spark.
 }
 \details{
-When \code{x} is a \code{tbl_spark} and \code{formula} (alternatively, \code{response} and \code{features}) is specified, the function returns a \code{ml_model} object wrapping a \code{ml_pipeline_model} which contains data pre-processing transformers, the ML predictor, and, for classification models, a post-processing transformer that converts predictions into class labels. For classification, an optional argument \code{predicted_label_col} (defaults to \code{"predicted_label"}) can be used to specify the name of the predicted label column. In addition to the fitted \code{ml_pipeline_model}, \code{ml_model} objects also contain a \code{ml_pipeline} object where the ML predictor stage is an estimator ready to be fit against data. This is utilized by \code{\link{ml_save}} with \code{type = "pipeline"} to facilitate model refresh workflows.
+When \code{x} is a \code{tbl_spark} and \code{formula} (alternatively, \code{response} and \code{features}) is specified, the function returns a \code{ml_model} object wrapping a \code{ml_pipeline_model} which contains data pre-processing transformers, the ML predictor, and, for classification models, a post-processing transformer that converts predictions into class labels. For classification, an optional argument \code{predicted_label_col} (defaults to \code{"predicted_label"}) can be used to specify the name of the predicted label column. In addition to the fitted \code{ml_pipeline_model}, \code{ml_model} objects also contain a \code{ml_pipeline} object where the ML predictor stage is an estimator ready to be fit against data. This is utilized by \code{\link[sparklyr]{ml_save}} with \code{type = "pipeline"} to facilitate model refresh workflows.
 }
 \concept{ml algorithms}

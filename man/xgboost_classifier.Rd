@@ -63,7 +63,7 @@ xgboost_classifier(
 \arguments{
 \item{x}{A \code{spark_connection}, \code{ml_pipeline}, or a \code{tbl_spark}.}
 
-\item{formula}{Used when \code{x} is a \code{tbl_spark}. R formula as a character string or a formula. This is used to transform the input dataframe before fitting, see \link{ft_r_formula} for details.}
+\item{formula}{Used when \code{x} is a \code{tbl_spark}. R formula as a character string or a formula. This is used to transform the input dataframe before fitting, see \code{\link[sparklyr]{ft_r_formula}} for details.}
 
 \item{eta}{Step size shrinkage used in update to prevents overfitting. After
 each boosting step, we can directly get the weights of new features and eta
@@ -207,9 +207,9 @@ name.}
 
 \item{weight_col}{Weight column.}
 
-\item{features_col}{Features column name, as a length-one character vector. The column should be single vector column of numeric values. Usually this column is output by \code{\link{ft_r_formula}}.}
+\item{features_col}{Features column name, as a length-one character vector. The column should be single vector column of numeric values. Usually this column is output by \code{\link[sparklyr]{ft_r_formula}}.}
 
-\item{label_col}{Label column name. The column should be a numeric column. Usually this column is output by \code{\link{ft_r_formula}}.}
+\item{label_col}{Label column name. The column should be a numeric column. Usually this column is output by \code{\link[sparklyr]{ft_r_formula}}.}
 
 \item{prediction_col}{Prediction column name.}
 
