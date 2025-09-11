@@ -2,7 +2,7 @@ on:
   push:
     branches: main
   pull_request:
-    branches: pause
+    branches: main
 
 name: Tests
 

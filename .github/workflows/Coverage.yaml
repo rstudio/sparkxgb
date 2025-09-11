@@ -1,8 +1,8 @@
 on:
   push:
-    branches: pause
+    branches: main
   pull_request:
-    branches: pause
+    branches: main
 
 name: Coverage
 
