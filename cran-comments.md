@@ -1,43 +1,18 @@
 ## Package submission
 
-### Maintainer
-
-- The previous maintainer of the package is no longer at Posit (previously 
-RStudio), so he does not have access to the email on record any longer. The
-new maintainer, Edgar Ruiz, also maintains the sparklyr package. 
-
-### In this version
-
-- Updates and expands unit, and integrated, testing 
-
-- Updates the versions of the Maven package, and the JAR used to communicate
-with the Spark session
-
-- Removes dependency on the `forge` package. It is no longer maintained, and its
-returning warnings because it needs to be updated to accommodate the downstream
-dependencies. 
-
-- Avoids sending two parameters that are no longer supported by XGBoost. This 
-was the main source of user errors. Matching arguments in the functions are 
-still there but it will only return error if the user changes their default 
-values.
-
-- Adds setMissing param handler for XGBoostRegressor in the Scala code. The
-`missing` parameter in `xgboost_regressor()` was not working.
+- Addresses notes from CRAN
 
 ## Test environments
 
-- Ubuntu 22.04, R 4.4.0, Spark 3.5 (GH Actions)
-- Ubuntu 22.04, R 4.4.0, Spark 3.4 (GH Actions)
+- Ubuntu 24.03, R 4.5.1, Spark 3.5 (GH Actions)
 
 ## R CMD check environments
 
-- Mac OS x86_64-apple-darwin20.0 (64-bit), R 4.4.0 (GH Actions)
-- Windows  x86_64-w64-mingw32 (64-bit), R 4.4.0 (GH Actions)
-- Linux x86_64-pc-linux-gnu (64-bit), R 4.4.0 (GH Actions)
-- Linux x86_64-pc-linux-gnu (64-bit), R 4.5.0 (dev) (GH Actions)
-- Linux x86_64-pc-linux-gnu (64-bit), R 4.3.3 (old release) (GH Actions)
-
+- macOS Sequoia 15.5 (aarch64, darwin20) R version 4.5.1 (2025-06-13)
+- Windows Server 2022 x64 (build 20348) (x86_64, mingw32) R version 4.5.1 (2025-06-13 ucrt)
+- Ubuntu 24.04.3 LTS (x86_64, linux-gnu) R Under development (unstable) (2025-09-10 r88809)
+- Ubuntu 24.04.3 LTS (x86_64, linux-gnu) R version 4.5.1 (2025-06-13)
+- Ubuntu 24.04.3 LTS (x86_64, linux-gnu) R version 4.4.3 (2025-02-28)
 
 ## R CMD check results
 

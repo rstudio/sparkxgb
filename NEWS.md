@@ -1,4 +1,11 @@
+# sparkxgb 0.2.1
+
+###  Fixes
+
+- Addresses notes from CRAN
+
 # sparkxgb 0.2
+
 ###  Fixes
 
 - Avoids sending two deprecated parameters to XGBoost. The default arguments in
