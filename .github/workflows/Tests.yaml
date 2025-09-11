@@ -29,10 +29,10 @@ jobs:
             any::sparklyr
           needs: check
 
-      - name: Set up Python 3.11
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.10'
 
       - name: Install XGBooxt
         run: |
@@ -42,13 +42,13 @@ jobs:
         id: cache-spark-2
         uses: actions/cache@v4
         with:
-          path: /home/runner/spark/spark-4.0.0-bin-hadoop3
-          key: sparklyr-spark-4.0.0-bin-hadoop3-2
+          path: /home/runner/spark/spark-3.5.6-bin-hadoop3
+          key: sparklyr-spark-3.5.6-bin-hadoop3-2
 
       - name: Install Spark (via sparklyr)
         if: steps.cache-spark-2.outputs.cache-hit != 'true'
         run: |
-          sparklyr::spark_install(version = "4.0")
+          sparklyr::spark_install(version = "3.5")
         shell: Rscript {0}
 
       - name: Cache Scala
@@ -81,7 +81,7 @@ jobs:
 
       - name: R Tests
         run: |
-          Sys.setenv("SPARK_VERSION" = "4.0")
+          Sys.setenv("SPARK_VERSION" = "3.5")
           devtools::load_all()
           devtools::test()
         shell: Rscript {0}
